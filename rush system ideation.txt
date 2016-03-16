@@ -1,0 +1,20 @@
+The Motivating Question:
+What do I want to know about a rushee?
+-----------------------
+A bunch of things: personality, potential involvement in pkp, interests, etc.
+When it comes to presenting info about a rushee, the defining breakdown is as follows:
+. Subjective   - Brother opinions on the rushee. Likely to be about the rushee's personality, potential involvement, interests, etc
+. Objective    - Facts about the rushee. Class, Dorm, Campus Involvement, etc
+
+Should these sections be broken into concrete categories? Yes, definitely.
+What categories should there be? (listed in order of descending relevance)
+Subjective: Blackballs, Brother-written summary, Character traits (personality + interests)
+Objective: Name, picture, rush attendance, class (frosh or soph), campus involvement, brother contacts, dorm, hometown
+
+The Profile
+-----------
+The rushee profile should present the subjective and objective information in order of relevance.
+Similar design philosophy as LinkedIn
+For subjective info, it's important to show which brother(s) entered the info.
+  Possibly like the LinkedIn endorsement section?
+
