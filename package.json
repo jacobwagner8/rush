@@ -21,6 +21,7 @@
   "dependencies": {
     "bluebird": "^3.3.4",
     "bootstrap": "^4.0.0-alpha.2",
+    "grunt-sass": "^1.1.0",
     "jquery": "^2.2.1",
     "koa": "^2.0.0-alpha.3",
     "koa-bodyparser": "^3.0.0",
@@ -29,13 +30,21 @@
     "koa-jade-render": "^1.0.0",
     "koa-logger": "^2.0.0",
     "koa-mount": "^2.0.0",
+    "koa-passport": "^2.1.0",
     "koa-router": "^7.0.1",
+    "koa-session": "^3.3.1",
     "koa-static": "^2.0.0",
+    "passport-local": "^1.0.0",
     "path": "^0.12.7",
+    "pg": "^4.5.1",
+    "pg-hstore": "^2.3.2",
+    "pg-native": "^1.10.0",
+    "sequelize": "^3.19.3",
     "winston": "^2.2.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-contrib-copy": "^1.0.0"
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-sass": "^1.0.0"
   }
 }

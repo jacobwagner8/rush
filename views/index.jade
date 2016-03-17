@@ -3,5 +3,33 @@ extends layout
 block title
   title Rushee List
 
+mixin vote-buttons(vote_count)
+  div.vote-up
+  div.vote-count #{vote_count}
+  div.vote-down
+
+mixin rush-attendance(attendance_array)
+  div.rushee-attendance
+
+mixin character-trait()
+
+mixin rushee(data)
+  a(href="#")
+    li.rushee-entry.card.row
+      div.col-md-1.vote-container
+        +vote-buttons(data.net_votes)
+      img.rushee-profile.col-md-3(src=data.profile_picture)
+      div.rushee-info.col-md-8
+        div
+          h2 #{data.name}
+          p #{data.year}
+          p #{data.dorm}
+        p.rushee-summary #{data.summary}
+
+block header
+  h1.title Rushee List
+
 block content
-  h1 Hello World!
+  ol.rushee-list
+    each rushee in rushees
+      +rushee(rushee)

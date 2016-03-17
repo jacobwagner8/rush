@@ -1,0 +1,18 @@
+extends layout
+
+block title
+  title Login - Phi Psi Rush Portal
+
+block header
+  h1.title Phi Psi Rush Portal Login
+
+block content
+  form(action="/login", method="post")
+    div
+      label Name (Firstname Lastname)
+      input(type="text", name="username")
+    div
+      label Password (4 words)
+      input(type="password" name="password")
+    div
+      input(type="submit" value="Log In")

@@ -1,11 +1,22 @@
 module.exports = grunt => {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    sass: {
+      dist: {
+        files: [{
+          expand: true,
+          cwd: './views/scss',
+          src: '*.scss',
+          dest: './dist/css',
+          ext: '.css'
+        }]
+      }
+    },
     copy: {
       bootstrap: {
         expand: true,
         cwd: './node_modules/bootstrap/dist/',
-        src: ['css/bootstrap.min.css', 'js/bootstrap.min.js'],
+        src: '**',
         dest: './dist/'
       },
       jquery: {
@@ -18,6 +29,7 @@ module.exports = grunt => {
   });
 
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
-  grunt.registerTask('default', ['copy']);
+  grunt.registerTask('default', ['sass', 'copy']);
 };

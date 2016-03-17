@@ -8,7 +8,11 @@ html
       title Phi Psi Rush Portal
     meta(name='description', content='Phi Psi\'s Rush Book')
     link(rel='stylesheet', href='css/bootstrap.min.css')
+    link(rel='stylesheet', href='css/master.css')
   body
-    block content
+    block header
+    div.container
+      block content
+    block footer
     script(src='js/jquery.slim.min.js')
     script(src='js/bootstrap.min.js')
