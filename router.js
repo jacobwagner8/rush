@@ -37,8 +37,14 @@ module.exports = function defineRouter(models) {
     const active = ctx.req.user;
     const rushee = ctx.request.body.rushee_id;
     const rating = ctx.request.body.rating;
-    var success = yield models.rushee.rate(rushee, active.id, rating);
+    const success = yield models.rushee.rate(rushee, active.id, rating);
     ctx.status = success === true ? 200 : ctx.status;
+  }));
+
+  router.get('/rushee/:rushee_id', async(function*(ctx) {
+    const rushee_id = parseInt(ctx.params.rushee_id);
+    const rushee = yield models.rushee.getOne(rushee_id);
+    ctx.render('rushee', { rushee: rushee });
   }));
 
   return router;

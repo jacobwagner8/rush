@@ -54,6 +54,12 @@ module.exports = function(db) {
         { fields: [ { attribute: 'avg_rating', order: 'DESC' } ] }
       ],
       classMethods: {
+
+        getOne: async(function*(rushee_id) {
+          const rushee = yield this.findById(rushee_id);
+          // TODO: hydration
+          return rushee;
+        }),
         /**
          * Get info for rushees on this page
          * @param  {int} pageNumber     0-indexed page number
