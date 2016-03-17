@@ -46,7 +46,7 @@ module.exports = function(db) {
       name: name_column(),
       profile_picture: string_column(),
       summary: text_column(),
-      avg_rating: { type: db.Sequelize.INTEGER, allowNull: false, defaultValue: 0 },
+      avg_rating: { type: db.Sequelize.INTEGER, allowNull: true },
       year: { type: db.Sequelize.ENUM('Fr', 'So', 'Jr', 'Sr'), allowNull: false }
     }, {
       indexes: [

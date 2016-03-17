@@ -24,12 +24,6 @@ module.exports = grunt => {
         cwd: './node_modules/jquery/dist',
         src: '**',
         dest: './dist/js/'
-      },
-      js: {
-        expand: true,
-        cwd: './views/js',
-        src: '**',
-        dest: './dist/js'
       }
     }
   });
