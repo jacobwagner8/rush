@@ -1,0 +1,52 @@
+#title-detail {
+  @extend #title;
+  text-align: left;
+  margin-bottom: 4rem;
+
+  > #profile-picture {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+  }
+
+  > #title-info {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+
+    > h1 {
+      display: inline-block;
+      font-size: 400%;
+    }
+
+    > .rating {
+      width: 20rem;
+
+      > label {
+        font-size: 200%;
+      }
+    }
+  }
+}
+
+.content {
+  color: $primary-text-color;
+}
+
+.detail-header {
+  margin: 0 0 2rem 0;
+  color: $hunter-green;
+}
+
+#detail-summary {
+  width: 100%;
+  overflow: auto;
+  resize: none;
+  max-height: 20rem;
+  border: none;
+  border-left: 20px;
+  outline: none;
+  padding: 0 2rem;
+  margin-bottom: 1rem;
+  word-wrap: break-all;
+}

@@ -1,0 +1,33 @@
+#rushee-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 1rem 0;
+
+  .rushee-entry {
+    margin: 0.5rem 0;
+    width: 100%;
+
+    color: $primary-text-color;
+
+    .rushee-picture {
+      padding: 0;
+    }
+
+    .rushee-info {
+      padding: 1rem;
+      margin: 0;
+
+      .rushee-name {
+        text-align: center;
+      }
+
+      .rushee-year {
+        float: left;
+      }
+
+      .rushee-dorm {
+        float: right;
+      }
+    }
+  }
+}

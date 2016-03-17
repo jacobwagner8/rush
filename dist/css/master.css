@@ -1,6 +1,6 @@
 @charset "UTF-8";
-body {
-  background: #fff; }
+.card-shadow {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }
 
 .card {
   background: #fff;
@@ -8,36 +8,16 @@ body {
   display: block;
   float: left;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  transition: all 0.2s ease-in-out; }
+  transition: box-shadow 0.2s ease-in-out; }
   .card:hover {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
 
-.title {
+#title, #title-detail {
   width: 100%;
   text-align: center;
   background: #0a760a;
   color: #fff;
   padding: 2rem; }
-
-.rushee-list {
-  list-style-type: none;
-  margin: 0;
-  padding: 1rem 0; }
-  .rushee-list .rushee-entry {
-    margin: 0.5rem 0;
-    width: 100%;
-    color: #111; }
-    .rushee-list .rushee-entry .rushee-picture {
-      padding: 0; }
-    .rushee-list .rushee-entry .rushee-info {
-      padding: 1rem;
-      margin: 0; }
-      .rushee-list .rushee-entry .rushee-info .rushee-name {
-        text-align: center; }
-      .rushee-list .rushee-entry .rushee-info .rushee-year {
-        float: left; }
-      .rushee-list .rushee-entry .rushee-info .rushee-dorm {
-        float: right; }
 
 .rating {
   display: block;
@@ -70,5 +50,63 @@ body {
 .rating > input:checked ~ label:hover ~ label,
 .rating > label:hover ~ input:checked ~ label {
   color: #f0425f; }
+
+#rushee-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 1rem 0; }
+  #rushee-list .rushee-entry {
+    margin: 0.5rem 0;
+    width: 100%;
+    color: #111; }
+    #rushee-list .rushee-entry .rushee-picture {
+      padding: 0; }
+    #rushee-list .rushee-entry .rushee-info {
+      padding: 1rem;
+      margin: 0; }
+      #rushee-list .rushee-entry .rushee-info .rushee-name {
+        text-align: center; }
+      #rushee-list .rushee-entry .rushee-info .rushee-year {
+        float: left; }
+      #rushee-list .rushee-entry .rushee-info .rushee-dorm {
+        float: right; }
+
+#title-detail {
+  text-align: left;
+  margin-bottom: 4rem; }
+  #title-detail > #profile-picture {
+    display: inline-block;
+    padding: 0;
+    margin: 0; }
+  #title-detail > #title-info {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column; }
+    #title-detail > #title-info > h1 {
+      display: inline-block;
+      font-size: 400%; }
+    #title-detail > #title-info > .rating {
+      width: 20rem; }
+      #title-detail > #title-info > .rating > label {
+        font-size: 200%; }
+
+.content {
+  color: #111; }
+
+.detail-header {
+  margin: 0 0 2rem 0;
+  color: #0a760a; }
+
+#detail-summary {
+  width: 100%;
+  overflow: auto;
+  resize: none;
+  max-height: 20rem;
+  border: none;
+  border-left: 20px;
+  outline: none;
+  padding: 0 2rem;
+  margin-bottom: 1rem;
+  word-wrap: break-all; }
 
 /*# sourceMappingURL=master.css.map */

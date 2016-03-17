@@ -4,4 +4,26 @@ block title
   title Rushee - #{rushee.name}
 
 block header
-  h1.title #{rushee.name}
+  div#title-detail.row.card-shadow
+    img#profile-picture.col-md-3.col-xl-2.card-shadow(src=rushee.profile_picture)
+    div#title-info.col-md-9.col-xl-10
+      h1 #{rushee.name}
+      +rating(rushee.id, rushee.avg_rating)
+
+//- Add item for returning to list view
+
+block content
+  script.
+    var rushee = !{JSON.stringify(rushee)}
+  h2.detail-header Brother-written summary
+  textarea#detail-summary(placeholder="Write a summary for #{rushee.name}") #{rushee.summary}
+  //- TODO: dirty / clean indicator for #detail-summary
+  h2.detail-header Character Traits
+  ol#trait-list
+    each trait in traits
+      +trait-full(trait)
+
+block scripts
+  script(src='/js/autosize.min.js')
+  script(src='/js/rating.js')
+  script(src='/js/rushee.js')

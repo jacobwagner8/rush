@@ -33,18 +33,26 @@ module.exports = function defineRouter(models) {
     ctx.render('index', { rushees: rushees });
   }));
 
-  router.post('/rate', async(function*(ctx) {
+  router.post('/rate/:rushee_id', async(function*(ctx) {
     const active = ctx.req.user;
-    const rushee = ctx.request.body.rushee_id;
+    const rushee_id = parseInt(ctx.params.rushee_id);
     const rating = ctx.request.body.rating;
-    const success = yield models.rushee.rate(rushee, active.id, rating);
+    const success = yield models.rushee.rate(rushee_id, active.id, rating);
     ctx.status = success === true ? 200 : ctx.status;
   }));
 
   router.get('/rushee/:rushee_id', async(function*(ctx) {
     const rushee_id = parseInt(ctx.params.rushee_id);
-    const rushee = yield models.rushee.getOne(rushee_id);
-    ctx.render('rushee', { rushee: rushee });
+    const queryResults = yield Promise.join(models.rushee.getOne(rushee_id),
+                                            models.rushee.getTraits(rushee_id));
+    ctx.render('rushee', { rushee: queryResults[0], traits: queryResults[1] });
+  }));
+
+  router.post('/summary/:rushee_id', async(function*(ctx) {
+    const rushee_id = parseInt(ctx.params.rushee_id);
+    const summary = ctx.request.body.summary;
+    const success = yield models.rushee.summarize(rushee_id, summary);
+    ctx.status = success === true ? 200 : ctx.status;
   }));
 
   return router;

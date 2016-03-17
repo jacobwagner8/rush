@@ -3,32 +3,10 @@ extends layout
 block title
   title Rushee List
 
-mixin vote-buttons(rushee_id, net_votes)
-  button(onclick="vote(#{rushee_id}, 'up')").vote-button-up
-  h3.vote-count #{net_votes}
-  button(onclick="vote(#{rushee_id}, 'down')").vote-button-down
-
-mixin rating(rushee_id, rating)
-  fieldset.rating
-    input(type="radio" id="rating-input-#{rushee_id}-5" name="rating-#{rushee_id}" value="5")
-    label(for="rating-input-#{rushee_id}-5")
-    input(type="radio" id="rating-input-#{rushee_id}-4" name="rating-#{rushee_id}" value="4")
-    label(for="rating-input-#{rushee_id}-4")
-    input(type="radio" id="rating-input-#{rushee_id}-3" name="rating-#{rushee_id}" value="3")
-    label(for="rating-input-#{rushee_id}-3")
-    input(type="radio" id="rating-input-#{rushee_id}-2" name="rating-#{rushee_id}" value="2")
-    label(for="rating-input-#{rushee_id}-2")
-    input(type="radio" id="rating-input-#{rushee_id}-1" name="rating-#{rushee_id}" value="1")
-    label(for="rating-input-#{rushee_id}-1")
-
-
-mixin rush-attendance(attendance_array)
-  div.rushee-attendance
-
 mixin character-trait()
 
 mixin rushee(data)
-  a(href="#")
+  a(href="/rushee/#{data.id}")
     li.rushee-entry.card.row
       img.rushee-picture.col-md-2(src=data.profile_picture)
       div.rushee-info.col-md-10.row
@@ -40,14 +18,15 @@ mixin rushee(data)
         div.rushee-summary.col-md-8 #{data.summary}
 
 block header
-  h1.title Rushee List
+  h1#title.card-shadow Rushee List
 
 block content
   script.
     var rushees = !{JSON.stringify(rushees)};
-  ol.rushee-list
+  ol#rushee-list
     each rushee in rushees
       +rushee(rushee)
 
 block scripts
-  script(src='js/index.js')
+  script(src='/js/rating.js')
+  script(src='/js/index.js')

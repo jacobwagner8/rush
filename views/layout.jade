@@ -1,3 +1,5 @@
+include _mixins.jade
+
 doctype html
 html
   head
@@ -11,7 +13,7 @@ html
     link(rel='stylesheet', href='/css/master.css')
   body
     block header
-    div.container
+    div.container.content
       block content
     block footer
     script(src='/js/jquery.min.js')

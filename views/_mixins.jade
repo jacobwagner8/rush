@@ -1,0 +1,25 @@
+//- 5-star rating
+mixin rating(rushee_id, rating)
+  fieldset.rating
+    input(type="radio" id="rating-input-#{rushee_id}-5" name="rating-#{rushee_id}" value="5")
+    label(for="rating-input-#{rushee_id}-5")
+    input(type="radio" id="rating-input-#{rushee_id}-4" name="rating-#{rushee_id}" value="4")
+    label(for="rating-input-#{rushee_id}-4")
+    input(type="radio" id="rating-input-#{rushee_id}-3" name="rating-#{rushee_id}" value="3")
+    label(for="rating-input-#{rushee_id}-3")
+    input(type="radio" id="rating-input-#{rushee_id}-2" name="rating-#{rushee_id}" value="2")
+    label(for="rating-input-#{rushee_id}-2")
+    input(type="radio" id="rating-input-#{rushee_id}-1" name="rating-#{rushee_id}" value="1")
+    label(for="rating-input-#{rushee_id}-1")
+
+mixin trait(trait)
+  div.trait.card-shadow
+    span.num-endorsements
+    span.trait-name #{trait.trait_name}
+
+mixin trait-full(trait)
+  div.trait-full
+    +trait(trait)
+
+mixin rush-attendance(attendance_array)
+  div.rushee-attendance

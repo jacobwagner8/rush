@@ -57,9 +57,9 @@ module.exports = function(db) {
 
         getOne: async(function*(rushee_id) {
           const rushee = yield this.findById(rushee_id);
-          // TODO: hydration
           return rushee;
         }),
+
         /**
          * Get info for rushees on this page
          * @param  {int} pageNumber     0-indexed page number
@@ -68,9 +68,38 @@ module.exports = function(db) {
         getPage: async(function*(pageNumber) {
           const first = pageNumber * rushees_per_page;
           const last = (pageNumber + 1) * rushees_per_page - 1;
-          const rushees = yield this.findAll();
-          return rushees;
+
+          const rushees = yield this.findAll({
+            order: 'avg_rating DESC'
+          });
+
+          // get top rushee traits
+          const rushees_with_traits = yield Promise.all(rushees.map(async(function*(rushee) {
+            const topTraits_ = yield db.models.rushee_trait.findAll({
+              attributes: ['trait_name', 'votes'],
+              where: { rushee_id: rushee.id },
+              order: 'votes DESC'
+            });
+            const topTraits = topTraits_.map(x => x.dataValues);
+            rushee.dataValues.topTraits = topTraits;
+            return rushee.dataValues;
+          })));
+
+          return rushees_with_traits;
         }),
+
+        getTraits: rushee_id => {
+          var query = ('' +
+            'WITH trait_votes as (select * from rushee_trait_votes where rushee_id = {0}) ' +
+            'SELECT trait_name, ' +
+              'votes, ' +
+              '(select array_agg((select name from actives where id = active_id)) from trait_votes where trait_name = ts.trait_name) as actives ' +
+              'from rushee_traits ts ' +
+            'WHERE rushee_id = {0} ' +
+            'order by votes desc;'
+          ).replace(/\{0\}/g, rushee_id);
+          return db.query(query, { type: db.QueryTypes.SELECT});
+        },
 
         rate: (rushee_id, active_id, rating) =>
           retryableTransaction(t => 
@@ -85,7 +114,10 @@ module.exports = function(db) {
               ';').replace(/\{0\}/g, rushee_id);
               return db.query(query, { transaction: t });
             })
-          , { isolationLevel: 'SERIALIZABLE' })
+          , { isolationLevel: 'SERIALIZABLE' }),
+
+        summarize: (rushee_id, summary) =>
+          db.models.rushee.update({ summary: summary }, { where: { id: rushee_id } })
       }
     }),
 
@@ -96,16 +128,12 @@ module.exports = function(db) {
     }),
 
     trait: db.define('trait', {
-      text: string_column()
-    }, {
-      indexes: [
-        { fields: ['text'], unique: true }
-      ]
+      name: { type: db.Sequelize.STRING, primaryKey: true }
     }),
 
     rushee_trait: db.define('rushee_trait', {
       rushee_id: { type: db.Sequelize.INTEGER, primaryKey: 'rushee_trait_pkey', references: { model: db.models.rushee }, onDelete: 'cascade' },
-      trait_id: { type: db.Sequelize.INTEGER, primaryKey: 'rushee_trait_pkey', references: { model: db.models.trait }, onDelete: 'cascade' },
+      trait_name: { type: db.Sequelize.STRING, primaryKey: 'rushee_trait_pkey', references: { model: db.models.trait, key: 'name' }, onDelete: 'cascade' },
       votes: { type: db.Sequelize.INTEGER, allowNull: false, defaultValue: 0 }
     }, {
       indexes: [
@@ -115,7 +143,7 @@ module.exports = function(db) {
 
     rushee_trait_vote: db.define('rushee_trait_vote', {
       rushee_id: { type: db.Sequelize.INTEGER, primaryKey: 'rushee_trait_vote_pkey', references: { model: db.models.rushee }, onDelete: 'cascade' },
-      trait_id: { type: db.Sequelize.INTEGER, primaryKey: 'rushee_trait_vote_pkey', references: { model: db.models.trait }, onDelete: 'cascade' },
+      trait_name: { type: db.Sequelize.STRING, primaryKey: 'rushee_trait_vote_pkey', references: { model: db.models.trait, key: 'name' }, onDelete: 'cascade' },
       active_id: { type: db.Sequelize.INTEGER, primaryKey: 'rushee_trait_vote_pkey', references: { model: db.models.active }, onDelete: 'cascade' }
     }),
 
