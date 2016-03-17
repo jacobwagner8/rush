@@ -11,29 +11,31 @@ module.exports = function defineRouter(models) {
       ctx.render('login');
   });
 
+  // Handle login requests
   router.post('/login', passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login'
   }));
 
+  // Require authentication for all non-login endpoints
   router.use(function(ctx, next) {
     if (!ctx.isAuthenticated())
       ctx.redirect('/login');
     else
       return next();
   });
-  // router.use(passport.authenticate('local', { failureRedirect: '/login' }));
 
+  // Rushee list view
   router.get('/', async(function*(ctx) {
-    // TODO: check login status
     // Get Rushee data
     const rushees = yield models.rushee.getPage(0);
-    console.log(rushees);
+    // Render view
     ctx.render('index', { rushees: rushees });
   }));
 
-  // API functions
-  // router.get('/api/')
+  router.get('/vote', async(function*(ctx) {
+    const active = ctx.req.user;
+  }));
 
   return router;
 };

@@ -15,15 +15,21 @@ module.exports = grunt => {
     copy: {
       bootstrap: {
         expand: true,
-        cwd: './node_modules/bootstrap/dist/',
+        cwd: './node_modules/bootstrap/dist',
         src: '**',
         dest: './dist/'
       },
       jquery: {
         expand: true,
-        cwd: './node_modules/jquery/dist/',
-        src: 'jquery.slim.min.js',
+        cwd: './node_modules/jquery/dist',
+        src: '**',
         dest: './dist/js/'
+      },
+      js: {
+        expand: true,
+        cwd: './views/js',
+        src: '**',
+        dest: './dist/js'
       }
     }
   });

@@ -3,10 +3,19 @@ extends layout
 block title
   title Rushee List
 
-mixin vote-buttons(vote_count)
-  div.vote-up
-  div.vote-count #{vote_count}
-  div.vote-down
+mixin vote-buttons(rushee_id, net_votes)
+  button(onclick="vote(#{rushee_id}, 'up')").vote-button-up
+  h3.vote-count #{net_votes}
+  button(onclick="vote(#{rushee_id}, 'down')").vote-button-down
+
+mixin rating(rushee_id, rating)
+  div.rating
+    span ☆
+    span ☆
+    span ☆
+    span ☆
+    span ☆
+
 
 mixin rush-attendance(attendance_array)
   div.rushee-attendance
@@ -16,20 +25,20 @@ mixin character-trait()
 mixin rushee(data)
   a(href="#")
     li.rushee-entry.card.row
-      div.col-md-1.vote-container
-        +vote-buttons(data.net_votes)
-      img.rushee-profile.col-md-3(src=data.profile_picture)
-      div.rushee-info.col-md-8
-        div
+      img.rushee-picture.col-md-2(src=data.profile_picture)
+      div.rushee-info.col-md-10.row
+        div.rushee-stats.col-md-4
           h2 #{data.name}
+          +rating(data.id, data.avg_rating)
           p #{data.year}
           p #{data.dorm}
-        p.rushee-summary #{data.summary}
+        div.rushee-summary.col-md-8 #{data.summary}
 
 block header
   h1.title Rushee List
 
 block content
+  script(src='js/index.js')
   ol.rushee-list
     each rushee in rushees
       +rushee(rushee)

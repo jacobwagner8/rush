@@ -19,6 +19,7 @@ const consoleLogger = new (winston.Logger)({
   ]
 });
 
+global._          = require('lodash');
 global.Log        = consoleLogger;
 global.Promise    = require('bluebird');
 global.async      = Promise.coroutine;
@@ -69,8 +70,7 @@ initDB()
     app.use(session(app));
 
     // auth
-    define_authentication(models);
-    const passport = require('koa-passport');
+    const passport = define_authentication(models);
     app.use(passport.initialize());
     app.use(passport.session());
 

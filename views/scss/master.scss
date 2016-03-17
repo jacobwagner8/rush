@@ -50,22 +50,50 @@ $cardinal-red: #c41e3a;
 .vote-count {
   text-align: center;
   width: 100%;
+  margin: 0;
 }
 
-.vote-up {
+// Reset button styling
+[class^=vote-button] {
   width: 0;
   height: 0;
   margin: 0 auto;
+  padding: 0;
+  background: none;
+  outline: 0;
+  border: 0;
+}
+
+.vote-button-up {
   border-left: 1rem solid transparent;
   border-right: 1rem solid transparent;
   border-bottom: 1rem solid $hunter-green;
 }
 
-.vote-down {
+.vote-button-down {
   width: 0;
   height: 0;
   margin: 0 auto;
   border-left: 1rem solid transparent;
   border-right: 1rem solid transparent;
   border-top: 1rem solid $cardinal-red;
+}
+
+// Star rating
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+
+  > span {
+  display: inline-block;
+  position: relative;
+  width: 20%;
+  text-align: center;
+
+    &:hover:before,
+    &:hover ~ span:before {
+      content: "\2605";
+      position: absolute;
+    }
+  }
 }

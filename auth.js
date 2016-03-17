@@ -1,7 +1,6 @@
-const passport      = require('koa-passport');
-const LocalStrategy = require('passport-local').Strategy;
 const crypto        = require('crypto');
-
+const LocalStrategy = require('passport-local').Strategy;
+const passport      = require('koa-passport');
 
 module.exports = function defineLocalStrategy(models) {
 
@@ -23,11 +22,13 @@ module.exports = function defineLocalStrategy(models) {
     })
       .then(user => {
         if (user === null) {
-          console.log("USER NOT FOUND");
+          Log.warn("Login Failed: Incorrect name or password");
           done(null, false, { message: "Incorrect name or password" });
         }
-        else
-          done(null, user.dataValues);
+        else {
+          const exposed_properties = _.pick(user.dataValues, ['id', 'name']);
+          done(null, exposed_properties);
+        }
       })
   }));
 

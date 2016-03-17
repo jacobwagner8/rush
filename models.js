@@ -1,6 +1,8 @@
 const rushees_per_page = 25; // for rushee list view
 
 module.exports = function(db) {
+  const retryableTransaction = require('./retryTransaction')(db);
+
   function name_column() {
     return {
       type: db.Sequelize.STRING(64),
@@ -44,12 +46,12 @@ module.exports = function(db) {
       name: name_column(),
       profile_picture: string_column(),
       summary: text_column(),
-      net_votes: { type: db.Sequelize.INTEGER, allowNull: false, defaultValue: 0 },
+      avg_rating: { type: db.Sequelize.INTEGER, allowNull: false, defaultValue: 0 },
       year: { type: db.Sequelize.ENUM('Fr', 'So', 'Jr', 'Sr'), allowNull: false }
     }, {
       indexes: [
         name_index(),
-        { fields: [ { attribute: 'net_votes', order: 'DESC' } ] }
+        { fields: [ { attribute: 'avg_rating', order: 'DESC' } ] }
       ],
       classMethods: {
         /**
@@ -62,18 +64,27 @@ module.exports = function(db) {
           const last = (pageNumber + 1) * rushees_per_page - 1;
           const rushees = yield this.findAll();
           return rushees;
+        }),
+
+        /**
+         * Upvote or Downvote a rushee.
+         * @param {int}   active_id     [description]
+         * @param {enum('DOWN', 'NONE', 'UP)'} direction)    {                     var a [description]
+         * @yield {[type]}   [description]
+         */
+        rate: async(function*(active_id, direction) {
+          var a = yield retryTransaction(t => {
+
+          });
+          return true
         })
       }
     }),
 
-    vote: db.define('vote', {
-      active_id: { type: db.Sequelize.INTEGER, primaryKey: 'vote_pkey', references: { model: db.models.active }, onDelete: 'cascade' },
+    rating: db.define('rating', {
       rushee_id: { type: db.Sequelize.INTEGER, primaryKey: 'vote_pkey', references: { model: db.models.rushee }, onDelete: 'cascade' },
-      direction: { type: db.Sequelize.ENUM('DOWN', 'UP'), allowNull: false }
-    }, {
-      indexes: [
-        { fields: ['rushee_id', 'direction'] }
-      ]
+      active_id: { type: db.Sequelize.INTEGER, primaryKey: 'vote_pkey', references: { model: db.models.active }, onDelete: 'cascade' },
+      value: { type: db.Sequelize.INTEGER, allowNull: false, min: 1, max: 5 }
     }),
 
     trait: db.define('trait', {
@@ -98,6 +109,12 @@ module.exports = function(db) {
       rushee_id: { type: db.Sequelize.INTEGER, primaryKey: 'rushee_trait_vote_pkey', references: { model: db.models.rushee }, onDelete: 'cascade' },
       trait_id: { type: db.Sequelize.INTEGER, primaryKey: 'rushee_trait_vote_pkey', references: { model: db.models.trait }, onDelete: 'cascade' },
       active_id: { type: db.Sequelize.INTEGER, primaryKey: 'rushee_trait_vote_pkey', references: { model: db.models.active }, onDelete: 'cascade' }
+    }),
+
+    rushee_comment: db.define('rushee_comment', {
+      rushee_id: { type: db.Sequelize.INTEGER, references: { model: db.models.rushee }, onDelete: 'cascade', allowNull: false },
+      active_id: { type: db.Sequelize.INTEGER, references: { model: db.models.active }, onDelete: 'cascade', allowNull: false },
+      text: text_column()
     })
 
   };
