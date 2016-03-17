@@ -33,8 +33,12 @@ module.exports = function defineRouter(models) {
     ctx.render('index', { rushees: rushees });
   }));
 
-  router.get('/vote', async(function*(ctx) {
+  router.post('/rate', async(function*(ctx) {
     const active = ctx.req.user;
+    const rushee = ctx.request.body.rushee_id;
+    const rating = ctx.request.body.rating;
+    var success = yield models.rushee.rate(rushee, active.id, rating);
+    ctx.status = success === true ? 200 : ctx.status;
   }));
 
   return router;

@@ -46,7 +46,7 @@ module.exports = function(db) {
       name: name_column(),
       profile_picture: string_column(),
       summary: text_column(),
-      avg_rating: { type: db.Sequelize.INTEGER, allowNull: true },
+      avg_rating: { type: db.Sequelize.FLOAT, allowNull: true },
       year: { type: db.Sequelize.ENUM('Fr', 'So', 'Jr', 'Sr'), allowNull: false }
     }, {
       indexes: [
@@ -66,18 +66,20 @@ module.exports = function(db) {
           return rushees;
         }),
 
-        /**
-         * Upvote or Downvote a rushee.
-         * @param {int}   active_id     [description]
-         * @param {enum('DOWN', 'NONE', 'UP)'} direction)    {                     var a [description]
-         * @yield {[type]}   [description]
-         */
-        rate: async(function*(active_id, direction) {
-          var a = yield retryTransaction(t => {
-
-          });
-          return true
-        })
+        rate: (rushee_id, active_id, rating) =>
+          retryableTransaction(t => 
+            db.models.rating.upsert({
+              rushee_id: rushee_id,
+              active_id: active_id,
+              value: rating
+            }, { transaction: t }).then(() => {
+              var query = ('WITH rushee_ratings as (select value from ratings where rushee_id = {0})' +
+              'UPDATE rushees SET avg_rating = (select avg(value) from rushee_ratings)' +
+                'where id = {0}' +
+              ';').replace(/\{0\}/g, rushee_id);
+              return db.query(query, { transaction: t });
+            })
+          , { isolationLevel: 'SERIALIZABLE' })
       }
     }),
 

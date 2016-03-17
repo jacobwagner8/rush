@@ -105,9 +105,3 @@ $primary-text-color: #111;
 .rating > label:hover ~ input:checked ~ label {
   color: $cardinal-red-60;
 }
-
-.rating > label:active {
-  position:relative;
-  top:2px;
-  left:2px;
-}

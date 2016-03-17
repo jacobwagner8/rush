@@ -71,9 +71,4 @@ body {
 .rating > label:hover ~ input:checked ~ label {
   color: #f0425f; }
 
-.rating > label:active {
-  position: relative;
-  top: 2px;
-  left: 2px; }
-
 /*# sourceMappingURL=master.css.map */
