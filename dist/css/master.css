@@ -120,7 +120,9 @@ textarea, input[type=text] {
     width: 100%;
     color: #111; }
     #rushee-list .rushee-entry .rushee-picture {
-      padding: 0; }
+      padding: 0;
+      max-width: 12rem;
+      max-height: 12rem; }
     #rushee-list .rushee-entry .rushee-info {
       padding: 1rem;
       margin: 0; }
@@ -139,6 +141,9 @@ textarea, input[type=text] {
         float: left; }
       #rushee-list .rushee-entry .rushee-info .rushee-dorm {
         float: right; }
+      #rushee-list .rushee-entry .rushee-info .rushee-stats {
+        border-right: 0.1rem solid #ddd;
+        margin-right: -0.05rem; }
       #rushee-list .rushee-entry .rushee-info .rushee-summary > p {
         max-height: 10rem;
         overflow: hidden;
@@ -172,7 +177,8 @@ textarea, input[type=text] {
           color: #fff; }
     #title-detail #title-info > .rushee-year-dorm > span {
       float: left;
-      width: 8rem; }
+      width: 8rem;
+      padding-left: 1rem; }
 
 .content {
   color: #111; }

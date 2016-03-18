@@ -20,7 +20,7 @@ mixin rushee(data)
           span.rushee-year #{data.year}.
           span.rushee-dorm #{data.dorm}
         div.rushee-summary.col-md-8
-          p #{data.summary}
+          p #{data.summary == "" ? "No description yet" : data.summary}
 
 block header
   h1#title.card-shadow Rushee List

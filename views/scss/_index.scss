@@ -11,6 +11,8 @@
 
     .rushee-picture {
       padding: 0;
+      max-width: 12rem;
+      max-height: 12rem;
     }
 
     .rushee-info {
@@ -44,6 +46,11 @@
 
       .rushee-dorm {
         float: right;
+      }
+
+      .rushee-stats {
+        border-right: 0.1rem solid #ddd;
+        margin-right: -0.05rem;
       }
 
       .rushee-summary > p {
