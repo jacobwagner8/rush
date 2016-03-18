@@ -69,6 +69,11 @@ textarea, input[type=text] {
     color: $inactive-color;
     position: relative;
     z-index: 1;
+    transition: text-shadow 0.2s ease-in-out;
+
+    &:hover {
+      text-shadow: 0 0 0.5rem;
+    }
 
     &[active], &[active] ~ span, &[checked]:before {
       color: $cardinal-red;

@@ -46,7 +46,10 @@ textarea, input[type=text] {
     cursor: pointer;
     color: #ddd;
     position: relative;
-    z-index: 1; }
+    z-index: 1;
+    transition: text-shadow 0.2s ease-in-out; }
+    .rating > span:hover {
+      text-shadow: 0 0 0.5rem; }
     .rating > span[active], .rating > span[active] ~ span, .rating > span[checked]:before {
       color: #d01131; }
     .rating > span[checked]:before {
@@ -146,6 +149,8 @@ textarea, input[type=text] {
         margin-right: -0.05rem; }
         #rushee-list .rushee-entry .rushee-info .rushee-stats .rating {
           font-size: 125%; }
+        #rushee-list .rushee-entry .rushee-info .rushee-stats > .row {
+          margin-bottom: 0.5rem; }
       #rushee-list .rushee-entry .rushee-info .rushee-summary > p {
         max-height: 10rem;
         overflow: hidden;
@@ -184,6 +189,18 @@ textarea, input[type=text] {
 
 .content {
   color: #111; }
+
+#back-button {
+  position: relative;
+  left: -1rem;
+  text-align: middle;
+  padding-top: 3rem;
+  color: #fff;
+  font-size: 300%;
+  transition: text-shadow 0.2s ease-in-out; }
+  #back-button:hover {
+    text-decoration: none;
+    text-shadow: 0 0 0.5rem; }
 
 .detail-header {
   margin: 0 0 2rem 0;

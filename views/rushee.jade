@@ -7,8 +7,9 @@ block header
   div#title-detail.card-shadow
     div.container
       di.row
+        a#back-button.col-md-1(href="/" title="Back to list") ❰
         img#profile-picture.col-md-3.col-xl-2.card(src=rushee.profile_picture)
-        div#title-info.col-md-9.col-xl-10
+        div#title-info.col-md-8.col-xl-9
           h1 #{rushee.name}
           +rating(rushee.id, rushee.avg_rating)
           div.rushee-year-dorm

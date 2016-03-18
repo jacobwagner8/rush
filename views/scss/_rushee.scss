@@ -51,6 +51,21 @@
   color: $primary-text-color;
 }
 
+#back-button {
+  position: relative;
+  left: -1rem;
+  text-align: middle;
+  padding-top: 3rem;
+  color: #fff;
+  font-size: 300%;
+  transition: text-shadow 0.2s ease-in-out;
+
+  &:hover {
+    text-decoration: none;
+    text-shadow: 0 0 0.5rem;
+  }
+}
+
 .detail-header {
   margin: 0 0 2rem 0;
   color: $hunter-green;
