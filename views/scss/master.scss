@@ -41,7 +41,7 @@ textarea {
   word-wrap: break-all;
 }
 
-textarea, input[type=text] {
+textarea, input[type=text], input[type=password] {
   // border: none;
   border-width: 0 0 0 0.2rem;
   padding-left: 0.5rem;
@@ -50,6 +50,12 @@ textarea, input[type=text] {
   &:active, &:hover, &:focus {
     border-color: $cardinal-red;
   }
+}
+
+input[type=submit] {
+  background-color: $cardinal-red;
+  color: #fff;
+  padding: 0.25rem 0.5rem;
 }
 
 // Star rating

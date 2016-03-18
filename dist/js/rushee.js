@@ -12,11 +12,14 @@ summary.keydown(function(e) {
 
 traits.forEach(function(trait) {
   var checkbox = $('input[id^="trait-vote-' + trait.trait_name +'"]');
+  if (trait.voted)
+    checkbox.attr('checked', true);
   // make trait vote when the plus sign is clicked
   checkbox.click(function() {
     var checked = checkbox.is(':checked');
-    $.post('/rushee/' + rushee.id + '/trait/' + trait.trait_name, { vote: checked });
-    // TODO: value update
+    $.post('/rushee/' + rushee.id + '/trait/' + trait.trait_name, { vote: checked }, function() {
+      location.reload();
+    });
   });
 });
 

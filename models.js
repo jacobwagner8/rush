@@ -129,17 +129,19 @@ module.exports = function(db) {
             db.models.trait.upsert({
               name: trait_name
             }, { transaction: t }).then(() =>
-              db.models.rushee_trait_vote.create({
+              db.models.rushee_trait_vote.upsert({
                 rushee_id: rushee_id,
                 active_id: active_id,
                 trait_name: trait_name
               }, { transaction: t })
             ).then(() =>
-              db.models.rushee_trait.upsert({
-                rushee_id: rushee_id,
-                trait_name: trait_name,
-                votes: -1
-              }, { transaction: t })
+              db.models.rushee_trait.findOrCreate({
+                where: {
+                  rushee_id: rushee_id,
+                  trait_name: trait_name
+                },
+                transaction: t
+              })
             ).then(() => {
               var query = ('WITH active_votes as (select active_id from rushee_trait_votes where rushee_id = {0} and trait_name = \'{1}\')' +
               'UPDATE rushee_traits SET votes = (select count(active_id) from active_votes) ' +

@@ -25,12 +25,17 @@ textarea {
   max-height: 20rem;
   word-wrap: break-all; }
 
-textarea, input[type=text] {
+textarea, input[type=text], input[type=password] {
   border-width: 0 0 0 0.2rem;
   padding-left: 0.5rem;
   outline: none; }
-  textarea:active, textarea:hover, textarea:focus, input[type=text]:active, input[type=text]:hover, input[type=text]:focus {
+  textarea:active, textarea:hover, textarea:focus, input[type=text]:active, input[type=text]:hover, input[type=text]:focus, input[type=password]:active, input[type=password]:hover, input[type=password]:focus {
     border-color: #d01131; }
+
+input[type=submit] {
+  background-color: #d01131;
+  color: #fff;
+  padding: 0.25rem 0.5rem; }
 
 .rating {
   width: 100%;
