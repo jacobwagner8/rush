@@ -47,7 +47,7 @@ const initDB = async(function*() {
   Log.info('Seeding data');
   yield seed(db);
   Log.info('Finished Model Setup');
-  return models
+  return models;
 });
 
 initDB()

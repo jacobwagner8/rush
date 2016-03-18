@@ -78,7 +78,8 @@ module.exports = function(db) {
             const topTraits_ = yield db.models.rushee_trait.findAll({
               attributes: ['trait_name', 'votes'],
               where: { rushee_id: rushee.id, votes: { $gt: 0 } },
-              order: 'votes DESC'
+              order: 'votes DESC',
+              limit: 3
             });
             const topTraits = topTraits_.map(x => x.dataValues);
             rushee.dataValues.topTraits = topTraits;
@@ -132,14 +133,22 @@ module.exports = function(db) {
                 rushee_id: rushee_id,
                 active_id: active_id,
                 trait_name: trait_name
-              }, { transaction: t }).then(() =>
-                db.models.rushee_trait.upsert({
-                  rushee_id: rushee_id,
-                  trait_name: trait_name,
-                  votes: 1
-                }, { transaction: t })
-              )
-            )
+              }, { transaction: t })
+            ).then(() =>
+              db.models.rushee_trait.upsert({
+                rushee_id: rushee_id,
+                trait_name: trait_name,
+                votes: -1
+              }, { transaction: t })
+            ).then(() => {
+              var query = ('WITH active_votes as (select active_id from rushee_trait_votes where rushee_id = {0} and trait_name = \'{1}\')' +
+              'UPDATE rushee_traits SET votes = (select count(active_id) from active_votes) ' +
+                'where rushee_id = {0} and trait_name = \'{1}\'' +
+              ';')
+                .replace(/\{0\}/g, rushee_id)
+                .replace(/\{1\}/g, trait_name);
+              return db.query(query, { transaction: t });
+            })
           , { isolationLevel: 'SERIALIZABLE' }),
 
         /** updates vote for this trait

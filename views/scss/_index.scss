@@ -21,6 +21,23 @@
         text-align: center;
       }
 
+      .top-traits-container {
+        width: 100%;
+      }
+
+      .trait {
+        font-size: 90%;
+        
+        > .num-endorsements {
+          padding: 0.25rem;
+          min-width: 2rem;
+        }
+
+        > .trait-name {
+          padding: 0.25rem 0.5rem;
+        }
+      }
+
       .rushee-year {
         float: left;
       }

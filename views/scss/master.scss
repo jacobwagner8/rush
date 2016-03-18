@@ -88,7 +88,7 @@ $primary-text-color: #111;
     background-color: $cardinal-red;
     border-radius: 0.2rem 0 0 0.2rem;
     color: white;
-    width: 2.5rem;
+    min-width: 2.5rem;
     padding: 0.5rem;
     text-align: center;
   }

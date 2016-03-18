@@ -60,7 +60,7 @@
     background-color: #d01131;
     border-radius: 0.2rem 0 0 0.2rem;
     color: white;
-    width: 2.5rem;
+    min-width: 2.5rem;
     padding: 0.5rem;
     text-align: center; }
   .trait > .trait-name {
@@ -114,6 +114,15 @@
       margin: 0; }
       #rushee-list .rushee-entry .rushee-info .rushee-name {
         text-align: center; }
+      #rushee-list .rushee-entry .rushee-info .top-traits-container {
+        width: 100%; }
+      #rushee-list .rushee-entry .rushee-info .trait {
+        font-size: 90%; }
+        #rushee-list .rushee-entry .rushee-info .trait > .num-endorsements {
+          padding: 0.25rem;
+          min-width: 2rem; }
+        #rushee-list .rushee-entry .rushee-info .trait > .trait-name {
+          padding: 0.25rem 0.5rem; }
       #rushee-list .rushee-entry .rushee-info .rushee-year {
         float: left; }
       #rushee-list .rushee-entry .rushee-info .rushee-dorm {
