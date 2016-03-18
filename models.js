@@ -77,7 +77,7 @@ module.exports = function(db) {
           const rushees_with_traits = yield Promise.all(rushees.map(async(function*(rushee) {
             const topTraits_ = yield db.models.rushee_trait.findAll({
               attributes: ['trait_name', 'votes'],
-              where: { rushee_id: rushee.id },
+              where: { rushee_id: rushee.id, votes: { $gt: 0 } },
               order: 'votes DESC'
             });
             const topTraits = topTraits_.map(x => x.dataValues);
@@ -92,10 +92,12 @@ module.exports = function(db) {
           var query = ('' +
             'WITH trait_votes as (select * from rushee_trait_votes where rushee_id = {0}) ' +
             'SELECT trait_name, ' +
+              'rushee_id, ' +
               'votes, ' +
+              '(select array_agg(active_id) from trait_votes where trait_name = ts.trait_name) as active_ids, ' +
               '(select array_agg((select name from actives where id = active_id)) from trait_votes where trait_name = ts.trait_name) as actives ' +
               'from rushee_traits ts ' +
-            'WHERE rushee_id = {0} ' +
+            'WHERE rushee_id = {0} and votes > 0' +
             'order by votes desc;'
           ).replace(/\{0\}/g, rushee_id);
           return db.query(query, { type: db.QueryTypes.SELECT});
@@ -117,7 +119,59 @@ module.exports = function(db) {
           , { isolationLevel: 'SERIALIZABLE' }),
 
         summarize: (rushee_id, summary) =>
-          db.models.rushee.update({ summary: summary }, { where: { id: rushee_id } })
+          db.models.rushee.update({ summary: summary }, { where: { id: rushee_id } }),
+
+        /** Adds trait to rushee
+         */
+        add_trait: (rushee_id, active_id, trait_name) =>
+          retryableTransaction(t =>
+            db.models.trait.upsert({
+              name: trait_name
+            }, { transaction: t }).then(() =>
+              db.models.rushee_trait_vote.create({
+                rushee_id: rushee_id,
+                active_id: active_id,
+                trait_name: trait_name
+              }, { transaction: t }).then(() =>
+                db.models.rushee_trait.upsert({
+                  rushee_id: rushee_id,
+                  trait_name: trait_name,
+                  votes: 1
+                }, { transaction: t })
+              )
+            )
+          , { isolationLevel: 'SERIALIZABLE' }),
+
+        /** updates vote for this trait
+         *  TODO: delete trait when at 0 votes.
+         */
+        vote_trait: (rushee_id, active_id, trait_name, vote) =>
+          retryableTransaction(t => 
+            (vote
+              ? db.models.rushee_trait_vote.create({
+                rushee_id: rushee_id,
+                active_id: active_id,
+                trait_name: trait_name
+              }, { transaction: t })
+              : db.models.rushee_trait_vote.destroy({
+                where: {
+                  rushee_id: rushee_id,
+                  active_id: active_id,
+                  trait_name: trait_name
+                },
+                transaction: t
+              })
+            ).then(() => {
+              var query = ('WITH active_votes as (select active_id from rushee_trait_votes where rushee_id = {0} and trait_name = \'{1}\')' +
+              'UPDATE rushee_traits SET votes = (select count(active_id) from active_votes) ' +
+                'where rushee_id = {0} and trait_name = \'{1}\'' +
+              ';')
+                .replace(/\{0\}/g, rushee_id)
+                .replace(/\{1\}/g, trait_name);
+              return db.query(query, { transaction: t });
+            })
+          , { isolationLevel: 'SERIALIZABLE' })
+
       }
     }),
 

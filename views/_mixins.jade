@@ -12,14 +12,29 @@ mixin rating(rushee_id, rating)
     input(type="radio" id="rating-input-#{rushee_id}-1" name="rating-#{rushee_id}" value="1")
     label(for="rating-input-#{rushee_id}-1")
 
+//- Traits
+mixin trait-vote(trait_full)
+  span.trait-vote
+      input(type="checkbox" id="trait-vote-#{trait_full.trait_name}" checked="#{trait_full.voted}")
+      label(for="trait-vote-#{trait_full.trait_name}")
+
 mixin trait(trait)
-  div.trait.card-shadow
-    span.num-endorsements
+  span.trait.card
+    span.num-endorsements #{trait.votes}
     span.trait-name #{trait.trait_name}
 
-mixin trait-full(trait)
+mixin initials-box(name)
+  span.name-box.card(title="#{name}")
+    = name.replace(/\W*(\w)\w*/g, '$1').toUpperCase()
+
+mixin trait-full(trait_full)
   div.trait-full
-    +trait(trait)
+    +trait-vote(trait_full)
+    +trait(trait_full)
+    each active_name, idx in trait_full.actives
+      - if (idx < 8)
+        +initials-box(active_name)
+
 
 mixin rush-attendance(attendance_array)
   div.rushee-attendance

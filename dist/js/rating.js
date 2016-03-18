@@ -9,5 +9,7 @@ function initRating(rushee) {
     });
 
   // set correct button checked
-  document.getElementById("rating-input-" + rushee.id + '-' + Math.round(rushee.avg_rating)).checked = true;
+  var checked_star = document.getElementById("rating-input-" + rushee.id + '-' + Math.round(rushee.avg_rating));
+  if (checked_star != null)
+    checked_star.checked = true;
 }

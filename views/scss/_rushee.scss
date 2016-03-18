@@ -38,15 +38,25 @@
   color: $hunter-green;
 }
 
-#detail-summary {
+.detail-item {
   width: 100%;
+  margin: 0 2rem;
+  margin-bottom: 1rem;
+}
+
+#detail-summary {
   overflow: auto;
   resize: none;
   max-height: 20rem;
   border: none;
-  border-left: 20px;
   outline: none;
-  padding: 0 2rem;
-  margin-bottom: 1rem;
   word-wrap: break-all;
+}
+
+#trait-list {
+  padding: 0;
+}
+
+#trait-input {
+
 }

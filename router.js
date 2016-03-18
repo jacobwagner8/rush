@@ -45,13 +45,50 @@ module.exports = function defineRouter(models) {
     const rushee_id = parseInt(ctx.params.rushee_id);
     const queryResults = yield Promise.join(models.rushee.getOne(rushee_id),
                                             models.rushee.getTraits(rushee_id));
-    ctx.render('rushee', { rushee: queryResults[0], traits: queryResults[1] });
+    // determine if this user already voted for the trait
+    const traits = queryResults[1];
+    const active_id = ctx.req.user.id;
+    traits.map(trait => {
+      trait.voted = trait.active_ids.indexOf(active_id) !== -1;
+      return trait;
+    });
+
+    ctx.render('rushee', { rushee: queryResults[0], traits: traits });
   }));
 
   router.post('/summary/:rushee_id', async(function*(ctx) {
     const rushee_id = parseInt(ctx.params.rushee_id);
     const summary = ctx.request.body.summary;
     const success = yield models.rushee.summarize(rushee_id, summary);
+    ctx.status = success === true ? 200 : ctx.status;
+  }));
+
+  /**
+   * Add a trait for this rushee
+   * @param {[type]} ctx)          {    const active_id [description]
+   * @yield {[type]} [description]
+   */
+  router.post('/rushee/:rushee_id/new-trait/:trait_name', async(function*(ctx) {
+    const active_id = ctx.req.user.id;
+    const rushee_id = parseInt(ctx.params.rushee_id);
+    const trait_name = ctx.params.trait_name;
+
+    const success = yield models.rushee.add_trait(rushee_id, active_id, trait_name);
+    ctx.status = success === true ? 200 : ctx.status;
+  }));
+
+  /**
+   * Upvote a trait that this rushee already has
+   * @param {[type]} ctx)          {    const active_id [description]
+   * @yield {[type]} [description]
+   */
+  router.post('/rushee/:rushee_id/trait/:trait_name', async(function*(ctx) {
+    const active_id = ctx.req.user.id;
+    const rushee_id = parseInt(ctx.params.rushee_id);
+    const trait_name = ctx.params.trait_name;
+    const vote = ctx.request.body.vote === 'true';
+
+    const success = yield models.rushee.vote_trait(rushee_id, active_id, trait_name, vote);
     ctx.status = success === true ? 200 : ctx.status;
   }));
 

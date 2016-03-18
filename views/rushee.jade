@@ -5,7 +5,7 @@ block title
 
 block header
   div#title-detail.row.card-shadow
-    img#profile-picture.col-md-3.col-xl-2.card-shadow(src=rushee.profile_picture)
+    img#profile-picture.col-md-3.col-xl-2.card(src=rushee.profile_picture)
     div#title-info.col-md-9.col-xl-10
       h1 #{rushee.name}
       +rating(rushee.id, rushee.avg_rating)
@@ -14,14 +14,15 @@ block header
 
 block content
   script.
-    var rushee = !{JSON.stringify(rushee)}
+    var rushee = !{JSON.stringify(rushee)}; var traits = !{JSON.stringify(traits)};
   h2.detail-header Brother-written summary
-  textarea#detail-summary(placeholder="Write a summary for #{rushee.name}") #{rushee.summary}
+  textarea#detail-summary.detail-item(placeholder="Write a summary for #{rushee.name}") #{rushee.summary}
   //- TODO: dirty / clean indicator for #detail-summary
   h2.detail-header Character Traits
-  ol#trait-list
+  ol#trait-list.detail-item
     each trait in traits
       +trait-full(trait)
+  input#trait-input.detail-item(type="text" placeholder="Know #{rushee.name.split(' ')[0]}? Add a trait here")
 
 block scripts
   script(src='/js/autosize.min.js')
