@@ -19,37 +19,46 @@
   color: #fff;
   padding: 2rem; }
 
+textarea {
+  overflow: auto;
+  resize: none;
+  max-height: 20rem;
+  word-wrap: break-all; }
+
+textarea, input[type=text] {
+  border-width: 0 0 0 0.2rem;
+  padding-left: 0.5rem;
+  outline: none; }
+  textarea:active, textarea:hover, textarea:focus, input[type=text]:active, input[type=text]:hover, input[type=text]:focus {
+    border-color: #d01131; }
+
 .rating {
-  display: block;
-  float: left;
-  width: 100%; }
-  .rating > input {
-    display: none; }
-  .rating > label {
-    text-align: center;
-    float: right;
+  width: 100%;
+  height: 1rem;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  margin-bottom: 1rem; }
+  .rating > span {
     width: 20%;
+    text-align: center;
     padding: 0;
     cursor: pointer;
     color: #ddd;
-    font-size: 160%; }
-
-.rating:not(:checked) > label:before {
-  content: '★'; }
-
-.rating > input:checked ~ label {
-  color: #d01131; }
-
-.rating:not(:checked) > label:hover,
-.rating:not(:checked) > label:hover ~ label {
-  color: #f0425f; }
-
-.rating > input:checked + label:hover,
-.rating > input:checked + label:hover ~ label,
-.rating > input:checked ~ label:hover,
-.rating > input:checked ~ label:hover ~ label,
-.rating > label:hover ~ input:checked ~ label {
-  color: #f0425f; }
+    position: relative;
+    z-index: 1; }
+    .rating > span[active], .rating > span[active] ~ span, .rating > span[checked]:before {
+      color: #d01131; }
+    .rating > span[checked]:before {
+      top: -50%;
+      left: 0;
+      text-align: center;
+      position: absolute;
+      content: '★';
+      width: 100%;
+      padding: 0;
+      font-size: 200%;
+      z-index: -1; }
 
 .trait {
   display: inline-block;
@@ -119,7 +128,8 @@
       #rushee-list .rushee-entry .rushee-info .top-traits-container {
         width: 100%; }
       #rushee-list .rushee-entry .rushee-info .trait {
-        font-size: 90%; }
+        font-size: 90%;
+        margin: 0 0.2rem; }
         #rushee-list .rushee-entry .rushee-info .trait > .num-endorsements {
           padding: 0.25rem;
           min-width: 2rem; }
@@ -137,21 +147,29 @@
 #title-detail {
   text-align: left;
   margin-bottom: 4rem; }
-  #title-detail > #profile-picture {
+  #title-detail .row {
+    margin: 0; }
+  #title-detail #profile-picture {
     display: inline-block;
     padding: 0;
-    margin: 0; }
-  #title-detail > #title-info {
+    margin: 0;
+    max-width: 15rem;
+    max-height: 15rem; }
+  #title-detail #title-info {
     padding: 2rem;
+    padding-bottom: 0;
     display: flex;
     flex-direction: column; }
-    #title-detail > #title-info > h1 {
+    #title-detail #title-info > h1 {
       display: inline-block;
       font-size: 400%; }
-    #title-detail > #title-info > .rating {
+    #title-detail #title-info > .rating {
       width: 20rem; }
-      #title-detail > #title-info > .rating > label {
-        font-size: 200%; }
+      #title-detail #title-info > .rating > span {
+        font-size: 150%;
+        color: #539e53; }
+        #title-detail #title-info > .rating > span[active], #title-detail #title-info > .rating > span[active] ~ span, #title-detail #title-info > .rating > span[checked]:before {
+          color: #fff; }
 
 .content {
   color: #111; }
@@ -164,14 +182,6 @@
   width: 100%;
   margin: 0 2rem;
   margin-bottom: 1rem; }
-
-#detail-summary {
-  overflow: auto;
-  resize: none;
-  max-height: 20rem;
-  border: none;
-  outline: none;
-  word-wrap: break-all; }
 
 #trait-list {
   padding: 0; }

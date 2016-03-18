@@ -27,13 +27,16 @@ module.exports = function defineRouter(models) {
 
   // Rushee list view
   router.get('/', async(function*(ctx) {
+    const active_id = ctx.req.user.id;
     // Get Rushee data
     const rushees = yield models.rushee.getPage(0);
 
-    // get top rushee traits
+    // get top rushee traits and own ratings of rushees
     const rushees_with_traits = yield Promise.all(rushees.map(async(function*(rushee) {
-      const topTraits_ = yield models.rushee.getTopTraits(rushee.id);
-      const topTraits = topTraits_.map(x => x.dataValues);
+      const queryResults = yield Promise.join(models.rushee.getRating(rushee.id, active_id),
+                                              models.rushee.getTopTraits(rushee.id));
+      const topTraits = queryResults[1].map(x => x.dataValues);
+      rushee.dataValues.ownRating = queryResults[0];
       rushee.dataValues.topTraits = topTraits;
       return rushee.dataValues;
     })));
@@ -52,19 +55,23 @@ module.exports = function defineRouter(models) {
 
   router.get('/rushee/:rushee_id', async(function*(ctx) {
     const rushee_id = parseInt(ctx.params.rushee_id);
+    const active_id = ctx.req.user.id;
     const queryResults = yield Promise.join(models.rushee.getOne(rushee_id),
                                             models.rushee.getTraits(rushee_id),
-                                            models.rushee.getComments(rushee_id));
+                                            models.rushee.getComments(rushee_id),
+                                            models.rushee.getRating(rushee_id, active_id));
     // determine if this user already voted for the trait
     const traits = queryResults[1];
-    const active_id = ctx.req.user.id;
     traits.map(trait => {
       trait.voted = trait.active_ids.indexOf(active_id) !== -1;
       return trait;
     });
 
+    const rushee = queryResults[0].dataValues;
+    rushee.ownRating = queryResults[3];
+
     ctx.render('rushee', {
-      rushee: queryResults[0],
+      rushee: rushee,
       traits: traits,
       comments: queryResults[2]
     });

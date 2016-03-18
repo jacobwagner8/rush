@@ -4,11 +4,13 @@ block title
   title Rushee - #{rushee.name}
 
 block header
-  div#title-detail.row.card-shadow
-    img#profile-picture.col-md-3.col-xl-2.card(src=rushee.profile_picture)
-    div#title-info.col-md-9.col-xl-10
-      h1 #{rushee.name}
-      +rating(rushee.id, rushee.avg_rating)
+  div#title-detail.card-shadow
+    div.container
+      di.row
+        img#profile-picture.col-md-3.col-xl-2.card(src=rushee.profile_picture)
+        div#title-info.col-md-9.col-xl-10
+          h1 #{rushee.name}
+          +rating(rushee.id, rushee.avg_rating)
 
 //- Add item for returning to list view
 
@@ -32,7 +34,8 @@ block content
   ol#comment-list.detail-item
     each comment in comments
       +comment(comment)
-  input#comment-input.detail-item(type="text" placeholder="Add a comment")
+  //- TODO: user name box
+  textarea#comment-input.detail-item(type="text" placeholder="Add a comment")
 
 block scripts
   script(src='/js/autosize.min.js')

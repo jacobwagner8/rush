@@ -3,14 +3,21 @@
   text-align: left;
   margin-bottom: 4rem;
 
-  > #profile-picture {
-    display: inline-block;
-    padding: 0;
+  .row {
     margin: 0;
   }
 
-  > #title-info {
+   #profile-picture {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    max-width: 15rem;
+    max-height: 15rem;
+  }
+
+   #title-info {
     padding: 2rem;
+    padding-bottom: 0;
     display: flex;
     flex-direction: column;
 
@@ -22,8 +29,13 @@
     > .rating {
       width: 20rem;
 
-      > label {
-        font-size: 200%;
+      > span {
+        font-size: 150%;
+        color: #539e53; // mix with white at opacity 0.3
+
+        &[active], &[active] ~ span, &[checked]:before {
+          color: #fff;
+        }
       }
     }
   }
@@ -44,21 +56,8 @@
   margin-bottom: 1rem;
 }
 
-#detail-summary {
-  overflow: auto;
-  resize: none;
-  max-height: 20rem;
-  border: none;
-  outline: none;
-  word-wrap: break-all;
-}
-
 #trait-list {
   padding: 0;
-}
-
-#trait-input {
-
 }
 
 #comment-list {

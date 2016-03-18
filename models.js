@@ -82,6 +82,12 @@ module.exports = function(db) {
             limit: 3
           }),
 
+        getRating: (rushee_id, active_id) =>
+          db.models.rating.findOne({
+            where: { rushee_id: rushee_id, active_id: active_id },
+            attributes: ['value']
+          }).then(result => result === null ? null : result.value),
+
         getTraits: rushee_id => {
           var query = ('' +
             'WITH trait_votes as (select * from rushee_trait_votes where rushee_id = {0}) ' +

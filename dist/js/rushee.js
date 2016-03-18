@@ -29,6 +29,7 @@ trait_input.keydown(function(e) {
 });
 
 var comment_input = $('#comment-input');
+autosize(comment_input);
 comment_input.keydown(function(e) {
   if (e.keyCode == 13) {
     e.preventDefault();
