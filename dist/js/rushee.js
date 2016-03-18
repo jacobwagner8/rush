@@ -24,7 +24,9 @@ var trait_input = $('#trait-input');
 trait_input.keydown(function(e) {
   if (e.keyCode == 13) {
     e.preventDefault();
-    $.post('/rushee/' + rushee.id + '/new-trait/' + this.value);
+    $.post('/rushee/' + rushee.id + '/new-trait/' + this.value, {}, function() {
+      location.reload();
+    });
   }
 });
 
@@ -33,6 +35,8 @@ autosize(comment_input);
 comment_input.keydown(function(e) {
   if (e.keyCode == 13) {
     e.preventDefault();
-    $.post('/rushee/' + rushee.id + '/comment', { comment: this.value });
+    $.post('/rushee/' + rushee.id + '/comment', { comment: this.value }, function done() {
+      location.reload();
+    });
   }
 });

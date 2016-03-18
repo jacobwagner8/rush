@@ -81,7 +81,7 @@ module.exports = function defineRouter(models) {
     const rushee_id = parseInt(ctx.params.rushee_id);
     const summary = ctx.request.body.summary;
     const success = yield models.rushee.summarize(rushee_id, summary);
-    ctx.status = success === true ? 200 : ctx.status;
+    ctx.status = 200;
   }));
 
   /**
@@ -95,7 +95,7 @@ module.exports = function defineRouter(models) {
     const trait_name = ctx.params.trait_name;
 
     const success = yield models.rushee.add_trait(rushee_id, active_id, trait_name);
-    ctx.status = success === true ? 200 : ctx.status;
+    ctx.status = 200;
   }));
 
   /**
@@ -110,7 +110,7 @@ module.exports = function defineRouter(models) {
     const vote = ctx.request.body.vote === 'true';
 
     const success = yield models.rushee.vote_trait(rushee_id, active_id, trait_name, vote);
-    ctx.status = success === true ? 200 : ctx.status;
+    ctx.status = 200;
   }));
 
   router.post('/rushee/:rushee_id/comment', async(function*(ctx) {
@@ -118,7 +118,7 @@ module.exports = function defineRouter(models) {
     const active_id = ctx.req.user.id;
     const comment = ctx.request.body.comment;
     const success = yield models.rushee.comment(rushee_id, active_id, comment);
-    ctx.status = success === true ? 200 : ctx.status;
+    ctx.status = 200;
   }));
 
   return router;

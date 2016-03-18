@@ -11,6 +11,9 @@ block header
         div#title-info.col-md-9.col-xl-10
           h1 #{rushee.name}
           +rating(rushee.id, rushee.avg_rating)
+          div.rushee-year-dorm
+            span.rushee-year #{rushee.year}.
+            span.rushee-dorm #{rushee.dorm}
 
 //- Add item for returning to list view
 

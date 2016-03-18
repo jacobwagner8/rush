@@ -87,72 +87,11 @@ textarea, input[type=text] {
   }
 }
 
-// .rating:not(:checked) > label:before {
-//   content: '★';
-// }
-
-// .rating > input:checked ~ label {
-//   color: $cardinal-red;
-// }
-
-// .rating:not(:checked) > label:hover,
-// .rating:not(:checked) > label:hover ~ label {
-//   color: $cardinal-red-60;
-// }
-
-// .rating > input:checked + label:hover,
-// .rating > input:checked + label:hover ~ label,
-// .rating > input:checked ~ label:hover,
-// .rating > input:checked ~ label:hover ~ label,
-// .rating > label:hover ~ input:checked ~ label {
-//   color: $cardinal-red-60;
-// }
-
-// .rating {
-//   display: block;
-//   float: left;
-//   width: 100%;
-
-//   > input {
-//     display: none
-//   }
-
-//   > label {
-//     text-align: center;
-//     float: right;
-//     width: 20%;
-//     padding: 0;
-//     cursor: pointer;
-//     color: $inactive-color;
-//     font-size: 160%;
-//   }
-// }
-
-// .rating:not(:checked) > label:before {
-//   content: '★';
-// }
-
-// .rating > input:checked ~ label {
-//   color: $cardinal-red;
-// }
-
-// .rating:not(:checked) > label:hover,
-// .rating:not(:checked) > label:hover ~ label {
-//   color: $cardinal-red-60;
-// }
-
-// .rating > input:checked + label:hover,
-// .rating > input:checked + label:hover ~ label,
-// .rating > input:checked ~ label:hover,
-// .rating > input:checked ~ label:hover ~ label,
-// .rating > label:hover ~ input:checked ~ label {
-//   color: $cardinal-red-60;
-// }
-
 // Traits
 .trait {
   display: inline-block;
   font-size: 110%;
+  margin: 0.2rem;
 
   span {
     display: inline-block;

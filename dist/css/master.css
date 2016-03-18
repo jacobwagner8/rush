@@ -62,7 +62,8 @@ textarea, input[type=text] {
 
 .trait {
   display: inline-block;
-  font-size: 110%; }
+  font-size: 110%;
+  margin: 0.2rem; }
   .trait span {
     display: inline-block; }
   .trait > .num-endorsements {
@@ -128,8 +129,7 @@ textarea, input[type=text] {
       #rushee-list .rushee-entry .rushee-info .top-traits-container {
         width: 100%; }
       #rushee-list .rushee-entry .rushee-info .trait {
-        font-size: 90%;
-        margin: 0 0.2rem; }
+        font-size: 90%; }
         #rushee-list .rushee-entry .rushee-info .trait > .num-endorsements {
           padding: 0.25rem;
           min-width: 2rem; }
@@ -170,6 +170,9 @@ textarea, input[type=text] {
         color: #539e53; }
         #title-detail #title-info > .rating > span[active], #title-detail #title-info > .rating > span[active] ~ span, #title-detail #title-info > .rating > span[checked]:before {
           color: #fff; }
+    #title-detail #title-info > .rushee-year-dorm > span {
+      float: left;
+      width: 8rem; }
 
 .content {
   color: #111; }
