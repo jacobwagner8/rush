@@ -1,13 +1,34 @@
+#title {
+  margin-bottom: 2rem;
+}
+
 #rushee-list {
-  list-style-type: none;
+  counter-reset: li; /* Initiate a counter */
   margin: 0;
-  padding: 1rem 0;
+  padding: 0;
+  position: relative;
+
+  :hover {
+    text-decoration: none;
+  }
 
   .rushee-entry {
+    list-style: none; /* Disable the normal item numbering */
     margin: 0.5rem 0;
     width: 100%;
-
     color: $primary-text-color;
+
+    // custom li number
+    &:before {
+      content: counter(li); /* Use the counter as content */
+      counter-increment: li; /* Increment the counter by 1 */
+      /* Position and style the number */
+      position:absolute;
+      top: 0; right: 0.5rem;
+      z-index: -1;
+      font-size: 300%;
+      color: rgba(0,0,0,0.225);
+    }
 
     .rushee-picture {
       padding: 0;
