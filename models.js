@@ -69,25 +69,18 @@ module.exports = function(db) {
           const first = pageNumber * rushees_per_page;
           const last = (pageNumber + 1) * rushees_per_page - 1;
 
-          const rushees = yield this.findAll({
+          return yield this.findAll({
             order: 'avg_rating DESC'
           });
-
-          // get top rushee traits
-          const rushees_with_traits = yield Promise.all(rushees.map(async(function*(rushee) {
-            const topTraits_ = yield db.models.rushee_trait.findAll({
-              attributes: ['trait_name', 'votes'],
-              where: { rushee_id: rushee.id, votes: { $gt: 0 } },
-              order: 'votes DESC',
-              limit: 3
-            });
-            const topTraits = topTraits_.map(x => x.dataValues);
-            rushee.dataValues.topTraits = topTraits;
-            return rushee.dataValues;
-          })));
-
-          return rushees_with_traits;
         }),
+
+        getTopTraits: rushee_id => 
+          db.models.rushee_trait.findAll({
+            attributes: ['trait_name', 'votes'],
+            where: { rushee_id: rushee_id, votes: { $gt: 0 } },
+            order: 'votes DESC',
+            limit: 3
+          }),
 
         getTraits: rushee_id => {
           var query = ('' +
@@ -179,8 +172,22 @@ module.exports = function(db) {
                 .replace(/\{1\}/g, trait_name);
               return db.query(query, { transaction: t });
             })
-          , { isolationLevel: 'SERIALIZABLE' })
+          , { isolationLevel: 'SERIALIZABLE' }),
 
+        getComments: rushee_id => {
+          var query = ('SELECT text, (select name from actives where id = rushee_comments.active_id) as author ' +
+            'FROM rushee_comments WHERE rushee_id = {0} ' +
+            'ORDER BY "createdAt";'
+          ).replace(/\{0\}/g, rushee_id);
+          return db.query(query, { type: db.QueryTypes.SELECT });
+        },
+
+        comment: (rushee_id, active_id, comment) =>
+          db.models.rushee_comment.create({
+            rushee_id: rushee_id,
+            active_id: active_id,
+            text: comment
+          })
       }
     }),
 

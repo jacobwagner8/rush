@@ -29,8 +29,17 @@ module.exports = function defineRouter(models) {
   router.get('/', async(function*(ctx) {
     // Get Rushee data
     const rushees = yield models.rushee.getPage(0);
+
+    // get top rushee traits
+    const rushees_with_traits = yield Promise.all(rushees.map(async(function*(rushee) {
+      const topTraits_ = yield models.rushee.getTopTraits(rushee.id);
+      const topTraits = topTraits_.map(x => x.dataValues);
+      rushee.dataValues.topTraits = topTraits;
+      return rushee.dataValues;
+    })));
+
     // Render view
-    ctx.render('index', { rushees: rushees });
+    ctx.render('index', { rushees: rushees_with_traits });
   }));
 
   router.post('/rate/:rushee_id', async(function*(ctx) {
@@ -44,7 +53,8 @@ module.exports = function defineRouter(models) {
   router.get('/rushee/:rushee_id', async(function*(ctx) {
     const rushee_id = parseInt(ctx.params.rushee_id);
     const queryResults = yield Promise.join(models.rushee.getOne(rushee_id),
-                                            models.rushee.getTraits(rushee_id));
+                                            models.rushee.getTraits(rushee_id),
+                                            models.rushee.getComments(rushee_id));
     // determine if this user already voted for the trait
     const traits = queryResults[1];
     const active_id = ctx.req.user.id;
@@ -53,7 +63,11 @@ module.exports = function defineRouter(models) {
       return trait;
     });
 
-    ctx.render('rushee', { rushee: queryResults[0], traits: traits });
+    ctx.render('rushee', {
+      rushee: queryResults[0],
+      traits: traits,
+      comments: queryResults[2]
+    });
   }));
 
   router.post('/summary/:rushee_id', async(function*(ctx) {
@@ -89,6 +103,14 @@ module.exports = function defineRouter(models) {
     const vote = ctx.request.body.vote === 'true';
 
     const success = yield models.rushee.vote_trait(rushee_id, active_id, trait_name, vote);
+    ctx.status = success === true ? 200 : ctx.status;
+  }));
+
+  router.post('/rushee/:rushee_id/comment', async(function*(ctx) {
+    const rushee_id = parseInt(ctx.params.rushee_id);
+    const active_id = ctx.req.user.id;
+    const comment = ctx.request.body.comment;
+    const success = yield models.rushee.comment(rushee_id, active_id, comment);
     ctx.status = success === true ? 200 : ctx.status;
   }));
 

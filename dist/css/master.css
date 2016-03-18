@@ -67,12 +67,14 @@
     display: inline-block;
     padding: 0.5rem 1.5rem; }
 
-.trait-full > .name-box {
+.name-box {
   background-color: #d01131;
   color: white;
-  float: right;
   display: inline-block;
-  padding: 0.5rem;
+  padding: 0.5rem; }
+
+.trait-full > .name-box {
+  float: right;
   font-size: 110%;
   margin: 0 0.1rem; }
 
@@ -127,6 +129,10 @@
         float: left; }
       #rushee-list .rushee-entry .rushee-info .rushee-dorm {
         float: right; }
+      #rushee-list .rushee-entry .rushee-info .rushee-summary > p {
+        max-height: 10rem;
+        overflow: hidden;
+        margin: 0; }
 
 #title-detail {
   text-align: left;
@@ -169,5 +175,19 @@
 
 #trait-list {
   padding: 0; }
+
+#comment-list {
+  list-style-type: none;
+  padding: 0;
+  display: block;
+  margin-bottom: 0; }
+  #comment-list > .comment {
+    margin-bottom: 1rem; }
+    #comment-list > .comment > .name-box {
+      font-size: 90%;
+      float: left;
+      margin: 0 1rem 0 0; }
+    #comment-list > .comment > p {
+      margin-bottom: 0; }
 
 /*# sourceMappingURL=master.css.map */

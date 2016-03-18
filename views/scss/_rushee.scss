@@ -60,3 +60,24 @@
 #trait-input {
 
 }
+
+#comment-list {
+  list-style-type: none;
+  padding: 0;
+  display: block;
+  margin-bottom: 0;
+
+  > .comment {
+    margin-bottom: 1rem;
+
+    > .name-box {
+      font-size: 90%;
+      float: left;
+      margin: 0 1rem 0 0;
+    }
+
+    > p {
+      margin-bottom: 0;
+    }
+  }
+}

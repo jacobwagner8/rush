@@ -99,12 +99,15 @@ $primary-text-color: #111;
   }
 }
 
-.trait-full > .name-box {
+.name-box {
   background-color: $cardinal-red;
   color: white;
-  float: right;
   display: inline-block;
   padding: 0.5rem;
+}
+
+.trait-full > .name-box {
+  float: right;
   font-size: 110%;
   margin: 0 0.1rem;
 }

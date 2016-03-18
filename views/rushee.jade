@@ -12,6 +12,11 @@ block header
 
 //- Add item for returning to list view
 
+mixin comment(comment)
+  li.comment.clearfix
+    +initials-box(comment.author)
+    p #{comment.text}
+
 block content
   script.
     var rushee = !{JSON.stringify(rushee)}; var traits = !{JSON.stringify(traits)};
@@ -22,7 +27,12 @@ block content
   ol#trait-list.detail-item
     each trait in traits
       +trait-full(trait)
-  input#trait-input.detail-item(type="text" placeholder="Know #{rushee.name.split(' ')[0]}? Add a trait here")
+  input#trait-input.detail-item(type="text" placeholder="Know #{rushee.name.split(' ')[0]}? Add a trait")
+  h2.detail-header Comments
+  ol#comment-list.detail-item
+    each comment in comments
+      +comment(comment)
+  input#comment-input.detail-item(type="text" placeholder="Add a comment")
 
 block scripts
   script(src='/js/autosize.min.js')

@@ -27,3 +27,11 @@ trait_input.keydown(function(e) {
     $.post('/rushee/' + rushee.id + '/new-trait/' + this.value);
   }
 });
+
+var comment_input = $('#comment-input');
+comment_input.keydown(function(e) {
+  if (e.keyCode == 13) {
+    e.preventDefault();
+    $.post('/rushee/' + rushee.id + '/comment', { comment: this.value });
+  }
+});

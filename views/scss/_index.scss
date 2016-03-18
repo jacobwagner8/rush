@@ -45,6 +45,12 @@
       .rushee-dorm {
         float: right;
       }
+
+      .rushee-summary > p {
+        max-height: 10rem;
+        overflow: hidden;
+        margin: 0;
+      }
     }
   }
 }
