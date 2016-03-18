@@ -1,7 +1,8 @@
 function initRating(rushee) {
   var ownRating = rushee.ownRating;
-  var checkedStar = null;
-  var activeStar = null;
+  var checkedStar = null; // star that the user checked
+  var activeStar = null; // star representing this rushee's avg rating
+  var stars = [];
 
   function checkStar(star) {
     if (checkedStar != null)
@@ -10,12 +11,20 @@ function initRating(rushee) {
     checkedStar = star;
   }
 
+  function activateStar(starIdx) {
+    if (activeStar != null)
+      activeStar.removeAttr('active');
+    stars[starIdx].attr('active', '');
+    activeStar = stars[starIdx];
+  }
+
   // make stars rate rushees on click
   // also check the star corresponding to ownRating, if any
   $('[id^="rating-input-' + rushee.id +'-"]')
     .each(function(idx, elem) {
       var self = $(this);
       var number = elem.id.slice(-1) - '0';
+      stars[number] = self;
 
       if (number == ownRating)
         checkStar(self);
@@ -23,12 +32,14 @@ function initRating(rushee) {
       $(this).click(function(e) {
         e.preventDefault();
         checkStar(self);
-        $.post('/rate/' + rushee.id, { rating: number });
+        $.post('/rate/' + rushee.id, { rating: number }, function(data) {
+          var avg_rounded = Math.round(data.avg);
+          activateStar(avg_rounded);
+        }, 'json');
       });
     });
 
   // set active star to reflect avg rating
-  var active_star = document.getElementById("rating-input-" + rushee.id + '-' + Math.round(rushee.avg_rating));
-  if (active_star != null)
-    $(active_star).attr('active', '');
+  var rating_rounded = Math.round(rushee.avg_rating);
+  activateStar(rating_rounded);
 }

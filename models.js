@@ -112,7 +112,8 @@ module.exports = function(db) {
             }, { transaction: t }).then(() => {
               var query = ('WITH rushee_ratings as (select value from ratings where rushee_id = {0})' +
               'UPDATE rushees SET avg_rating = (select avg(value) from rushee_ratings)' +
-                'where id = {0}' +
+                'where id = {0} ' +
+              'RETURNING (select avg(value) from rushee_ratings) ' +
               ';').replace(/\{0\}/g, rushee_id);
               return db.query(query, { transaction: t });
             })

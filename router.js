@@ -49,8 +49,8 @@ module.exports = function defineRouter(models) {
     const active = ctx.req.user;
     const rushee_id = parseInt(ctx.params.rushee_id);
     const rating = ctx.request.body.rating;
-    const success = yield models.rushee.rate(rushee_id, active.id, rating);
-    ctx.status = success === true ? 200 : ctx.status;
+    const result = yield models.rushee.rate(rushee_id, active.id, rating);
+    ctx.body = result[0][0];
   }));
 
   router.get('/rushee/:rushee_id', async(function*(ctx) {
