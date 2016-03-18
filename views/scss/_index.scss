@@ -51,6 +51,10 @@
       .rushee-stats {
         border-right: 0.1rem solid #ddd;
         margin-right: -0.05rem;
+
+        .rating {
+          font-size: 125%;
+        }
       }
 
       .rushee-summary > p {

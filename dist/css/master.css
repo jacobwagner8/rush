@@ -144,6 +144,8 @@ textarea, input[type=text] {
       #rushee-list .rushee-entry .rushee-info .rushee-stats {
         border-right: 0.1rem solid #ddd;
         margin-right: -0.05rem; }
+        #rushee-list .rushee-entry .rushee-info .rushee-stats .rating {
+          font-size: 125%; }
       #rushee-list .rushee-entry .rushee-info .rushee-summary > p {
         max-height: 10rem;
         overflow: hidden;
