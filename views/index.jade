@@ -14,7 +14,7 @@ mixin rushee(data)
           h2.rushee-name #{data.name}
           +rating(data.id, data.avg_rating)
           div.top-traits-container.row
-            each trait, idx in data.topTraits
+            each trait, idx in data.top_traits
               - if (idx < 2)
                 +trait(trait).col-md-12.col-lg-6
           span.rushee-year #{data.year}.

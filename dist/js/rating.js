@@ -1,5 +1,5 @@
 function initRating(rushee) {
-  var ownRating = rushee.ownRating;
+  var own_rating = rushee.own_rating;
   var checkedStar = null; // star that the user checked
   var activeStar = null; // star representing this rushee's avg rating
   var stars = [];
@@ -19,14 +19,14 @@ function initRating(rushee) {
   }
 
   // make stars rate rushees on click
-  // also check the star corresponding to ownRating, if any
+  // also check the star corresponding to own_rating, if any
   $('[id^="rating-input-' + rushee.id +'-"]')
     .each(function(idx, elem) {
       var self = $(this);
       var number = elem.id.slice(-1) - '0';
       stars[number] = self;
 
-      if (number == ownRating)
+      if (number == own_rating)
         checkStar(self);
 
       $(this).click(function(e) {

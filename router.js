@@ -28,21 +28,12 @@ module.exports = function defineRouter(models) {
   // Rushee list view
   router.get('/', async(function*(ctx) {
     const active_id = ctx.req.user.id;
+    
     // Get Rushee data
-    const rushees = yield models.rushee.getPage(0);
-
-    // get top rushee traits and own ratings of rushees
-    const rushees_with_traits = yield Promise.all(rushees.map(async(function*(rushee) {
-      const queryResults = yield Promise.join(models.rushee.getRating(rushee.id, active_id),
-                                              models.rushee.getTopTraits(rushee.id));
-      const topTraits = queryResults[1].map(x => x.dataValues);
-      rushee.dataValues.ownRating = queryResults[0];
-      rushee.dataValues.topTraits = topTraits;
-      return rushee.dataValues;
-    })));
+    const rushees = yield models.rushee.getAllHydrated(active_id);
 
     // Render view
-    ctx.render('index', { rushees: rushees_with_traits });
+    ctx.render('index', { rushees: rushees });
   }));
 
   router.post('/rate/:rushee_id', async(function*(ctx) {

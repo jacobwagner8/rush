@@ -55,12 +55,24 @@ module.exports = function(db) {
       ],
       classMethods: {
 
-        getOne: async(function*(rushee_id) {
-          const rushee = yield this.findById(rushee_id);
-          return rushee;
-        }),
+        getOne: rushee_id => db.models.rushee.findById(rushee_id),
+
+        getAllHydrated: active_id => db.query('SELECT *, ' +
+          '(select array_agg(row_to_json(row)) ' +
+            'from (select trait_name, votes from rushee_traits ' +
+              'where rushee_id = r.id ' +
+              'order by votes desc limit 3 ' +
+            ') row ' +
+          ') as top_traits, ' +
+          '(select value from ratings ' +
+            'where rushee_id = r.id and active_id = ' + active_id +
+          ') as own_rating ' +
+          'FROM rushees r ' +
+          'ORDER BY avg_rating desc;'
+        , { type: db.QueryTypes.SELECT }),
 
         /**
+         * @Deprecated. Use getAllHydrated.
          * Get info for rushees on this page
          * @param  {int} pageNumber     0-indexed page number
          * @return {Promise<[Rushee]>}  rushees
