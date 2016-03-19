@@ -35,8 +35,11 @@ const secrets = require('./secrets');
 
 // Connect to DB
 const initDB = async(function*() {
-  const db = new Sequelize('rush', 'rushadmin', secrets.rushadmin_db_pwd, {
-    host: 'localhost',
+  const db = new Sequelize('rush', 
+      process.env.DB_USER || 'rushadmin', 
+      process.env.DB_PWD || secrets.rushadmin_db_pwd, {
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 5432,
     dialect: 'postgres',
     logging: Log.info
   })
@@ -66,7 +69,8 @@ initDB()
     app.use(bodyParser());
 
     // sessions
-    app.keys = ['axel ericsson is the bitcoin bitch'];
+    const sessionKey = process.env.SESSION_KEY || 'test123abc geed city 4 lyfe';
+    app.keys = [sessionKey];
     app.use(session(app));
 
     // auth
