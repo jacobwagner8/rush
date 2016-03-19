@@ -28,10 +28,12 @@ Promise.longStackTraces();
 
 const define_models = require('./models');
 const define_router = require('./router');
-const seed = require('./seed');
 const define_authentication = require('./auth');
 
-const secrets = require('./secrets');
+const dev = process.env.ENV !== 'prod';
+
+if (dev)
+  const secrets = require('./secrets');
 
 // Connect to DB
 const initDB = async(function*() {
@@ -45,10 +47,12 @@ const initDB = async(function*() {
   })
 
   const models = define_models(db);
-  yield db.drop();
+  if (dev) yield db.drop();
   yield db.sync();
-  Log.info('Seeding data');
-  yield seed(db);
+  if (dev) {
+    Log.info('Seeding data');
+    yield require('./seed-dev')(db);
+  }
   Log.info('Finished Model Setup');
   return models;
 });
