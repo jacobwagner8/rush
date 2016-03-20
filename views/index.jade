@@ -6,8 +6,8 @@ block title
 mixin character-trait()
 
 mixin rushee(data)
-  a(href="/rushee/#{data.id}")
-    li.rushee-entry.card-hover.row
+  li.rushee-entry.card-hover(id="rushee-card-#{data.id}")
+    a.row(href="/rushee/#{data.id}")
       img.rushee-picture.col-md-2(src=data.profile_picture)
       div.rushee-info.col-md-10.row
         div.rushee-stats.col-md-4.clearfix
@@ -28,6 +28,7 @@ block header
 block content
   script.
     var rushees = !{JSON.stringify(rushees)};
+  input#rushee-filter.card-hover(type="search" placeholder="search")
   ol#rushee-list
     each rushee in rushees
       +rushee(rushee)

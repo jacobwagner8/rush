@@ -4,7 +4,7 @@ const rushees = [
   {
     dorm: "Donner",
     name: "John Doe",
-    profile_picture: "http://lorempixel.com/image_output/cats-q-c-160-160-5.jpg",
+    profile_picture: "http://placehold.it/150x150",
     summary: "John fucking pulls!! Bid for sure. 5-5 chill to pull. Blah blah blah.",
     year: 'Fr',
     avg_rating: 5

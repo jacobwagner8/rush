@@ -122,6 +122,15 @@ input[type=submit] {
 #title, #title-detail {
   margin-bottom: 2rem; }
 
+#rushee-filter {
+  display: block;
+  margin: 0 auto 1rem auto;
+  padding: 0.25rem 0.75rem;
+  width: 50%;
+  min-width: 25rem; }
+  #rushee-filter:focus {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
+
 #rushee-list {
   counter-reset: li;
   /* Initiate a counter */
@@ -134,8 +143,12 @@ input[type=submit] {
     list-style: none;
     /* Disable the normal item numbering */
     margin: 0.5rem 0;
-    width: 100%;
-    color: #111; }
+    width: 100%; }
+    #rushee-list .rushee-entry > a {
+      color: #111;
+      width: 100%;
+      display: block;
+      margin: 0; }
     #rushee-list .rushee-entry:before {
       content: counter(li);
       /* Use the counter as content */
