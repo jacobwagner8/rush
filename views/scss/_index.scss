@@ -41,7 +41,7 @@
       content: counter(li); /* Use the counter as content */
       counter-increment: li; /* Increment the counter by 1 */
       /* Position and style the number */
-      position:absolute;
+      position: absolute;
       top: 0; right: 0.5rem;
       z-index: -1;
       font-size: 300%;
@@ -52,6 +52,7 @@
       padding: 0;
       max-width: 12rem;
       max-height: 12rem;
+      border-radius: 0.2rem 0 0 0.2rem;
     }
 
     .rushee-info {

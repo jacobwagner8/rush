@@ -164,7 +164,8 @@ input[type=submit] {
     #rushee-list .rushee-entry .rushee-picture {
       padding: 0;
       max-width: 12rem;
-      max-height: 12rem; }
+      max-height: 12rem;
+      border-radius: 0.2rem 0 0 0.2rem; }
     #rushee-list .rushee-entry .rushee-info {
       padding: 1rem;
       margin: 0; }
