@@ -1,0 +1,24 @@
+extends layout
+
+block header
+  h1#title.card-shadow Registration
+
+block content
+  form(action="/login", method="post")
+    div
+      label Name:
+      input(type="text", name="name")
+    div
+      label Year:
+      select(name="year")
+        option(value="Freshman") Freshman
+        option(value="Sophomore") Sophomore
+        option(value="Junior") Junior
+        option(value="Senior") Senior - seriously?
+      label Dorm:
+      input(type="text" name="dorm")
+      label Room number:
+      input(type="text" name="room")
+    div#webcam
+    div
+      input.card-hover(type="submit" value="Register")

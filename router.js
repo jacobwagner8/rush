@@ -17,6 +17,14 @@ module.exports = function defineRouter(models) {
     failureRedirect: '/login'
   }));
 
+  router.get('/checkin', function(ctx) {
+    ctx.render('checkin');
+  });
+
+  router.get('/register', function(ctx) {
+    ctx.render('register');
+  });
+
   // Require authentication for all non-login endpoints
   router.use(function(ctx, next) {
     if (!ctx.isAuthenticated())
@@ -28,7 +36,7 @@ module.exports = function defineRouter(models) {
   // Rushee list view
   router.get('/', async(function*(ctx) {
     const active_id = ctx.req.user.id;
-    
+
     // Get Rushee data
     const rushees = yield models.rushee.getAllHydrated(active_id);
 

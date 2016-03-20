@@ -1,0 +1,15 @@
+extends layout
+
+block title
+  title Phi Psi Rush Check In
+
+block header
+  h1#title.card-shadow Check In
+
+block content
+  h2 Return Check In
+  div#returner-search.card-hover
+    input#returner-search-input(type="search" placeholder="Returning? Search for yourself here")
+    ul#returner-search-results
+  button.card-hover(type="button")
+  a.card-hover(href="/register") First time? Click here to register
