@@ -20,6 +20,7 @@
   "homepage": "https://github.com/eddiew/rush#readme",
   "dependencies": {
     "autosize": "^3.0.15",
+    "aws-sdk": "^2.2.45",
     "bluebird": "^3.3.4",
     "bootstrap": "^4.0.0-alpha.2",
     "grunt-sass": "^1.1.0",

@@ -10,6 +10,13 @@ const serve       = require('koa-static');
 const session     = require('koa-session');
 const winston     = require('winston');
 
+// Environment Detection
+const dev = process.env.ENV !== 'prod';
+
+if (dev)
+  const secrets = require('./secrets');
+
+// Logger
 const consoleLogger = new (winston.Logger)({
   transports: [
     new (winston.transports.Console)({
@@ -19,6 +26,7 @@ const consoleLogger = new (winston.Logger)({
   ]
 });
 
+// Globals
 global._          = require('lodash');
 global.Log        = consoleLogger;
 global.Promise    = require('bluebird');
@@ -29,11 +37,6 @@ Promise.longStackTraces();
 const define_models = require('./models');
 const define_router = require('./router');
 const define_authentication = require('./auth');
-
-const dev = process.env.ENV !== 'prod';
-
-if (dev)
-  const secrets = require('./secrets');
 
 // Connect to DB
 const initDB = async(function*() {

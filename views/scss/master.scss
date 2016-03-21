@@ -51,7 +51,7 @@ textarea, input[type=text], input[type=password] {
   }
 }
 
-input[type=submit] {
+button, input[type=submit] {
   background-color: $cardinal-red;
   color: #fff;
   padding: 0.25rem 0.5rem;

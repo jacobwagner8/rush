@@ -8,9 +8,9 @@ mixin character-trait()
 mixin rushee(data)
   li.rushee-entry.card-hover(id="rushee-card-#{data.id}")
     a.row(href="/rushee/#{data.id}")
-      img.rushee-picture.col-md-2(src=data.profile_picture)
-      div.rushee-info.col-md-10.row
-        div.rushee-stats.col-md-4.clearfix
+      img.rushee-picture.col-xl-2.col-lg-3.col-md-4(src=data.profile_picture)
+      div.rushee-info.col-xl-10.col-lg-9.col-md-8.row
+        div.rushee-stats.col-lg-4.col-md-6.clearfix
           h2.rushee-name #{data.name}
           +rating(data.id, data.avg_rating)
           div.top-traits-container.row
@@ -19,7 +19,7 @@ mixin rushee(data)
                 +trait(trait).col-md-12.col-lg-6
           span.rushee-year #{data.year}.
           span.rushee-dorm #{data.dorm}
-        div.rushee-summary.col-md-8
+        div.rushee-summary.col-lg-8.col-md-6
           p #{data.summary == "" ? "No description yet" : data.summary}
 
 block header

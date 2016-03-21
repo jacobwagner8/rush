@@ -32,7 +32,7 @@ textarea, input[type=text], input[type=password] {
   textarea:active, textarea:hover, textarea:focus, input[type=text]:active, input[type=text]:hover, input[type=text]:focus, input[type=password]:active, input[type=password]:hover, input[type=password]:focus {
     border-color: #d01131; }
 
-input[type=submit] {
+button, input[type=submit] {
   background-color: #d01131;
   color: #fff;
   padding: 0.25rem 0.5rem; }
