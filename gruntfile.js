@@ -31,6 +31,7 @@ module.exports = grunt => {
         src: '**',
         dest: './dist/js'
       }
+      // TODO: webcamjs
     }
   });
 

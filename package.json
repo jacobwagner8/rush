@@ -42,6 +42,7 @@
     "pg-hstore": "^2.3.2",
     "pg-native": "^1.10.0",
     "sequelize": "^3.19.3",
+    "webcamjs": "^1.0.6",
     "winston": "^2.2.0"
   },
   "devDependencies": {
