@@ -32,3 +32,11 @@ function submit() {
   Webcam.snap(function(dataURI) {
   })
 }
+
+function getUploadParams() {
+  $.get('/rushee-picture-upload/' + 'testRusheeName', {}, function(uploadParams) {
+    console.log(uploadParams);
+  }, 'json');
+}
+
+getUploadParams();

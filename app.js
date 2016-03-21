@@ -16,6 +16,10 @@ const dev = process.env.ENV !== 'prod';
 if (dev)
   const secrets = require('./secrets');
 
+// AWS access key environment vars
+process.env.AWS_ACCESS_KEY_ID = process.env.AWS_KEY_ID || secrets.aws_id;
+process.env.AWS_SECRET_ACCESS_KEY = process.env.AWS_KEY_SECRET || secrets.aws_secret;
+
 // Logger
 const consoleLogger = new (winston.Logger)({
   transports: [

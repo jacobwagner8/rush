@@ -1,5 +1,6 @@
-const Router = require('koa-router');
+const getUploadParams = require('./s3Upload');
 const passport = require('koa-passport');
+const Router = require('koa-router');
 
 module.exports = function defineRouter(models) {
   const router = new Router();
@@ -24,6 +25,11 @@ module.exports = function defineRouter(models) {
   router.get('/register', function(ctx) {
     ctx.render('register');
   });
+
+  router.get('/rushee-picture-upload/:rushee_name', async(function*(ctx) {
+    const rusheeName = ctx.params.rushee_name;
+    ctx.body = yield getUploadParams(rusheeName);
+  }));
 
   // Require authentication for all non-login endpoints
   router.use(function(ctx, next) {
