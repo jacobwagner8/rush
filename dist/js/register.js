@@ -46,8 +46,9 @@ function submit() {
   var rusheeDorm = $('#rushee-dorm').val();
   var rusheeRoom = $('#rushee-room').val();
   // Upload picture to s3, viewable at publicPictureUrl
+  var pictureFileName = rusheeName.replace(/\s+/g, '-') + '.jpg';
   Webcam.snap(function(dataURI) {
-    $.get('/rushee-picture-upload/' + 'testRusheeName' + '.jpg', {}, function(uploadParams) {
+    $.get('/rushee-picture-upload/' + pictureFileName, {}, function(uploadParams) {
       var publicPictureUrl = uploadParams.public_url;
 
       var formData = new FormData();
@@ -58,7 +59,7 @@ function submit() {
 
       // create FormData containing image data
       var blob = fileToBlob(dataURI);
-      formData.append('file', blob, 'testRusheeName' + '.jpg');
+      formData.append('file', blob, pictureFileName);
 
       $.ajax({
         url: uploadParams.form_url, 
