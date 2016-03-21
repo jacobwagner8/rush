@@ -34,6 +34,7 @@ module.exports = function defineRouter(models) {
   router.post('/register', async(function*(ctx) {
     const vals = ctx.req.body;
     const success = models.rushee.create(vals);
+    // TODO: set rushee attendance
     ctx.status = 200;
   }));
 
