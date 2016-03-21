@@ -26,9 +26,9 @@ module.exports = function defineRouter(models) {
     ctx.render('register');
   });
 
-  router.get('/rushee-picture-upload/:rushee_name', async(function*(ctx) {
-    const rusheeName = ctx.params.rushee_name;
-    ctx.body = yield getUploadParams(rusheeName);
+  router.get('/rushee-picture-upload/:file_name', async(function*(ctx) {
+    const rusheeName = ctx.params.file_name;
+    ctx.body = yield getUploadParams(file_name);
   }));
 
   // Require authentication for all non-login endpoints
