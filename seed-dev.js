@@ -36,14 +36,17 @@ const ratings = [
 const traits = [
   { name: "chill" },
   { name: "hype" },
+  { name: "cs" },
 ];
 
 const rushee_traits = [
-  { rushee_id: 1, trait_name: "chill", votes: 1 }
+  { rushee_id: 1, trait_name: "chill", votes: 1 },
+  { rushee_id: 2, trait_name: "cs", votes: 1 }
 ];
 
 const rushee_trait_votes = [
-  { rushee_id: 1, active_id: 1, trait_name: "chill" }
+  { rushee_id: 1, active_id: 1, trait_name: "chill" },
+  { rushee_id: 2, active_id: 2, trait_name: "cs" }
 ];
 
 const rushee_comments = [
