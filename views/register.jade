@@ -7,18 +7,18 @@ block content
   form(action="/login", method="post")
     div
       label Name:
-      input(type="text", name="name")
+      input#rushee-name(type="text", name="name")
     div
       label Year:
-      select(name="year")
+      select#rushee-year(name="year")
         option(value="Fr") Freshman
         option(value="So") Sophomore
         option(value="Jr") Junior
         option(value="Sr") Senior - seriously?
       label Dorm:
-      input(type="text" name="dorm")
+      input#rushee-dorm(type="text" name="dorm")
       label Room number:
-      input(type="text" name="room")
+      input#rushee-room(type="text" name="room")
     div#webcam
     button#capture-btn.card-hover(type="button" onclick="capture()") Take Photo
     div

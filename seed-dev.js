@@ -8,6 +8,13 @@ const rushees = [
     summary: "John fucking pulls!! Bid for sure. 5-5 chill to pull. Blah blah blah.",
     year: 'Fr',
     avg_rating: 5
+  },
+  {
+    dorm: "Serra",
+    name: "David Johnson",
+    profile_picture: "http://placehold.it/450x450",
+    summary: '',
+    year: 'Fr'
   }
 ];
 

@@ -41,12 +41,14 @@ function fileToBlob(fileURI) {
 }
 
 function submit() {
-
+  var rusheeName = $('#rushee-name').val();
+  var rusheeYear = $('#rushee-year').val();
+  var rusheeDorm = $('#rushee-dorm').val();
+  var rusheeRoom = $('#rushee-room').val();
   // Upload picture to s3, viewable at publicPictureUrl
-  var publicPictureUrl;
   Webcam.snap(function(dataURI) {
     $.get('/rushee-picture-upload/' + 'testRusheeName' + '.jpg', {}, function(uploadParams) {
-      publicPictureUrl = uploadParams.public_url;
+      var publicPictureUrl = uploadParams.public_url;
 
       var formData = new FormData();
       var authparams = uploadParams.params;
@@ -68,6 +70,17 @@ function submit() {
         data: formData,
         error: function(jqXHR, textStatus, errorThrown) {
           console.log(textStatus + ':' + errorThrown);
+        },
+        success: function() {
+          $.post('/register', {
+            name: rusheeName,
+            year: rusheeYear,
+            dorm: rusheeDorm,
+            profile_picture: publicPictureUrl,
+            // room: rusheeRoom
+          }, function() {
+            // TODO: reset form
+          });
         }
       });
     }, 'json');

@@ -28,11 +28,11 @@ module.exports = function defineRouter(models) {
 
   router.get('/rushee-picture-upload/:file_name', async(function*(ctx) {
     const rusheeName = ctx.params.file_name;
-    ctx.body = yield getUploadParams(file_name);
+    ctx.body = yield getUploadParams(rusheeName);
   }));
 
   router.post('/register', async(function*(ctx) {
-    const vals = ctx.req.body;
+    const vals = ctx.request.body;
     const success = models.rushee.create(vals);
     // TODO: set rushee attendance
     ctx.status = 200;
@@ -52,7 +52,7 @@ module.exports = function defineRouter(models) {
 
     // Get Rushee data
     const rushees = yield models.rushee.getAllHydrated(active_id);
-
+    
     // Render view
     ctx.render('index', { rushees: rushees });
   }));

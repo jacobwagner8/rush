@@ -58,9 +58,9 @@ module.exports = function(db) {
         getOne: rushee_id => db.models.rushee.findById(rushee_id),
 
         getAllHydrated: active_id => db.query('SELECT *, ' +
-          '(select array_agg(row_to_json(row)) ' +
+          '(select coalesce(array_agg(row_to_json(row)), \'{}\') ' +
             'from (select trait_name, votes from rushee_traits ' +
-              'where rushee_id = r.id ' +
+              'where rushee_id = r.id and votes > 0' +
               'order by votes desc limit 3 ' +
             ') row ' +
           ') as top_traits, ' +
@@ -69,7 +69,11 @@ module.exports = function(db) {
           ') as own_rating ' +
           'FROM rushees r ' +
           'ORDER BY avg_rating desc;'
-        , { type: db.QueryTypes.SELECT }),
+        , { type: db.QueryTypes.SELECT })
+          .then(results => results.map(result => {
+            console.log(result);
+            return result;
+          })),
 
         /**
          * @Deprecated. Use getAllHydrated.
@@ -117,11 +121,16 @@ module.exports = function(db) {
 
         rate: (rushee_id, active_id, rating) =>
           retryableTransaction(t => 
-            db.models.rating.upsert({
-              rushee_id: rushee_id,
-              active_id: active_id,
-              value: rating
-            }, { transaction: t }).then(() => {
+            db.models.rating.destroy({
+              where: { rushee_id: rushee_id, active_id: active_id },
+              transaction: t
+            }).then(() =>
+              db.models.rating.create({
+                rushee_id: rushee_id,
+                active_id: active_id,
+                value: rating
+              }, { transaction: t })
+            ).then(() => {
               var query = ('WITH rushee_ratings as (select value from ratings where rushee_id = {0})' +
               'UPDATE rushees SET avg_rating = (select avg(value) from rushee_ratings)' +
                 'where id = {0} ' +
