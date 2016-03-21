@@ -31,6 +31,12 @@ module.exports = function defineRouter(models) {
     ctx.body = yield getUploadParams(file_name);
   }));
 
+  router.post('/register', async(function*(ctx) {
+    const vals = ctx.req.body;
+    const success = models.rushee.create(vals);
+    ctx.status = 200;
+  }));
+
   // Require authentication for all non-login endpoints
   router.use(function(ctx, next) {
     if (!ctx.isAuthenticated())
