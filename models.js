@@ -68,7 +68,7 @@ module.exports = function(db) {
             'where rushee_id = r.id and active_id = ' + active_id +
           ') as own_rating ' +
           'FROM rushees r ' +
-          'ORDER BY avg_rating desc;'
+          'ORDER BY avg_rating desc nulls last;'
         , { type: db.QueryTypes.SELECT })
           .then(results => results.map(result => {
             console.log(result);
