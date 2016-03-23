@@ -18,9 +18,10 @@ module.exports = function defineRouter(models) {
     failureRedirect: '/login'
   }));
 
-  router.get('/checkin', function(ctx) {
-    ctx.render('checkin');
-  });
+  router.get('/checkin', async(function*(ctx) {
+    const rusheeInfo = yield models.rushee.getAllIdentifyingInfo();
+    ctx.render('checkin', { rusheeInfo: rusheeInfo });
+  }));
 
   router.get('/register', function(ctx) {
     ctx.render('register');

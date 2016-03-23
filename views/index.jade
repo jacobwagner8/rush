@@ -26,8 +26,7 @@ block header
   h1#title.card-shadow Rushee List
 
 block content
-  script.
-    var rushees = !{JSON.stringify(rushees)};
+  script var rushees = !{JSON.stringify(rushees)};
   input#rushee-filter.card-hover(type="search" placeholder="search")
   ol#rushee-list
     each rushee in rushees

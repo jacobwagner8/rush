@@ -1,0 +1,36 @@
+#returner-search {
+  padding: 1rem 1rem 0 1rem;
+}
+
+#returner-search-input {
+  width: 100%;
+  border: none;
+  border-bottom: 0.1rem solid $inactive-color;
+  font-size: 150%;
+  margin-bottom: 1rem;
+
+  &:active, &:focus {
+    border-bottom-color: $cardinal-red;
+  }
+}
+
+#returner-search-results {
+  list-style: none;
+  padding: 0;
+  padding-bottom: 0.5rem;
+  font-size: 125%;
+
+  > li {
+    display: block;
+    padding: 0.5rem 1rem;
+
+    &:hover {
+      background-color: $inactive-color;
+      cursor: pointer;
+    }
+  }
+
+  .returner-dorm {
+    float: right;
+  }
+}

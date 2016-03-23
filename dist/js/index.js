@@ -5,7 +5,7 @@ rushees.forEach(function(rushee) {
 
 // Rushee Search
 
-var updateDelay = 0; // Time between successive filters
+var updateDelay = 0; // Debouncing time (ms) between filters
 
 var numRushees = rushees.length;
 var rusheeCards = rushees.map(function(rushee) {
@@ -70,7 +70,7 @@ function filterRushees(filter) {
 }
 
 var search = $('#rushee-filter');
-var nextFilter;
+var nextFilter; // timeout
 
 // filter on <enter>
 search.keydown(function(e) {
@@ -82,9 +82,9 @@ search.keydown(function(e) {
 
 // filter 250ms after 
 search.on('input', function() {
-  var value = this.value;
+  var filter = this.value;
   if (nextFilter) clearTimeout(nextFilter);
   nextFilter = setTimeout(function() {
-    filterRushees(value || '');
+    filterRushees(filter || '');
   }, updateDelay);
 });

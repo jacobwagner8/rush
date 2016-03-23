@@ -75,6 +75,11 @@ module.exports = function(db) {
             return result;
           })),
 
+        getAllIdentifyingInfo: () => db.models.rushee.findAll({
+          attributes: ['id', 'name', 'dorm'],
+          order: 'name'
+        }),
+
         /**
          * @Deprecated. Use getAllHydrated.
          * Get info for rushees on this page
