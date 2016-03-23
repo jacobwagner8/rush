@@ -106,7 +106,7 @@ module.exports = function defineRouter(models) {
     });
 
     const rushee = queryResults[0].dataValues;
-    rushee.ownRating = queryResults[3];
+    rushee.own_rating = queryResults[3];
 
     ctx.render('rushee', {
       rushee: rushee,
