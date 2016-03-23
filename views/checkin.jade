@@ -9,14 +9,16 @@ block header
 block content
   script var rusheeInfo = !{JSON.stringify(rusheeInfo)};
   div#returner-search.card-hover
-    input#returner-search-input(type="search" placeholder="Returning? Look your name up here.")
+    input#returner-search-input(type="search" autofocus="autofocus" placeholder="Returning? Look your name up here.")
     ol#returner-search-results
       each rushee in rusheeInfo
         li(id="returner-entry-#{rushee.id}")
-          span.returner-name #{rushee.name}
-          span.returner-dorm #{rushee.dorm}
-  button.card-hover(type="button")
-  a.card-hover(href="/register") First time? Click here to register
+          input.checkin-radio(type="radio" id="checkin-button-#{rushee.id}" name="checkin-radio-buttons" value="#{rushee.id}")
+          label(for="checkin-button-#{rushee.id}")
+            span.returner-name #{rushee.name}
+            span.returner-dorm #{rushee.dorm}
+  button#checkin-btn.card-hover(type="button") Check In
+  //- a.card-hover(href="/register") First time? Click here to register
 
 block scripts
   script(src="/js/checkin.js")

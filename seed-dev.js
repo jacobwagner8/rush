@@ -1,5 +1,7 @@
 const secrets = require('./secrets');
 
+const events = [{},{},{},{},{}];
+
 const rushees = [
   {
     dorm: "Donner",
@@ -58,6 +60,7 @@ const rushee_comments = [
 module.exports = async(function*(db) {
   yield Promise.all(rushees.map(rushee => db.models.rushee.create(rushee)));
   yield Promise.all(actives.map(active => db.models.active.create(active)));
+  yield Promise.all(events.map(event => db.models.event.create(event)));
   yield Promise.all(ratings.map(rating => db.models.rating.create(rating)));
   yield Promise.all(traits.map(trait => db.models.trait.create(trait)));
   yield Promise.all(rushee_traits.map(rushee_trait => db.models.rushee_trait.create(rushee_trait)));

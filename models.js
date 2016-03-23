@@ -32,6 +32,14 @@ module.exports = function(db) {
     };
   }
 
+  function bool_column() {
+    return {
+      type: db.Sequelize.BOOLEAN(),
+      allowNull: false,
+      defaultValue: false
+    };
+  }
+
   return {
 
     active: db.define('active', {
@@ -47,7 +55,7 @@ module.exports = function(db) {
       profile_picture: string_column(),
       summary: text_column(),
       avg_rating: { type: db.Sequelize.FLOAT, allowNull: true },
-      year: { type: db.Sequelize.ENUM('Fr', 'So', 'Jr', 'Sr'), allowNull: false }
+      year: { type: db.Sequelize.ENUM('Fr', 'So', 'Jr', 'Sr'), allowNull: false },
     }, {
       indexes: [
         name_index(),
@@ -222,7 +230,13 @@ module.exports = function(db) {
             rushee_id: rushee_id,
             active_id: active_id,
             text: comment
-          })
+          }),
+
+        checkin: (rushee_id, event_id) =>
+          db.models.event_attendance.upsert({
+            rushee_id: rushee_id,
+            event_id: event_id
+          }),
       }
     }),
 
@@ -256,6 +270,13 @@ module.exports = function(db) {
       rushee_id: { type: db.Sequelize.INTEGER, references: { model: db.models.rushee }, onDelete: 'cascade', allowNull: false },
       active_id: { type: db.Sequelize.INTEGER, references: { model: db.models.active }, onDelete: 'cascade', allowNull: false },
       text: text_column()
+    }),
+
+    event: db.define('event', {}),
+
+    event_attendance: db.define('event_attendance', {
+      rushee_id: { type: db.Sequelize.INTEGER, references: { model: db.models.rushee }, onDelete: 'cascade', allowNull: false },
+      event_id: { type: db.Sequelize.INTEGER, references: { model: db.models.event }, onDelete: 'cascade', allowNull: false }
     })
 
   };

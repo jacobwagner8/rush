@@ -27,7 +27,7 @@ block header
 
 block content
   script var rushees = !{JSON.stringify(rushees)};
-  input#rushee-filter.card-hover(type="search" placeholder="search")
+  input#rushee-filter.card-hover(type="search" autofocus="autofocus" placeholder="search")
   ol#rushee-list
     each rushee in rushees
       +rushee(rushee)

@@ -23,6 +23,31 @@ module.exports = function defineRouter(models) {
     ctx.render('checkin', { rusheeInfo: rusheeInfo });
   }));
 
+  router.post('/checkin/:rushee_id', async(function*(ctx) {
+    const rusheeId = ctx.params.rushee_id;
+    const date = new Date();
+    const month = date.getMonth();
+    const day = date.getDate();
+    var rushEvent;
+    if (month === 4 && day === 2)
+      rushEvent = 1;
+    else if (month === 4 && day === 4)
+      rushEvent = 2;
+    else if (month === 4 && day === 6)
+      rushEvent = 3;
+    else if (month === 4 && day === 9)
+      rushEvent = 4;
+    else if (month === 4 && day === 11)
+      rushEvent = 5;
+    else
+      rushEvent = 1;
+      //throw new Error('Invalid rush date???')
+
+
+    yield models.rushee.checkin(rusheeId, rushEvent);
+    ctx.status = 200;
+  }));
+
   router.get('/register', function(ctx) {
     ctx.render('register');
   });

@@ -1,4 +1,5 @@
 var updateDelay = 0; // Debouncing time (ms) between filters
+var checkInBtn = $('#checkin-btn');
 
 // same as in index.js. sue me.
 function anyStartsWith(arr, prefix) {
@@ -19,13 +20,20 @@ function matchName(rushee, filter) {
 }
 
 function filterRushees(filter) {
+  var firstVisibleEntry = null;
   rusheeInfo.forEach(function(rushee) {
     var entry = $('#returner-entry-' + rushee.id);
-    if (matchName(rushee, filter))
+    if (matchName(rushee, filter)) {
+      if (!firstVisibleEntry) {
+        firstVisibleEntry = entry.find('input');
+        firstVisibleEntry.prop('checked', true);
+      }
       entry.show();
+    }
     else
       entry.hide();
   });
+  checkInBtn.prop('disabled', !firstVisibleEntry);
 }
 
 var nextFilter; // timeout
@@ -41,5 +49,9 @@ search.on('input', function() {
 });
 filterRushees('');
 
-// check in on entry click
-var rushees = $('#returner-search-results').children();
+checkInBtn.click(function() {
+  var rusheeId = $('.checkin-radio:checked').val();
+  $.post('/checkin/' + rusheeId, {}, function() {
+    // TODO: clear form
+  });
+});
