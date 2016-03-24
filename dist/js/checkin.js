@@ -52,6 +52,8 @@ filterRushees('');
 checkInBtn.click(function() {
   var rusheeId = $('.checkin-radio:checked').val();
   $.post('/checkin/' + rusheeId, {}, function() {
-    // TODO: clear form
+    // TODO: success message
+    search.val('');
+    filterRushees('');
   });
 });

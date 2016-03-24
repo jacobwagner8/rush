@@ -40,9 +40,10 @@ module.exports = function defineRouter(models) {
     else if (month === 4 && day === 11)
       rushEvent = 5;
     else {
-      ctx.status = 400;
-      ctx.body = 'Invalid rush date: ' + date.getMonth() + '/' + date.getDate();
-      return;
+      // ctx.status = 400;
+      // ctx.body = 'Invalid rush date: ' + date.getMonth() + '/' + date.getDate();
+      // return;
+      rushEvent = 1;
     }
 
 
