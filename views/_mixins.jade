@@ -22,14 +22,11 @@ mixin initials-box(name)
   span.name-box.card(title="#{name}")
     = name.replace(/\W*(\w)\w*/g, '$1').toUpperCase()
 
-mixin trait-full(trait_full)
-  div.trait-full
-    +trait-vote(trait_full)
-    +trait(trait_full)
-    each active_name, idx in trait_full.actives
-      - if (idx < 8)
-        +initials-box(active_name)
-
-
-mixin rush-attendance(attendance_array)
+//- attendance array is the list of event IDs that the rushee went to
+mixin rush-attendance(attendance)
   div.rushee-attendance
+    span(class="attended-#{attendance.indexOf(1) !== -1}")
+    span(class="attended-#{attendance.indexOf(2) !== -1}")
+    span(class="attended-#{attendance.indexOf(3) !== -1}")
+    span(class="attended-#{attendance.indexOf(4) !== -1}")
+    span(class="attended-#{attendance.indexOf(5) !== -1}")

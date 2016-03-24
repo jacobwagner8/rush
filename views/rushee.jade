@@ -12,16 +12,23 @@ block header
         div#title-info.col-md-8.col-xl-9
           h1 #{rushee.name}
           +rating(rushee.id, rushee.avg_rating)
+          +rush-attendance(attendance)
           div.rushee-year-dorm
             span.rushee-year #{rushee.year}.
             span.rushee-dorm #{rushee.dorm}
-
-//- Add item for returning to list view
 
 mixin comment(comment)
   li.comment.clearfix
     +initials-box(comment.author)
     p #{comment.text}
+
+mixin trait-full(trait_full)
+  li.trait-full
+    +trait-vote(trait_full)
+    +trait(trait_full)
+    each active_name, idx in trait_full.actives
+      - if (idx < 8)
+        +initials-box(active_name)
 
 block content
   script.

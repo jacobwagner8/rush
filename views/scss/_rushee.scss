@@ -27,7 +27,7 @@
     }
 
     > .rating {
-      width: 20rem;
+      width: 100%;
 
       > span {
         font-size: 150%;
@@ -43,6 +43,15 @@
       float: left;
       width: 8rem;
       padding-left: 1rem;
+    }
+    
+    .rushee-attendance {
+      .attended-true {
+        background-color: #fff;
+      }
+      .attended-false {
+        background-color: #539e53;
+      }
     }
   }
 }
@@ -78,7 +87,12 @@
 }
 
 #trait-list {
+  list-style: none;
   padding: 0;
+
+  > .trait-full {
+    margin-bottom: 0.5rem;
+  }
 }
 
 #comment-list {

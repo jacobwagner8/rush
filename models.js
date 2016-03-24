@@ -68,20 +68,17 @@ module.exports = function(db) {
         getAllHydrated: active_id => db.query('SELECT *, ' +
           '(select coalesce(array_agg(row_to_json(row)), \'{}\') ' +
             'from (select trait_name, votes from rushee_traits ' +
-              'where rushee_id = r.id and votes > 0' +
+              'where rushee_id = r.id and votes > 0 ' +
               'order by votes desc limit 3 ' +
             ') row ' +
           ') as top_traits, ' +
           '(select value from ratings ' +
             'where rushee_id = r.id and active_id = ' + active_id +
-          ') as own_rating ' +
+          ') as own_rating, ' +
+          '(select coalesce(array_agg(event_id), \'{}\') from (select event_id from event_attendances where rushee_id = r.id) event_ids) as event_attendance ' +
           'FROM rushees r ' +
           'ORDER BY avg_rating desc nulls last;'
-        , { type: db.QueryTypes.SELECT })
-          .then(results => results.map(result => {
-            console.log(result);
-            return result;
-          })),
+        , { type: db.QueryTypes.SELECT }),
 
         getAllIdentifyingInfo: () => db.models.rushee.findAll({
           attributes: ['id', 'name', 'dorm'],
@@ -237,6 +234,12 @@ module.exports = function(db) {
             rushee_id: rushee_id,
             event_id: event_id
           }),
+
+        getAttendance: rushee_id =>
+          db.models.event_attendance.findAll({
+            where: { rushee_id: rushee_id },
+            attributes: ['event_id']
+          })
       }
     }),
 
@@ -275,8 +278,8 @@ module.exports = function(db) {
     event: db.define('event', {}),
 
     event_attendance: db.define('event_attendance', {
-      rushee_id: { type: db.Sequelize.INTEGER, references: { model: db.models.rushee }, onDelete: 'cascade', allowNull: false },
-      event_id: { type: db.Sequelize.INTEGER, references: { model: db.models.event }, onDelete: 'cascade', allowNull: false }
+      rushee_id: { type: db.Sequelize.INTEGER, primaryKey: 'event_attendance_pkey', references: { model: db.models.rushee }, onDelete: 'cascade', allowNull: false },
+      event_id: { type: db.Sequelize.INTEGER, primaryKey: 'event_attendance_pkey', references: { model: db.models.event }, onDelete: 'cascade', allowNull: false }
     })
 
   };

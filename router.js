@@ -39,9 +39,11 @@ module.exports = function defineRouter(models) {
       rushEvent = 4;
     else if (month === 4 && day === 11)
       rushEvent = 5;
-    else
-      rushEvent = 1;
-      //throw new Error('Invalid rush date???')
+    else {
+      ctx.status = 400;
+      ctx.body = 'Invalid rush date: ' + date.getMonth() + '/' + date.getDate();
+      return;
+    }
 
 
     yield models.rushee.checkin(rusheeId, rushEvent);
@@ -78,7 +80,7 @@ module.exports = function defineRouter(models) {
 
     // Get Rushee data
     const rushees = yield models.rushee.getAllHydrated(active_id);
-    
+
     // Render view
     ctx.render('index', { rushees: rushees });
   }));
@@ -97,7 +99,8 @@ module.exports = function defineRouter(models) {
     const queryResults = yield Promise.join(models.rushee.getOne(rushee_id),
                                             models.rushee.getTraits(rushee_id),
                                             models.rushee.getComments(rushee_id),
-                                            models.rushee.getRating(rushee_id, active_id));
+                                            models.rushee.getRating(rushee_id, active_id),
+                                            models.rushee.getAttendance(rushee_id));
     // determine if this user already voted for the trait
     const traits = queryResults[1];
     traits.map(trait => {
@@ -107,11 +110,13 @@ module.exports = function defineRouter(models) {
 
     const rushee = queryResults[0].dataValues;
     rushee.own_rating = queryResults[3];
+    const attendance = queryResults[4].map(x => x.event_id);
 
     ctx.render('rushee', {
       rushee: rushee,
       traits: traits,
-      comments: queryResults[2]
+      comments: queryResults[2],
+      attendance: attendance
     });
   }));
 
