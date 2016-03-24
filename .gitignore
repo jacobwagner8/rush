@@ -1,4 +1,5 @@
 *.swp
+*.zip
 *-cache
 node_modules/
 *.log
