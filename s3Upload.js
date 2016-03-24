@@ -6,8 +6,8 @@ if (dev)
   const secrets = require('./secrets');
 
 const s3ClientOptions = {
-  accessKeyId: process.env.AWS_KEY_ID || secrets.aws_id,
-  secretAccessKey: process.env.AWS_KEY_SECRET || secrets.aws_secret,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID || secrets.aws_id,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || secrets.aws_secret,
   region: 'us-west-1'
 };
 
