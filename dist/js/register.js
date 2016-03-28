@@ -25,8 +25,8 @@ function capture() {
     Webcam.freeze();
     captureButton.text('Retake');
     frozen = true;
-    submit();
   }
+  setSubmitState();
 }
 
 // Converts fileURI returned from webcamjs to binary blob
@@ -40,7 +40,9 @@ function fileToBlob(fileURI) {
   return blob;
 }
 
-function submit() {
+// override submit
+$('#register-form').on('submit', function(e) {
+  e.preventDefault();
   var rusheeName = $('#rushee-name').val();
   var rusheeYear = $('#rushee-year').val();
   var rusheeDorm = $('#rushee-dorm').val();
@@ -86,4 +88,26 @@ function submit() {
       });
     }, 'json');
   });
+});
+
+// Disable register button until all fields are populated
+function isReady() {
+  var ready = true;
+  ready = required.each(function() {
+    if (!$(this).val())
+      ready = false;
+  });
+  return ready && frozen;
 }
+
+var submitButton = $('submit-btn');
+function setSubmitState() {
+  if (isReady())
+    submitButton.attr('disabled', 'disabled');
+  else
+    submitButton.removeAttr('disabled');
+}
+
+var required = $('.required');
+required.on('input', setSubmitState);
+setSubmitState();

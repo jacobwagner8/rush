@@ -4,25 +4,28 @@ block header
   h1#title.card-shadow Registration
 
 block content
-  form(action="/login", method="post")
-    div
+  form#register-form
+    div.input-item
       label Name:
-      input#rushee-name(type="text", name="name")
-    div
+      input#rushee-name.required(type="text", name="name")
+    div.input-item
       label Year:
-      select#rushee-year(name="year")
+      select#rushee-year.required(name="year")
         option(value="Fr") Freshman
         option(value="So") Sophomore
         option(value="Jr") Junior
         option(value="Sr") Senior - seriously?
+    div.input-item
       label Dorm:
-      input#rushee-dorm(type="text" name="dorm")
+      input#rushee-dorm.required(type="text" name="dorm")
+    div.input-item
       label Room number:
-      input#rushee-room(type="text" name="room")
+      input#rushee-room.required(type="text" name="room")
+    div.input-item
+      label Photo:
+      button#capture-btn.card-hover(type="button" onclick="capture()") Take Photo
     div#webcam
-    button#capture-btn.card-hover(type="button" onclick="capture()") Take Photo
-    div
-      input.card-hover(type="submit" value="Register")
+    input#submit-btn.card-hover(type="submit" value="Register")
 
 block scripts
   script(src="/js/webcam.min.js")

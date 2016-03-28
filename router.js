@@ -18,6 +18,14 @@ module.exports = function defineRouter(models) {
     failureRedirect: '/login'
   }));
 
+  // Require authentication for all non-login endpoints
+  router.use(function(ctx, next) {
+    if (!ctx.isAuthenticated())
+      ctx.redirect('/login');
+    else
+      return next();
+  });
+
   router.get('/checkin', async(function*(ctx) {
     const rusheeInfo = yield models.rushee.getAllIdentifyingInfo();
     ctx.render('checkin', { rusheeInfo: rusheeInfo });
@@ -66,14 +74,6 @@ module.exports = function defineRouter(models) {
     // TODO: set rushee attendance
     ctx.status = 200;
   }));
-
-  // Require authentication for all non-login endpoints
-  router.use(function(ctx, next) {
-    if (!ctx.isAuthenticated())
-      ctx.redirect('/login');
-    else
-      return next();
-  });
 
   // Rushee list view
   router.get('/', async(function*(ctx) {
