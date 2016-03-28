@@ -8,17 +8,25 @@ function initRating(rushee) {
   rating.stars = [];
 
   function checkStar(star) {
-    if (rating.checkedStar != null)
+    if (rating.checkedStar)
       rating.checkedStar.removeAttr('checked');
-    star.attr('checked', '');
+    if (star)
+      star.attr('checked', '');
     rating.checkedStar = star;
   }
 
   function activateStar(starIdx) {
-    if (rating.activeStar != null)
+    if (rating.activeStar)
       rating.activeStar.removeAttr('active');
-    rating.stars[starIdx].attr('active', '');
-    rating.activeStar = rating.stars[starIdx];
+    if (starIdx) {
+      rating.stars[starIdx].attr('active', '');
+      rating.activeStar = rating.stars[starIdx];
+    }
+  }
+
+  function setActiveStar(response) {
+    var avg_rounded = Math.round(response.avg);
+    activateStar(avg_rounded);
   }
 
   // make stars rate rushees on click
@@ -34,11 +42,14 @@ function initRating(rushee) {
 
       $(this).click(function(e) {
         e.preventDefault();
-        checkStar(self);
-        $.post('/rate/' + rating.rushee_id, { rating: number }, function(data) {
-          var avg_rounded = Math.round(data.avg);
-          activateStar(avg_rounded);
-        }, 'json');
+        if (rating.checkedStar == self) {
+          checkStar(null);
+          $.post('/unrate/' + rating.rushee_id, {}, setActiveStar, 'json');
+        }
+        else {
+          checkStar(self);
+          $.post('/rate/' + rating.rushee_id, { rating: number }, setActiveStar, 'json');
+        }
       });
     });
 

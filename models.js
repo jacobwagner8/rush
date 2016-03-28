@@ -129,6 +129,13 @@ module.exports = function(db) {
           return db.query(query, { type: db.QueryTypes.SELECT});
         },
 
+        /**
+         * kill me.
+         * @param  {[type]} rushee_id [description]
+         * @param  {[type]} active_id [description]
+         * @param  {[type]} rating    [description]
+         * @return {[type]}           [description]
+         */
         rate: (rushee_id, active_id, rating) =>
           retryableTransaction(t => 
             db.models.rating.destroy({
@@ -141,6 +148,21 @@ module.exports = function(db) {
                 value: rating
               }, { transaction: t })
             ).then(() => {
+              var query = ('WITH rushee_ratings as (select value from ratings where rushee_id = {0})' +
+              'UPDATE rushees SET avg_rating = (select avg(value) from rushee_ratings)' +
+                'where id = {0} ' +
+              'RETURNING (select avg(value) from rushee_ratings) ' +
+              ';').replace(/\{0\}/g, rushee_id);
+              return db.query(query, { transaction: t });
+            })
+          , { isolationLevel: 'SERIALIZABLE' }),
+
+        unrate: (rushee_id, active_id) =>
+          retryableTransaction(t => 
+            db.models.rating.destroy({
+              where: { rushee_id: rushee_id, active_id: active_id },
+              transaction: t
+            }).then(() => {
               var query = ('WITH rushee_ratings as (select value from ratings where rushee_id = {0})' +
               'UPDATE rushees SET avg_rating = (select avg(value) from rushee_ratings)' +
                 'where id = {0} ' +

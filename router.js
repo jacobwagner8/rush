@@ -94,6 +94,13 @@ module.exports = function defineRouter(models) {
     ctx.body = result[0][0];
   }));
 
+  router.post('/unrate/:rushee_id', async(function*(ctx) {
+    const active = ctx.req.user;
+    const rushee_id = parseInt(ctx.params.rushee_id);
+    const result = yield models.rushee.unrate(rushee_id, active.id);
+    ctx.body = result[0][0];
+  }));
+
   router.get('/rushee/:rushee_id', async(function*(ctx) {
     const rushee_id = parseInt(ctx.params.rushee_id);
     const active_id = ctx.req.user.id;
