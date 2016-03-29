@@ -82,7 +82,7 @@ $('#register-form').on('submit', function(e) {
             profile_picture: publicPictureUrl,
             // room: rusheeRoom
           }, function() {
-            // TODO: reset form
+            $('#register-form').trigger('reset');
           });
         }
       });
