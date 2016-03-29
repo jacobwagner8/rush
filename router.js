@@ -37,15 +37,15 @@ module.exports = function defineRouter(models) {
     const month = date.getMonth();
     const day = date.getDate();
     var rushEvent;
-    if (month === 4 && day === 2)
+    if (month === 3 && day === 29)
       rushEvent = 1;
-    else if (month === 4 && day === 4)
+    else if (month === 3 && day === 31)
       rushEvent = 2;
-    else if (month === 4 && day === 6)
+    else if (month === 4 && day === 5)
       rushEvent = 3;
-    else if (month === 4 && day === 9)
+    else if (month === 4 && day === 7)
       rushEvent = 4;
-    else if (month === 4 && day === 11)
+    else if (month === 4 && day === 9)
       rushEvent = 5;
     else {
       ctx.status = 400;
