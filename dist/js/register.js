@@ -102,14 +102,10 @@ function isReady() {
 
 var submitButton = $('#submit-btn');
 function setSubmitState() {
-  if (isReady()) {
+  if (isReady())
     submitButton.removeAttr('disabled');
-    submitButton.val('Register');
-  }
-  else {
+  else
     submitButton.attr('disabled', 'disabled');
-    submitButton.val('Finish registration form');
-  }
 }
 
 var required = $('.required');
