@@ -40,6 +40,13 @@ function fileToBlob(fileURI) {
   return blob;
 }
 
+function reset() {
+  $('#register-form').trigger('reset');
+  captureButton.text('Take Photo');
+  frozen = false;
+  setSubmitState();
+}
+
 // override submit
 $('#register-form').on('submit', function(e) {
   e.preventDefault();
@@ -81,9 +88,7 @@ $('#register-form').on('submit', function(e) {
             dorm: rusheeDorm,
             profile_picture: publicPictureUrl,
             // room: rusheeRoom
-          }, function() {
-            $('#register-form').trigger('reset');
-          });
+          }, reset);
         }
       });
     }, 'json');
