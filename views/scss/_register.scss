@@ -5,3 +5,17 @@
     margin-right: 1rem;
   }
 }
+
+#webcam {
+  margin-left: 9rem;
+  // Size needs to be 4:3 to appear square...
+  // just accept it for what it is
+  width: 32rem;
+  height: 24rem;
+}
+
+#submit-btn {
+  font-size: 150%;
+  margin-left: 9rem;
+  margin-top: 1rem;
+}

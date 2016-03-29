@@ -2,8 +2,8 @@
 Webcam.setSWFLocation("/swf/webcam.swf");
 
 Webcam.set({
-  width: 640,
-  height: 480,
+  // width: 640,
+  // height: 480,
   dest_width: 640,
   dest_height: 480,
   crop_width: 480,
@@ -93,19 +93,23 @@ $('#register-form').on('submit', function(e) {
 // Disable register button until all fields are populated
 function isReady() {
   var ready = true;
-  ready = required.each(function() {
+  required.each(function() {
     if (!$(this).val())
       ready = false;
   });
   return ready && frozen;
 }
 
-var submitButton = $('submit-btn');
+var submitButton = $('#submit-btn');
 function setSubmitState() {
-  if (isReady())
-    submitButton.attr('disabled', 'disabled');
-  else
+  if (isReady()) {
     submitButton.removeAttr('disabled');
+    submitButton.val('Register');
+  }
+  else {
+    submitButton.attr('disabled', 'disabled');
+    submitButton.val('Finish registration form');
+  }
 }
 
 var required = $('.required');

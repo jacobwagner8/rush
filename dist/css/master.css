@@ -37,6 +37,8 @@ button, input[type=submit] {
   background-color: #d01131;
   color: #fff;
   padding: 0.25rem 0.5rem; }
+  button:disabled, input[type=submit]:disabled {
+    background-color: #ddd; }
 
 .rating {
   width: 100%;
@@ -330,5 +332,15 @@ button, input[type=submit] {
   text-align: right;
   width: 8rem;
   margin-right: 1rem; }
+
+#webcam {
+  margin-left: 9rem;
+  width: 32rem;
+  height: 24rem; }
+
+#submit-btn {
+  font-size: 150%;
+  margin-left: 9rem;
+  margin-top: 1rem; }
 
 /*# sourceMappingURL=master.css.map */

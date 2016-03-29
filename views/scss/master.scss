@@ -56,6 +56,10 @@ button, input[type=submit] {
   background-color: $cardinal-red;
   color: #fff;
   padding: 0.25rem 0.5rem;
+
+  &:disabled {
+    background-color: $inactive-color;
+  }
 }
 
 // Star rating
