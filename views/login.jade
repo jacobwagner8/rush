@@ -9,10 +9,10 @@ block header
 block content
   form(action="/login", method="post")
     div.row
-      label.col-sm-4 Name (Firstname Lastname)
-      input.col-sm-8(type="text", name="username")
+      label.col-xs-2 Name
+      input.col-xs-10(type="text" name="username" placeholder="firstname lastname")
     div.row
-      label.col-sm-4 Password (4 words)
-      input.col-sm-8(type="password" name="password")
+      label.col-xs-2 Password
+      input.col-xs-10(type="password" name="password" placeholder="2 words")
     div
       input.card-hover(type="submit" value="Log In")
