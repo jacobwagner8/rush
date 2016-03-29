@@ -34,18 +34,18 @@ module.exports = function defineRouter(models) {
   router.post('/checkin/:rushee_id', async(function*(ctx) {
     const rusheeId = ctx.params.rushee_id;
     const date = new Date();
-    const month = date.getMonth();
-    const day = date.getDate();
+    const month = date.getMonth(); // month is 0-indexed
+    const day = date.getDate(); // day is 1-indexed
     var rushEvent;
-    if (month === 3 && day === 29)
+    if (month === 2 && day === 29)
       rushEvent = 1;
-    else if (month === 3 && day === 31)
+    else if (month === 2 && day === 31)
       rushEvent = 2;
-    else if (month === 4 && day === 5)
+    else if (month === 3 && day === 5)
       rushEvent = 3;
-    else if (month === 4 && day === 7)
+    else if (month === 3 && day === 7)
       rushEvent = 4;
-    else if (month === 4 && day === 9)
+    else if (month === 3 && day === 9)
       rushEvent = 5;
     else {
       ctx.status = 400;
