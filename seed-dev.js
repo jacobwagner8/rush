@@ -23,11 +23,11 @@ const rushees = [
 const actives = [
   {
     name: "Eddie Wang",
-    pwd_hash: secrets.eddiew_pwd_hash
+    pwd: 'test pwd'
   },
   {
     name: "Noah Golub",
-    pwd_hash: secrets.noahg_pwd_hash
+    pwd: 'test pwd2'
   }
 ];
 

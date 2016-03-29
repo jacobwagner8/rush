@@ -13,12 +13,13 @@ module.exports = function defineLocalStrategy(models) {
   })
 
   passport.use(new LocalStrategy(function(username, password, done) {
-    const sha256 = crypto.createHash('sha256');
-    sha256.update(password);
-    const pwd_hash = sha256.digest('hex');
+    // aint nobody got time fo dis shit
+    // const sha256 = crypto.createHash('sha256');
+    // sha256.update(password);
+    // const pwd_hash = sha256.digest('hex');
 
     models.active.findOne({
-      where: { name: { $iLike: username }, pwd_hash: pwd_hash }
+      where: { name: { $iLike: username }, pwd: password }
     })
       .then(user => {
         if (user === null) {

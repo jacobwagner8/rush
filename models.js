@@ -44,7 +44,7 @@ module.exports = function(db) {
 
     active: db.define('active', {
       name: name_column(),
-      pwd_hash: { type: db.Sequelize.CHAR(64), allowNull: false }
+      pwd: { type: db.Sequelize.STRING(32), allowNull: false }
     }, {
       indexes: [name_index()]
     }),
