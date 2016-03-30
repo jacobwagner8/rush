@@ -148,8 +148,8 @@ module.exports = function(db) {
                 value: rating
               }, { transaction: t })
             ).then(() => {
-              var query = ('WITH rushee_ratings as (select value from ratings where rushee_id = {0})' +
-              'UPDATE rushees SET avg_rating = (select avg(value) from rushee_ratings)' +
+              var query = ('WITH rushee_ratings as (select value from ratings where rushee_id = {0} union all select 3) ' +
+              'UPDATE rushees SET avg_rating = (select avg(value) from rushee_ratings) ' +
                 'where id = {0} ' +
               'RETURNING (select avg(value) from rushee_ratings) ' +
               ';').replace(/\{0\}/g, rushee_id);
@@ -163,8 +163,8 @@ module.exports = function(db) {
               where: { rushee_id: rushee_id, active_id: active_id },
               transaction: t
             }).then(() => {
-              var query = ('WITH rushee_ratings as (select value from ratings where rushee_id = {0})' +
-              'UPDATE rushees SET avg_rating = (select avg(value) from rushee_ratings)' +
+              var query = ('WITH rushee_ratings as (select value from ratings where rushee_id = {0} union all select 3) ' +
+              'UPDATE rushees SET avg_rating = (select avg(value) from rushee_ratings) ' +
                 'where id = {0} ' +
               'RETURNING (select avg(value) from rushee_ratings) ' +
               ';').replace(/\{0\}/g, rushee_id);
