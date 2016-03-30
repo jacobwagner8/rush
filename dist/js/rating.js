@@ -6,6 +6,7 @@ function initRating(rushee) {
   rating.checkedStar = null; // star that the user checked
   rating.activeStar = null; // star representing this rushee's avg rating
   rating.stars = [];
+  rating.avg = $('#avg-rating-' + rushee.id);
 
   function checkStar(star) {
     if (rating.checkedStar)
@@ -27,6 +28,7 @@ function initRating(rushee) {
   function setActiveStar(response) {
     var avg_rounded = Math.round(response.avg);
     activateStar(avg_rounded);
+    rating.avg.text(Math.round(response.avg * 100) / 100); // round to 2 decimal places
   }
 
   // make stars rate rushees on click
