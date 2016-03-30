@@ -55,6 +55,7 @@ module.exports = function(db) {
       profile_picture: string_column(),
       summary: text_column(),
       avg_rating: { type: db.Sequelize.FLOAT, allowNull: true },
+      num_ratings: { type: db.Sequelize.INTEGER, allowNull: true },
       year: { type: db.Sequelize.ENUM('Fr', 'So', 'Jr', 'Sr'), allowNull: false },
     }, {
       indexes: [
@@ -150,6 +151,7 @@ module.exports = function(db) {
             ).then(() => {
               var query = ('WITH rushee_ratings as (select value from ratings where rushee_id = {0} union all select 3) ' +
               'UPDATE rushees SET avg_rating = (select avg(value) from rushee_ratings) ' +
+                ', num_ratings = (select count(value) from rushee_ratings) ' +
                 'where id = {0} ' +
               'RETURNING (select avg(value) from rushee_ratings) ' +
               ';').replace(/\{0\}/g, rushee_id);
@@ -165,6 +167,7 @@ module.exports = function(db) {
             }).then(() => {
               var query = ('WITH rushee_ratings as (select value from ratings where rushee_id = {0} union all select 3) ' +
               'UPDATE rushees SET avg_rating = (select avg(value) from rushee_ratings) ' +
+                ', num_ratings = (select count(value) from rushee_ratings) ' +
                 'where id = {0} ' +
               'RETURNING (select avg(value) from rushee_ratings) ' +
               ';').replace(/\{0\}/g, rushee_id);
