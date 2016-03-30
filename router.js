@@ -2,6 +2,25 @@ const getUploadParams = require('./s3Upload');
 const passport = require('koa-passport');
 const Router = require('koa-router');
 
+process.env.TZ = 'America/San_Francisco';
+
+function getTodaysEventId() {
+  const date = new Date();
+  const month = date.getMonth(); // month is 0-indexed
+  const day = date.getDate(); // day is 1-indexed
+  if (month === 2 && day === 29)
+    return 1;
+  if (month === 2 && day === 31)
+    return 2;
+  if (month === 3 && day === 5)
+    return 3;
+  if (month === 3 && day === 7)
+    return 4;
+  if (month === 3 && day === 9)
+    return 5;
+  return 0;
+}
+
 module.exports = function defineRouter(models) {
   const router = new Router();
 
@@ -33,29 +52,15 @@ module.exports = function defineRouter(models) {
 
   router.post('/checkin/:rushee_id', async(function*(ctx) {
     const rusheeId = ctx.params.rushee_id;
-    const date = new Date();
-    const month = date.getMonth(); // month is 0-indexed
-    const day = date.getDate(); // day is 1-indexed
-    var rushEvent;
-    if (month === 2 && day === 29)
-      rushEvent = 1;
-    else if (month === 2 && day === 31)
-      rushEvent = 2;
-    else if (month === 3 && day === 5)
-      rushEvent = 3;
-    else if (month === 3 && day === 7)
-      rushEvent = 4;
-    else if (month === 3 && day === 9)
-      rushEvent = 5;
-    else {
+    const eventNumber = getTodaysEventId();
+
+    if (!eventNumber) {
       ctx.status = 400;
       ctx.body = 'Invalid rush date: ' + date.getMonth() + '/' + date.getDate();
       return;
-      // rushEvent = 1;
     }
 
-
-    yield models.rushee.checkin(rusheeId, rushEvent);
+    yield models.rushee.checkin(rusheeId, eventNumber);
     ctx.status = 200;
   }));
 
@@ -70,7 +75,13 @@ module.exports = function defineRouter(models) {
 
   router.post('/register', async(function*(ctx) {
     const vals = ctx.request.body;
-    const success = models.rushee.create(vals);
+    const result = yield models.rushee.create(vals);
+    console.log(result);
+    const eventNumber = getTodaysEventId();
+    if (eventNumber)
+      yield models.rushee.checkin(rusheeId, eventNumber);
+
+
     // TODO: set rushee attendance
     ctx.status = 200;
   }));
