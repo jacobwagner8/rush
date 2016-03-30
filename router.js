@@ -2,7 +2,7 @@ const getUploadParams = require('./s3Upload');
 const passport = require('koa-passport');
 const Router = require('koa-router');
 
-process.env.TZ = 'America/San_Francisco';
+process.env.TZ = 'America/Los_Angeles';
 
 function getTodaysEventId() {
   const date = new Date();
