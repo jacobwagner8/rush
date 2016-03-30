@@ -75,14 +75,13 @@ module.exports = function defineRouter(models) {
 
   router.post('/register', async(function*(ctx) {
     const vals = ctx.request.body;
-    const result = yield models.rushee.create(vals);
-    console.log(result);
+    const rushee = yield models.rushee.create(vals);
+
+    // Check in automatically
     const eventNumber = getTodaysEventId();
     if (eventNumber)
-      yield models.rushee.checkin(rusheeId, eventNumber);
+      yield models.rushee.checkin(rushee.id, eventNumber);
 
-
-    // TODO: set rushee attendance
     ctx.status = 200;
   }));
 
