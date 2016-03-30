@@ -75,6 +75,8 @@ module.exports = function defineRouter(models) {
 
   router.post('/register', async(function*(ctx) {
     const vals = ctx.request.body;
+    vals.avg_rating = 3;
+    vals.num_ratings = 1;
     const rushee = yield models.rushee.create(vals);
 
     // Check in automatically
