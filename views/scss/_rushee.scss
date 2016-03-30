@@ -28,14 +28,18 @@
 
     > .rating {
       width: 100%;
+      font-size: 150%;
 
       > span {
-        font-size: 150%;
         color: #539e53; // mix with white at opacity 0.3
 
         &[active], &[active] ~ span, &[checked]:before {
           color: #fff;
         }
+      }
+
+      > div {
+        color: #fff;
       }
     }
 

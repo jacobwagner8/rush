@@ -238,12 +238,14 @@ button, input[type=submit] {
       display: inline-block;
       font-size: 400%; }
     #title-detail #title-info > .rating {
-      width: 100%; }
+      width: 100%;
+      font-size: 150%; }
       #title-detail #title-info > .rating > span {
-        font-size: 150%;
         color: #539e53; }
         #title-detail #title-info > .rating > span[active], #title-detail #title-info > .rating > span[active] ~ span, #title-detail #title-info > .rating > span[checked]:before {
           color: #fff; }
+      #title-detail #title-info > .rating > div {
+        color: #fff; }
     #title-detail #title-info > .rushee-year-dorm > span {
       float: left;
       width: 8rem;
