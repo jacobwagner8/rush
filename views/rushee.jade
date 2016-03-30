@@ -32,7 +32,22 @@ mixin trait-full(trait_full)
 
 block content
   script.
-    var rushee = !{JSON.stringify(rushee)}; var traits = !{JSON.stringify(traits)};
+    var rushee = !{JSON.stringify(rushee)}; var traits = !{JSON.stringify(traits)}; var ratings = !{JSON.stringify(ratings)};
+  h2.detail-header Distribution of Ratings
+  //- Heights set via js
+  div.histogram.detail-item#histogram
+    div.hist-bars
+      span.hist-bar-1
+      span.hist-bar-2
+      span.hist-bar-3
+      span.hist-bar-4
+      span.hist-bar-5
+    div.hist-labels
+      span.hist-label-1 1
+      span.hist-label-2 2
+      span.hist-label-3 3
+      span.hist-label-4 4
+      span.hist-label-5 5
   h2.detail-header Brother-written summary
   textarea#detail-summary.detail-item(placeholder="Write a summary for #{rushee.name}") #{rushee.summary}
   //- TODO: dirty / clean indicator for #detail-summary
@@ -50,5 +65,6 @@ block content
 
 block scripts
   script(src='/js/autosize.min.js')
+  script(src='/js/histogram.js')
   script(src='/js/rating.js')
   script(src='/js/rushee.js')

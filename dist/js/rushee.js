@@ -1,7 +1,10 @@
-initRating(rushee);
+initRating(rushee, true);
 
 var summary = $('#detail-summary');
 autosize(summary);
+
+var hist_elem = $('#histogram');
+var histogram = new Histogram(hist_elem, ratings);
 
 summary.keydown(function(e) {
   if (e.keyCode == 13 && !e.shiftKey) {
