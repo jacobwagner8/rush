@@ -130,11 +130,12 @@ button, input[type=submit] {
     }
 
     &[checked]:before {
-      top: -50%; left: 0;
+      top: -50%; left: -50%;
       text-align: center;
+      white-space: nowrap;
       position: absolute;
       content: '★';
-      width: 100%;
+      width: 200%;
       padding: 0;
       font-size: 200%;
       z-index: -1;
