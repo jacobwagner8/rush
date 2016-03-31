@@ -12,7 +12,7 @@ function Histogram(elem, ratings) {
 
   var height = elem.find('.hist-bars').innerHeight();
 
-  var maxRating = Math.max.apply(Math, ratings);
+  var maxRating = Math.max.apply(Math, ratings) || 1;
 
   for (var i = 1; i <= 5; i++) {
     var bar = elem.find('.hist-bar-' + i);
