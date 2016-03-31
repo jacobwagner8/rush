@@ -91,11 +91,11 @@ search.on('input', function() {
 
 // Remember scroll position 
 $(function() {
-   $(window).unload(function() {
-      var scrollPosition = $(document).scrollTop();
-      localStorage.setItem("scrollPosition", scrollPosition);
-   });
-   if(localStorage.scrollPosition) {
-      $(document).scrollTop(localStorage.getItem("scrollPosition"));
-   }
+  $(window).unload(function() {
+    var scrollPosition = $(document).scrollTop();
+    localStorage.setItem("scrollPosition", scrollPosition);
+  });
+  if(localStorage.scrollPosition) {
+    $(document).scrollTop(localStorage.getItem("scrollPosition"));
+  }
 });
