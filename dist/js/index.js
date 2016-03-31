@@ -91,10 +91,10 @@ search.on('input', function() {
 
 // Remember scroll position 
 $(function() {
-  $(window).unload(function() {
+  window.onbeforeunload = function() {
     var scrollPosition = $(document).scrollTop();
     localStorage.setItem("scrollPosition", scrollPosition);
-  });
+  };
   if(localStorage.scrollPosition) {
     $(document).scrollTop(localStorage.getItem("scrollPosition"));
   }
