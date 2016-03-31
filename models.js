@@ -57,6 +57,7 @@ module.exports = function(db) {
       avg_rating: { type: db.Sequelize.FLOAT, allowNull: true },
       num_ratings: { type: db.Sequelize.INTEGER, allowNull: true },
       year: { type: db.Sequelize.ENUM('Fr', 'So', 'Jr', 'Sr'), allowNull: false },
+      hide_for_checkin: { type: db.Sequelize.BOOLEAN }
     }, {
       indexes: [
         name_index(),
@@ -82,6 +83,7 @@ module.exports = function(db) {
         , { type: db.QueryTypes.SELECT }),
 
         getAllIdentifyingInfo: () => db.models.rushee.findAll({
+          where: { hide_for_checkin: null },
           attributes: ['id', 'name', 'dorm'],
           order: 'name'
         }),
