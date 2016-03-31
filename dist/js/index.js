@@ -88,3 +88,14 @@ search.on('input', function() {
     filterRushees(filter || '');
   }, updateDelay);
 });
+
+// Remember scroll position 
+$(function() {
+   $(window).unload(function() {
+      var scrollPosition = $(document).scrollTop();
+      localStorage.setItem("scrollPosition", scrollPosition);
+   });
+   if(localStorage.scrollPosition) {
+      $(document).scrollTop(localStorage.getItem("scrollPosition"));
+   }
+});
