@@ -102,10 +102,11 @@ button, input[type=submit] {
   }
 
   > div {
-    width: 16%;
+    width: 20%;
     color: $cardinal-red;
     display: inline-block;
     text-align: center;
+    white-space: nowrap;
   }
 }
 

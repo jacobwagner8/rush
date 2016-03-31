@@ -26,9 +26,10 @@ function initRating(rushee) {
   }
 
   function setActiveStar(response) {
-    var avg_rounded = Math.round(response.avg);
+    var avg_rounded = Math.round(response.avg_rating);
     activateStar(avg_rounded);
-    rating.avg.text(Math.round(response.avg * 100) / 100); // round to 2 decimal places
+    var avg_truncated = Math.round(response.avg_rating * 100) / 100;
+    rating.avg.text('' + avg_truncated + ' (' + (response.num_ratings-1) + ')'); // round to 2 decimal places
   }
 
   // make stars rate rushees on click

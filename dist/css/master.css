@@ -71,10 +71,11 @@ button, input[type=submit] {
       font-size: 200%;
       z-index: -1; }
   .rating > div {
-    width: 16%;
+    width: 20%;
     color: #d01131;
     display: inline-block;
-    text-align: center; }
+    text-align: center;
+    white-space: nowrap; }
 
 .trait {
   display: inline-block;
@@ -283,7 +284,8 @@ button, input[type=submit] {
   list-style: none;
   padding: 0; }
   #trait-list > .trait-full {
-    margin-bottom: 0.5rem; }
+    margin-bottom: 0.5rem;
+    white-space: nowrap; }
 
 #comment-list {
   list-style-type: none;

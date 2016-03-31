@@ -11,7 +11,7 @@ block header
         img#profile-picture.col-md-3.col-xl-2.card(src=rushee.profile_picture)
         div#title-info.col-md-8.col-xl-9
           h1 #{rushee.name}
-          +rating(rushee.id, rushee.avg_rating)
+          +rating(rushee.id, rushee.avg_rating, rushee.num_ratings)
           +rush-attendance(attendance)
           div.rushee-year-dorm
             span.rushee-year #{rushee.year}.

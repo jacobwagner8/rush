@@ -153,7 +153,7 @@ module.exports = function(db) {
               'UPDATE rushees SET avg_rating = (select avg(value) from rushee_ratings) ' +
                 ', num_ratings = (select count(value) from rushee_ratings) ' +
                 'where id = {0} ' +
-              'RETURNING (select avg(value) from rushee_ratings) ' +
+              'RETURNING avg_rating, num_ratings ' +
               ';').replace(/\{0\}/g, rushee_id);
               return db.query(query, { transaction: t });
             })
@@ -169,7 +169,7 @@ module.exports = function(db) {
               'UPDATE rushees SET avg_rating = (select avg(value) from rushee_ratings) ' +
                 ', num_ratings = (select count(value) from rushee_ratings) ' +
                 'where id = {0} ' +
-              'RETURNING (select avg(value) from rushee_ratings) ' +
+              'RETURNING avg_rating, num_ratings ' +
               ';').replace(/\{0\}/g, rushee_id);
               return db.query(query, { transaction: t });
             })
