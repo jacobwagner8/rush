@@ -115,6 +115,17 @@ module.exports = function(db) {
             attributes: ['value']
           }).then(result => result === null ? null : result.value),
 
+        getRatings: rushee_id => 
+          db.query('select value, count(value) from ratings where rushee_id = ' + rushee_id + ' group by value;'
+          , { type: db.QueryTypes.SELECT })
+            .then(results => {
+              const ratings = [0,0,0,0,0,0];
+              results.forEach(entry => {
+                ratings[entry.value] = parseInt(entry.count);
+              });
+              return ratings;
+            }),
+
         getTraits: rushee_id => {
           var query = ('' +
             'WITH trait_votes as (select * from rushee_trait_votes where rushee_id = {0}) ' +

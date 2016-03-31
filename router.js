@@ -120,7 +120,8 @@ module.exports = function defineRouter(models) {
                                             models.rushee.getTraits(rushee_id),
                                             models.rushee.getComments(rushee_id),
                                             models.rushee.getRating(rushee_id, active_id),
-                                            models.rushee.getAttendance(rushee_id));
+                                            models.rushee.getAttendance(rushee_id),
+                                            models.rushee.getRatings(rushee_id));
     // determine if this user already voted for the trait
     const traits = queryResults[1];
     traits.map(trait => {
@@ -130,13 +131,15 @@ module.exports = function defineRouter(models) {
 
     const rushee = queryResults[0].dataValues;
     rushee.own_rating = queryResults[3];
+
     const attendance = queryResults[4].map(x => x.event_id);
 
     ctx.render('rushee', {
       rushee: rushee,
       traits: traits,
       comments: queryResults[2],
-      attendance: attendance
+      attendance: attendance,
+      ratings: queryResults[5]
     });
   }));
 

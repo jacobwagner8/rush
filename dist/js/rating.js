@@ -1,4 +1,4 @@
-function initRating(rushee) {
+function initRating(rushee, reloadOnChange) {
   var rating = $('#rating-' + rushee.id);
   rating.avg_rating = rushee.avg_rating;
   rating.rushee_id = rushee.id;
@@ -32,6 +32,15 @@ function initRating(rushee) {
     rating.avg.text('' + avg_truncated + ' (' + (response.num_ratings-1) + ')'); // round to 2 decimal places
   }
 
+  function handleChange(response) {
+    if (reloadOnChange) {
+      location.reload();
+      return;
+    }
+    else
+      setActiveStar(response);
+  }
+
   // make stars rate rushees on click
   // also check the star corresponding to own_rating, if any
   $('[id^="rating-input-' + rating.rushee_id +'-"]')
@@ -47,11 +56,11 @@ function initRating(rushee) {
         e.preventDefault();
         if (rating.checkedStar == self) {
           checkStar(null);
-          $.post('/unrate/' + rating.rushee_id, {}, setActiveStar, 'json');
+          $.post('/unrate/' + rating.rushee_id, {}, handleChange, 'json');
         }
         else {
           checkStar(self);
-          $.post('/rate/' + rating.rushee_id, { rating: number }, setActiveStar, 'json');
+          $.post('/rate/' + rating.rushee_id, { rating: number }, handleChange, 'json');
         }
       });
     });

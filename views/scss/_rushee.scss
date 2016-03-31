@@ -60,6 +60,10 @@
   }
 }
 
+#histogram > .hist-bars {
+  height: 5rem;
+}
+
 .content {
   color: $primary-text-color;
 }
