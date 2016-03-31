@@ -1,3 +1,12 @@
+// Remember scroll position 
+window.onbeforeunload = function() {
+  var scrollPosition = $(document).scrollTop();
+  localStorage.setItem("scrollPosition", scrollPosition);
+};
+if(localStorage.scrollPosition) {
+  $(document).scrollTop(localStorage.getItem("scrollPosition"));
+}
+
 // Init rating stars for each rushee
 rushees.forEach(function(rushee) {
   initRating(rushee);
@@ -87,15 +96,4 @@ search.on('input', function() {
   nextFilter = setTimeout(function() {
     filterRushees(filter || '');
   }, updateDelay);
-});
-
-// Remember scroll position 
-$(function() {
-  window.onbeforeunload = function() {
-    var scrollPosition = $(document).scrollTop();
-    localStorage.setItem("scrollPosition", scrollPosition);
-  };
-  if(localStorage.scrollPosition) {
-    $(document).scrollTop(localStorage.getItem("scrollPosition"));
-  }
 });
