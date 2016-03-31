@@ -9,7 +9,9 @@ var histogram = new Histogram(hist_elem, ratings);
 summary.keydown(function(e) {
   if (e.keyCode == 13 && !e.shiftKey) {
     e.preventDefault();
-    $.post('/summary/' + rushee.id, { summary: this.value });
+    $.post('/summary/' + rushee.id, { summary: this.value }, function() {
+      summary.blur();
+    });
   }
 });
 
