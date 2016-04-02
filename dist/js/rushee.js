@@ -16,7 +16,7 @@ summary.keydown(function(e) {
 });
 
 traits.forEach(function(trait) {
-  var checkbox = $('input[id^="trait-vote-' + trait.trait_name +'"]');
+  var checkbox = $('input[id^="trait-vote-' + encodeURI(trait.trait_name) +'"]');
   checkbox.attr('checked', trait.voted);
   // make trait vote when the plus sign is clicked
   checkbox.click(function() {

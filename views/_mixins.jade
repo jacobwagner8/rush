@@ -11,8 +11,8 @@ mixin rating(rushee_id, rating, count)
 //- Traits
 mixin trait-vote(trait_full)
   span.trait-vote
-    input(type="checkbox" id="trait-vote-#{trait_full.trait_name}" checked="#{trait_full.voted}")
-    label(for="trait-vote-#{trait_full.trait_name}")
+    input(type="checkbox" id="trait-vote-#{encodeURI(trait_full.trait_name)}" checked="#{trait_full.voted}")
+    label(for="trait-vote-#{encodeURI(trait_full.trait_name)}")
 
 mixin trait(trait)
   span.trait.card
