@@ -89,9 +89,14 @@
 }
 
 .detail-item {
-  width: 100%;
+  width: calc(100% - 2rem);
   margin: 0 2rem;
   margin-bottom: 1rem;
+
+  @media (max-width: 48em) {
+    margin-left: 0;
+    width: 100%;
+  }
 }
 
 #trait-list {

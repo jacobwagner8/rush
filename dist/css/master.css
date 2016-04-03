@@ -315,9 +315,13 @@ button, input[type=submit] {
   color: #0a760a; }
 
 .detail-item {
-  width: 100%;
+  width: calc(100% - 2rem);
   margin: 0 2rem;
   margin-bottom: 1rem; }
+  @media (max-width: 48em) {
+    .detail-item {
+      margin-left: 0;
+      width: 100%; } }
 
 #trait-list {
   list-style: none;
