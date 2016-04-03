@@ -321,6 +321,7 @@ button, input[type=submit] {
   @media (max-width: 48em) {
     .detail-item {
       margin-left: 0;
+      margin-right: 0;
       width: 100%; } }
 
 #trait-list {
