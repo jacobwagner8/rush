@@ -176,8 +176,8 @@ button, input[type=submit] {
   display: block;
   margin: 0 auto 1rem auto;
   padding: 0.25rem 0.75rem;
-  width: 50%;
-  min-width: 25rem; }
+  width: 35rem;
+  max-width: 100%; }
   #rushee-filter:focus {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
 
