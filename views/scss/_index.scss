@@ -66,6 +66,7 @@
 
       .top-traits-container {
         width: 100%;
+        margin: 0;
       }
 
       .trait {
@@ -90,8 +91,15 @@
       }
 
       .rushee-stats {
-        border-right: 0.1rem solid #ddd;
         margin-right: -0.05rem;
+        padding-left: 0;
+        border-right: 0.1rem solid #ddd;
+        @media (max-width: 48em) {
+          padding-right: 0;
+          border-right: 0;
+          border-bottom: 0.1rem solid #ddd;
+          padding-bottom: 1rem;
+        }
 
         .rating {
           font-size: 125%;

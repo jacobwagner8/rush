@@ -75,7 +75,7 @@ button, input[type=submit] {
   align-items: center;
   margin-bottom: 0.5rem; }
   .rating > span {
-    width: 16%;
+    width: 14%;
     text-align: center;
     padding: 0;
     cursor: pointer;
@@ -99,7 +99,7 @@ button, input[type=submit] {
       font-size: 200%;
       z-index: -1; }
   .rating > div {
-    width: 20%;
+    width: 30%;
     color: #d01131;
     display: inline-block;
     text-align: center;
@@ -223,7 +223,8 @@ button, input[type=submit] {
       #rushee-list .rushee-entry .rushee-info .rushee-name {
         text-align: center; }
       #rushee-list .rushee-entry .rushee-info .top-traits-container {
-        width: 100%; }
+        width: 100%;
+        margin: 0; }
       #rushee-list .rushee-entry .rushee-info .trait {
         font-size: 90%; }
         #rushee-list .rushee-entry .rushee-info .trait > .num-endorsements {
@@ -236,8 +237,15 @@ button, input[type=submit] {
       #rushee-list .rushee-entry .rushee-info .rushee-dorm {
         float: right; }
       #rushee-list .rushee-entry .rushee-info .rushee-stats {
-        border-right: 0.1rem solid #ddd;
-        margin-right: -0.05rem; }
+        margin-right: -0.05rem;
+        padding-left: 0;
+        border-right: 0.1rem solid #ddd; }
+        @media (max-width: 48em) {
+          #rushee-list .rushee-entry .rushee-info .rushee-stats {
+            padding-right: 0;
+            border-right: 0;
+            border-bottom: 0.1rem solid #ddd;
+            padding-bottom: 1rem; } }
         #rushee-list .rushee-entry .rushee-info .rushee-stats .rating {
           font-size: 125%; }
         #rushee-list .rushee-entry .rushee-info .rushee-stats > .row {
