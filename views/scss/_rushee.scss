@@ -20,6 +20,11 @@
     padding-bottom: 0;
     display: flex;
     flex-direction: column;
+    @media (max-width: 48em) {
+      padding-left: 0;
+      padding-right: 0;
+      text-align: center;
+    }
 
     > h1 {
       display: inline-block;
