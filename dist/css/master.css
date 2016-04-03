@@ -257,7 +257,8 @@ button, input[type=submit] {
 
 #title-detail {
   text-align: left;
-  margin-bottom: 4rem; }
+  margin-bottom: 4rem;
+  padding: 2rem 0; }
   #title-detail .row {
     margin: 0; }
   #title-detail #profile-picture {
