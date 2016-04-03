@@ -153,13 +153,8 @@ button, input[type=submit] {
 
 // Traits
 .trait {
-  display: inline-block;
-  font-size: 110%;
-  margin: 0 0.2rem;
-
-  span {
-    display: inline-block;
-  }
+  margin: 0;
+  float: left;
 
   > .num-endorsements {
     background-color: $cardinal-red;
@@ -168,11 +163,13 @@ button, input[type=submit] {
     min-width: 2.5rem;
     padding: 0.5rem;
     text-align: center;
+    float: left;
   }
 
-  > .trait-name {
-    display: inline-block;
-    padding: 0.5rem 1.5rem;
+  > p {
+    float: left;
+    margin: 0;
+    padding: 0.5rem;
   }
 }
 
@@ -185,7 +182,6 @@ button, input[type=submit] {
 
 .trait-full > .name-box {
   float: right;
-  font-size: 110%;
   margin: 0 0.1rem;
 }
 

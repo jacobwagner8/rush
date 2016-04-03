@@ -112,7 +112,14 @@
 
   > .trait-full {
     margin-bottom: 0.5rem;
-    white-space: nowrap;
+
+    .trait {
+      max-width: calc(100% - 5rem);
+
+      > p {
+        padding: 0.5rem 1rem;
+      }
+    }
   }
 }
 

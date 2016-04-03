@@ -14,10 +14,10 @@ mixin rushee(data)
           h2.rushee-name #{data.name}
           +rating(data.id, data.avg_rating, data.num_ratings)
           +rush-attendance(data.event_attendance)
-          div.top-traits-container.row
+          div.top-traits-container.clearfix
             each trait, idx in data.top_traits
               - if (idx < 2)
-                +trait(trait).col-md-12.col-lg-6
+                +trait(trait)
           span.rushee-year #{data.year}.
           span.rushee-dorm #{data.dorm}
         div.rushee-summary.col-xl-8.col-lg-7.col-md-6

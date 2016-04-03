@@ -67,17 +67,19 @@
       .top-traits-container {
         width: 100%;
         margin: 0;
+        margin-bottom: 0.4rem;
       }
 
       .trait {
         font-size: 90%;
+        margin: 0.1rem;
         
         > .num-endorsements {
           padding: 0.25rem;
           min-width: 2rem;
         }
 
-        > .trait-name {
+        > p {
           padding: 0.25rem 0.5rem;
         }
       }

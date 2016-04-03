@@ -106,21 +106,20 @@ button, input[type=submit] {
     white-space: nowrap; }
 
 .trait {
-  display: inline-block;
-  font-size: 110%;
-  margin: 0 0.2rem; }
-  .trait span {
-    display: inline-block; }
+  margin: 0;
+  float: left; }
   .trait > .num-endorsements {
     background-color: #d01131;
     border-radius: 0.2rem 0 0 0.2rem;
     color: white;
     min-width: 2.5rem;
     padding: 0.5rem;
-    text-align: center; }
-  .trait > .trait-name {
-    display: inline-block;
-    padding: 0.5rem 1.5rem; }
+    text-align: center;
+    float: left; }
+  .trait > p {
+    float: left;
+    margin: 0;
+    padding: 0.5rem; }
 
 .name-box {
   background-color: #d01131;
@@ -130,7 +129,6 @@ button, input[type=submit] {
 
 .trait-full > .name-box {
   float: right;
-  font-size: 110%;
   margin: 0 0.1rem; }
 
 .trait-vote {
@@ -224,13 +222,15 @@ button, input[type=submit] {
         text-align: center; }
       #rushee-list .rushee-entry .rushee-info .top-traits-container {
         width: 100%;
-        margin: 0; }
+        margin: 0;
+        margin-bottom: 0.4rem; }
       #rushee-list .rushee-entry .rushee-info .trait {
-        font-size: 90%; }
+        font-size: 90%;
+        margin: 0.1rem; }
         #rushee-list .rushee-entry .rushee-info .trait > .num-endorsements {
           padding: 0.25rem;
           min-width: 2rem; }
-        #rushee-list .rushee-entry .rushee-info .trait > .trait-name {
+        #rushee-list .rushee-entry .rushee-info .trait > p {
           padding: 0.25rem 0.5rem; }
       #rushee-list .rushee-entry .rushee-info .rushee-year {
         float: left; }
@@ -334,8 +334,11 @@ button, input[type=submit] {
   list-style: none;
   padding: 0; }
   #trait-list > .trait-full {
-    margin-bottom: 0.5rem;
-    white-space: nowrap; }
+    margin-bottom: 0.5rem; }
+    #trait-list > .trait-full .trait {
+      max-width: calc(100% - 5rem); }
+      #trait-list > .trait-full .trait > p {
+        padding: 0.5rem 1rem; }
 
 #comment-list {
   list-style-type: none;
