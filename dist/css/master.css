@@ -249,7 +249,8 @@ button, input[type=submit] {
             padding-right: 0;
             border-right: 0;
             border-bottom: 0.1rem solid #ddd;
-            padding-bottom: 1rem; } }
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.5rem; } }
         #rushee-list .rushee-entry .rushee-info .rushee-stats .rating {
           font-size: 125%; }
         #rushee-list .rushee-entry .rushee-info .rushee-stats > .row {
