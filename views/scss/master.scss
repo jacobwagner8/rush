@@ -181,11 +181,14 @@ button, input[type=submit] {
 }
 
 .trait-endorsements {
+  display: flex;
+  flex-direction: row-reverse;
 
   .name-box {
-    float: right;
+    // float: right;
     display: inline;
     margin: 0 0.1rem;
+  z-index: -10;
   }
 }
 
