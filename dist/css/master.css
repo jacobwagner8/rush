@@ -127,13 +127,10 @@ button, input[type=submit] {
   display: inline-block;
   padding: 0.5rem; }
 
-.trait-endorsements {
-  white-space: nowrap;
-  overflow: hidden; }
-  .trait-endorsements .name-box {
-    float: right;
-    display: inline;
-    margin: 0 0.1rem; }
+.trait-endorsements .name-box {
+  float: right;
+  display: inline;
+  margin: 0 0.1rem; }
 
 .trait-vote {
   float: left;
