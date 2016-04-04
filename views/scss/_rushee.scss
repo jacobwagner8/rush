@@ -114,7 +114,7 @@
     margin-bottom: 0.5rem;
 
     .trait {
-      max-width: calc(100% - 5rem);
+      max-width: 70%; // calc(100% - 5rem);
 
       > p {
         padding: 0.5rem 1rem;

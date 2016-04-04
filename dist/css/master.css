@@ -127,9 +127,13 @@ button, input[type=submit] {
   display: inline-block;
   padding: 0.5rem; }
 
-.trait-full > .name-box {
-  float: right;
-  margin: 0 0.1rem; }
+.trait-endorsements {
+  white-space: nowrap;
+  overflow: hidden; }
+  .trait-endorsements .name-box {
+    float: right;
+    display: inline;
+    margin: 0 0.1rem; }
 
 .trait-vote {
   float: left;
@@ -336,7 +340,7 @@ button, input[type=submit] {
   #trait-list > .trait-full {
     margin-bottom: 0.5rem; }
     #trait-list > .trait-full .trait {
-      max-width: calc(100% - 5rem); }
+      max-width: 70%; }
       #trait-list > .trait-full .trait > p {
         padding: 0.5rem 1rem; }
 

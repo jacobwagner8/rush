@@ -180,9 +180,15 @@ button, input[type=submit] {
   padding: 0.5rem;
 }
 
-.trait-full > .name-box {
-  float: right;
-  margin: 0 0.1rem;
+.trait-endorsements {
+  white-space: nowrap;
+  overflow: hidden;
+
+  .name-box {
+    float: right;
+    display: inline;
+    margin: 0 0.1rem;
+  }
 }
 
 .trait-vote {

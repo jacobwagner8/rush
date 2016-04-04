@@ -25,11 +25,11 @@ mixin comment(comment)
 mixin trait-full(trait_full)
   li.trait-full.clearfix
     +trait-vote(trait_full)
-    each active_name, idx in trait_full.actives
-      - if (idx < 8)
-        +initials-box(active_name)
-    //- Last because it has to fill remaining space
     +trait(trait_full)
+    div.trait-endorsements
+      each active_name, idx in trait_full.actives
+        - if (idx < 8)
+          +initials-box(active_name)
 
 block content
   script.
