@@ -57,7 +57,8 @@ module.exports = function(db) {
       avg_rating: { type: db.Sequelize.FLOAT, allowNull: true },
       num_ratings: { type: db.Sequelize.INTEGER, allowNull: true },
       year: { type: db.Sequelize.ENUM('Fr', 'So', 'Jr', 'Sr'), allowNull: false },
-      hide_for_checkin: { type: db.Sequelize.BOOLEAN }
+      hide_for_checkin: { type: db.Sequelize.BOOLEAN },
+      invited_to: { type: db.Sequelize.ENUM('NONE', 'FIRESIDE_SMOKES', 'RETREAT', 'BID'), allowNull: false, defaultValue: 'NONE' }
     }, {
       indexes: [
         name_index(),
@@ -67,7 +68,7 @@ module.exports = function(db) {
 
         getOne: rushee_id => db.models.rushee.findById(rushee_id),
 
-        getAllHydrated: active_id => db.query('SELECT *, ' +
+        getAllHydrated: (active_id, invite_level) => db.query('SELECT *, ' +
           '(select coalesce(array_agg(row_to_json(row)), \'{}\') ' +
             'from (select trait_name, votes from rushee_traits ' +
               'where rushee_id = r.id and votes > 0 ' +
@@ -78,8 +79,9 @@ module.exports = function(db) {
             'where rushee_id = r.id and active_id = ' + active_id +
           ') as own_rating, ' +
           '(select coalesce(array_agg(event_id), \'{}\') from (select event_id from event_attendances where rushee_id = r.id) event_ids) as event_attendance ' +
-          'FROM rushees r ' +
-          'ORDER BY avg_rating desc nulls last;'
+          'FROM rushees r '
+          + ' WHERE invited_to >= \'' + invite_level + '\''
+          + ' ORDER BY avg_rating desc nulls last;'
         , { type: db.QueryTypes.SELECT }),
 
         getAllIdentifyingInfo: () => db.models.rushee.findAll({
