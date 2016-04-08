@@ -92,7 +92,7 @@ module.exports = function defineRouter(models) {
     const active_id = ctx.req.user.id;
 
     // Get Rushee data
-    const rushees = yield models.rushee.getAllHydrated(active_id, 'FIRESIDE_SMOKES');
+    const rushees = yield models.rushee.getAllHydrated(active_id, 'RETREAT');
 
     // Render view
     ctx.render('index', { rushees: rushees });
