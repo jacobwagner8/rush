@@ -3,7 +3,7 @@ const S3Client = require('s3-browser-direct-upload');
 const dev = process.env.ENV !== 'prod';
 
 if (dev)
-  const secrets = require('./secrets');
+  var secrets = require('./secrets');
 
 const s3ClientOptions = {
   accessKeyId: process.env.AWS_ACCESS_KEY_ID || secrets.aws_id,

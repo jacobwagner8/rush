@@ -14,7 +14,7 @@ const winston     = require('winston');
 const dev = process.env.ENV !== 'prod';
 
 if (dev)
-  const secrets = require('./secrets');
+  var secrets = require('./secrets');
 
 // Logger
 const consoleLogger = new (winston.Logger)({
