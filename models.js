@@ -80,7 +80,8 @@ module.exports = function(db) {
           ') as own_rating, ' +
           '(select coalesce(array_agg(event_id), \'{}\') from (select event_id from event_attendances where rushee_id = r.id) event_ids) as event_attendance ' +
           'FROM rushees r '
-          + ' WHERE invited_to >= \'' + invite_level + '\''
+          // Uncomment the following line to hide rushees we didn't invite to a certain event
+          // + ' WHERE invited_to >= \'' + invite_level + '\''
           + ' ORDER BY avg_rating desc nulls last;'
         , { type: db.QueryTypes.SELECT }),
 

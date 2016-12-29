@@ -1,3 +1,8 @@
+/**
+ * Wrapper for retrieving AWS S3 upload parameters.
+ * For use with post forms (see dist/js/register.js for example).
+ */
+
 const S3Client = require('s3-browser-direct-upload');
 
 const dev = process.env.ENV !== 'prod';

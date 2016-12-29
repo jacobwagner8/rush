@@ -12,6 +12,7 @@ const winston     = require('winston');
 
 // Environment Detection
 const dev = process.env.ENV !== 'prod';
+const db_reset = false;
 
 if (dev)
   var secrets = require('./secrets');
@@ -50,9 +51,9 @@ const initDB = async(function*() {
   })
 
   const models = define_models(db);
-  if (dev) yield db.drop();
+  if (db_reset) yield db.drop();
   yield db.sync();
-  if (dev) {
+  if (db_reset) {
     Log.info('Seeding data');
     yield require('./seed-dev')(db);
   }

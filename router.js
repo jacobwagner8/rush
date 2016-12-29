@@ -4,10 +4,11 @@ const Router = require('koa-router');
 
 process.env.TZ = 'America/Los_Angeles';
 
+// TODO: replace these dates with 2017's event dates
 function getTodaysEventId() {
   const date = new Date();
   const month = date.getMonth(); // month is 0-indexed
-  const day = date.getDate(); // day is 1-indexed
+  const day = date.getDate(); // day is 1-indexed. Why, I have no idea
   if (month === 2 && day === 29)
     return 1;
   if (month === 2 && day === 31)
@@ -152,10 +153,8 @@ module.exports = function defineRouter(models) {
 
   /**
    * Add a trait for this rushee
-   * @param {[type]} ctx)          {    const active_id [description]
-   * @yield {[type]} [description]
    */
-  router.post('/rushee/:rushee_id/new-trait/:trait_name', async(function*(ctx) {
+  router.post('/rushee/:rushee_id/new_trait/:trait_name', async(function*(ctx) {
     const active_id = ctx.req.user.id;
     const rushee_id = parseInt(ctx.params.rushee_id);
     const trait_name = ctx.params.trait_name;
@@ -166,8 +165,6 @@ module.exports = function defineRouter(models) {
 
   /**
    * Upvote a trait that this rushee already has
-   * @param {[type]} ctx)          {    const active_id [description]
-   * @yield {[type]} [description]
    */
   router.post('/rushee/:rushee_id/trait/:trait_name', async(function*(ctx) {
     const active_id = ctx.req.user.id;

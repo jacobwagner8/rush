@@ -9,3 +9,5 @@ secrets.js
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 seed-prod.js
+# VS Code
+.vscode/

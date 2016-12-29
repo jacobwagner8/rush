@@ -31,7 +31,7 @@ var trait_input = $('#trait-input');
 trait_input.keydown(function(e) {
   if (e.keyCode == 13) {
     e.preventDefault();
-    $.post('/rushee/' + rushee.id + '/new-trait/' + this.value, {}, function() {
+    $.post('/rushee/' + rushee.id + '/new_trait/' + this.value, {}, function() {
       location.reload();
     });
   }
