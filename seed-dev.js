@@ -28,6 +28,10 @@ const actives = [
   {
     name: "Noah Golub",
     pwd: 'test pwd2'
+  },
+  {
+    name: "Tyler Smith",
+    pwd: 'test pwd'
   }
 ];
 
