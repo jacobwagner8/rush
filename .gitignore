@@ -4,6 +4,7 @@
 node_modules/
 *.log
 secrets.js
+config.js
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
