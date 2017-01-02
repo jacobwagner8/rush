@@ -52,7 +52,7 @@ const initDB = async(function*() {
   })
 
   const models = define_models(db);
-  if (config.db_reset) {
+  if (config.do_db_reset) {
     yield db.drop();
     yield db.sync();
     Log.info('Seeding data');
