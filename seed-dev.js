@@ -32,6 +32,10 @@ const actives = [
   {
     name: "Tyler Smith",
     pwd: 'test pwd'
+  },
+  {
+    name: "Abraham Apellanes",
+    pwd: 'test pwd'
   }
 ];
 
