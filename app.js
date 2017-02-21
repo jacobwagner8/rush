@@ -49,7 +49,7 @@ const initDB = async(function*() {
     port: process.env.DB_PORT || 5432,
     dialect: 'postgres',
     logging: Log.info
-  })
+  });
 
   const models = define_models(db);
   if (config.do_db_reset) {
