@@ -86,6 +86,7 @@ $('#register-form').on('submit', function(e) {
             name: rusheeName,
             year: rusheeYear,
             dorm: rusheeDorm,
+            room_number: rusheeRoom,
             profile_picture: publicPictureUrl,
             // room: rusheeRoom
           }, reset);

@@ -51,6 +51,7 @@ module.exports = function(db) {
 
     rushee: db.define('rushee', {
       dorm: string_column(),
+      room_number: string_column(),
       name: name_column(),
       profile_picture: string_column(),
       summary: text_column(),
