@@ -69,6 +69,39 @@ module.exports = function(db) {
 
         getOne: rushee_id => db.models.rushee.findById(rushee_id),
 
+        // TODO for Eddie: defuglify
+        getOneHydrated: async(function*(rushee_id, active_id) {
+          const queryResults = yield Promise.join(db.models.rushee.getOne(rushee_id),
+                                                  db.models.rushee.getTraits(rushee_id),
+                                                  db.models.rushee.getComments(rushee_id),
+                                                  db.models.rushee.getRating(rushee_id, active_id),
+                                                  db.models.rushee.getAttendance(rushee_id),
+                                                  db.models.rushee.getRatings(rushee_id));
+          // TODO for Tyler: compute rushee score from ratings in queryresults[5] 
+          // and return as an extra field below
+
+          // determine if this user already voted for the trait
+          const traits = queryResults[1];
+          traits.map(trait => {
+            trait.voted = trait.active_ids.indexOf(active_id) !== -1;
+            return trait;
+          });
+
+          const rushee = queryResults[0].dataValues;
+          rushee.own_rating = queryResults[3];
+
+          const attendance = queryResults[4].map(x => x.event_id);
+
+          return {
+            rushee: rushee,
+            traits: traits,
+            comments: queryResults[2],
+            attendance: attendance,
+            ratings: queryResults[5],
+            // score: TODO
+          };
+        }),
+
         getAllHydrated: (active_id, invite_level) => db.query('SELECT *, ' +
           '(select coalesce(array_agg(row_to_json(row)), \'{}\') ' +
             'from (select trait_name, votes from rushee_traits ' +
@@ -79,12 +112,22 @@ module.exports = function(db) {
           '(select value from ratings ' +
             'where rushee_id = r.id and active_id = ' + active_id +
           ') as own_rating, ' +
+          '(select coalesce(array_agg(value), \'{}\') from ratings where rushee_id = r.id ) as ratings, ' +
           '(select coalesce(array_agg(event_id), \'{}\') from (select event_id from event_attendances where rushee_id = r.id) event_ids) as event_attendance ' +
           'FROM rushees r '
           // Uncomment the following line to hide rushees we didn't invite to a certain event
           // + ' WHERE invited_to >= \'' + invite_level + '\''
-          + ' ORDER BY avg_rating desc nulls last;'
-        , { type: db.QueryTypes.SELECT }),
+          + ';'
+        , { type: db.QueryTypes.SELECT })
+          .then(rushees => {
+            Log.info(rushees); // Get rid of this when finished
+            // TODO for Tyler: For each rushee, compute their score and store it in a field called score.
+            // Use the data in ratings (Ignore avg_rating and num_ratings)
+            // To calculate score, add a 3 to the set of ratings and then compute the mean of 
+            // the middle 80% of the data
+            // Finally, sort the list of rushees by descending score
+            return rushees;
+          }),
 
         getAllIdentifyingInfo: () => db.models.rushee.findAll({
           where: { hide_for_checkin: null },

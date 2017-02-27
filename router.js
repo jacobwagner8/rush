@@ -114,34 +114,11 @@ module.exports = function defineRouter(models) {
     ctx.body = result[0][0];
   }));
 
+  // Rushee detail view
   router.get('/rushee/:rushee_id', async(function*(ctx) {
     const rushee_id = parseInt(ctx.params.rushee_id);
     const active_id = ctx.req.user.id;
-    const queryResults = yield Promise.join(models.rushee.getOne(rushee_id),
-                                            models.rushee.getTraits(rushee_id),
-                                            models.rushee.getComments(rushee_id),
-                                            models.rushee.getRating(rushee_id, active_id),
-                                            models.rushee.getAttendance(rushee_id),
-                                            models.rushee.getRatings(rushee_id));
-    // determine if this user already voted for the trait
-    const traits = queryResults[1];
-    traits.map(trait => {
-      trait.voted = trait.active_ids.indexOf(active_id) !== -1;
-      return trait;
-    });
-
-    const rushee = queryResults[0].dataValues;
-    rushee.own_rating = queryResults[3];
-
-    const attendance = queryResults[4].map(x => x.event_id);
-
-    ctx.render('rushee', {
-      rushee: rushee,
-      traits: traits,
-      comments: queryResults[2],
-      attendance: attendance,
-      ratings: queryResults[5]
-    });
+    ctx.render('rushee', yield models.rushee.getOneHydrated(rushee_id, active_id));
   }));
 
   router.post('/summary/:rushee_id', async(function*(ctx) {
