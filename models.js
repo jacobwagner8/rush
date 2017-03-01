@@ -102,25 +102,29 @@ module.exports = function(db) {
           };
         }),
 
-        getAllHydrated: (active_id, invite_level) => db.query('SELECT *, ' +
-          '(select coalesce(array_agg(row_to_json(row)), \'{}\') ' +
-            'from (select trait_name, votes from rushee_traits ' +
-              'where rushee_id = r.id and votes > 0 ' +
-              'order by votes desc limit 3 ' +
-            ') row ' +
-          ') as top_traits, ' +
-          '(select value from ratings ' +
-            'where rushee_id = r.id and active_id = ' + active_id +
-          ') as own_rating, ' +
-          '(select coalesce(array_agg(value), \'{}\') from ratings where rushee_id = r.id ) as ratings, ' +
-          '(select coalesce(array_agg(event_id), \'{}\') from (select event_id from event_attendances where rushee_id = r.id) event_ids) as event_attendance ' +
-          'FROM rushees r '
+        getAllHydrated: (active_id, invite_level) => db.query(
+          "WITH _rushee_traits as" +
+              " (select rushee_id as id, json_build_object('trait_name', trait_name, 'votes', count(trait_name)) as trait" +
+              " from rushee_trait_votes group by id, trait_name)" +
+	          ', rushee_traits as (select id, array_agg(trait) as traits from _rushee_traits group by id)' +
+	          ', rushee_ratings as (select rushee_id as id, array_agg(value) as ratings from ratings group by id)' +
+            ', rushee_attendance as (select rushee_id as id, array_agg(event_id) as attendance from event_attendances group by id)' +
+          " SELECT distinct on (id)" +
+            " r.*" +
+            ", coalesce(traits, '{}') as top_traits" +
+            ", coalesce(ratings, '{}') as ratings" +
+            ", coalesce(attendance, '{}') as attendance" + // should never be empty in practice
+            ", (select value from ratings where r.id = rushee_id and active_id = " + active_id + ") as own_rating" +
+          ' FROM rushees r' +
+	          ' left join rushee_traits using(id)' +
+	          ' left join rushee_ratings using(id)' +
+            ' left join rushee_attendance using(id)' +
           // Uncomment the following line to hide rushees we didn't invite to a certain event
-          // + ' WHERE invited_to >= \'' + invite_level + '\''
-          + ';'
+          // ' WHERE invited_to >= \'' + invite_level + '\' +
+          ';'
         , { type: db.QueryTypes.SELECT })
           .then(rushees => {
-            Log.info(rushees); // Get rid of this when finished
+            console.log(rushees); // Get rid of this when finished
             // TODO for Tyler: For each rushee, compute their score and store it in a field called score.
             // Use the data in ratings (Ignore avg_rating and num_ratings)
             // To calculate score, add a 3 to the set of ratings and then compute the mean of 

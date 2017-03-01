@@ -13,7 +13,7 @@ mixin rushee(data)
         div.rushee-stats.col-xl-4.col-lg-5.col-md-6.clearfix
           h2.rushee-name #{data.name}
           +rating(data.id, data.avg_rating, data.num_ratings)
-          +rush-attendance(data.event_attendance)
+          +rush-attendance(data.attendance)
           div.top-traits-container.clearfix
             each trait, idx in data.top_traits
               - if (idx < 2)
