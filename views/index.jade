@@ -15,7 +15,7 @@ mixin rushee(data)
           +rating(data.id, data.avg_rating, data.num_ratings)
           +rush-attendance(data.attendance)
           div.top-traits-container.clearfix
-            each trait, idx in data.top_traits
+            each trait, idx in data.traits
               - if (idx < 2)
                 +trait(trait)
           span.rushee-year #{data.year}.

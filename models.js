@@ -105,13 +105,13 @@ module.exports = function(db) {
         getAllHydrated: (active_id, invite_level) => db.query(
           "WITH _rushee_traits as" +
               " (select rushee_id as id, json_build_object('trait_name', trait_name, 'votes', count(trait_name)) as trait" +
-              " from rushee_trait_votes group by id, trait_name)" +
+              " from rushee_trait_votes group by id, trait_name order by count(trait_name) desc)" +
 	          ', rushee_traits as (select id, array_agg(trait) as traits from _rushee_traits group by id)' +
 	          ', rushee_ratings as (select rushee_id as id, array_agg(value) as ratings from ratings group by id)' +
             ', rushee_attendance as (select rushee_id as id, array_agg(event_id) as attendance from event_attendances group by id)' +
           " SELECT distinct on (id)" +
             " r.*" +
-            ", coalesce(traits, '{}') as top_traits" +
+            ", coalesce(traits, '{}') as traits" +
             ", coalesce(ratings, '{}') as ratings" +
             ", coalesce(attendance, '{}') as attendance" + // should never be empty in practice
             ", (select value from ratings where r.id = rushee_id and active_id = " + active_id + ") as own_rating" +
