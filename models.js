@@ -72,20 +72,13 @@ module.exports = function(db) {
         // TODO for Eddie: defuglify
         getOneHydrated: async(function*(rushee_id, active_id) {
           const queryResults = yield Promise.join(db.models.rushee.getOne(rushee_id),
-                                                  db.models.rushee.getTraits(rushee_id),
+                                                  db.models.rushee.getTraits(rushee_id, active_id),
                                                   db.models.rushee.getComments(rushee_id),
                                                   db.models.rushee.getRating(rushee_id, active_id),
                                                   db.models.rushee.getAttendance(rushee_id),
                                                   db.models.rushee.getRatings(rushee_id));
           // TODO for Tyler: compute rushee score from ratings in queryresults[5] 
           // and return as an extra field below
-
-          // determine if this user already voted for the trait
-          const traits = queryResults[1];
-          traits.map(trait => {
-            trait.voted = trait.active_ids.indexOf(active_id) !== -1;
-            return trait;
-          });
 
           const rushee = queryResults[0].dataValues;
           rushee.own_rating = queryResults[3];
@@ -94,7 +87,7 @@ module.exports = function(db) {
 
           return {
             rushee: rushee,
-            traits: traits,
+            traits: queryResults[1],
             comments: queryResults[2],
             attendance: attendance,
             ratings: queryResults[5],
@@ -179,20 +172,18 @@ module.exports = function(db) {
               return ratings;
             }),
 
-        getTraits: rushee_id => {
-          var query = ('' +
-            'WITH trait_votes as (select * from rushee_trait_votes where rushee_id = {0}) ' +
-            'SELECT trait_name, ' +
-              'rushee_id, ' +
-              'votes, ' +
-              '(select array_agg(active_id) from trait_votes where trait_name = ts.trait_name) as active_ids, ' +
-              '(select array_agg((select name from actives where id = active_id)) from trait_votes where trait_name = ts.trait_name) as actives ' +
-              'from rushee_traits ts ' +
-            'WHERE rushee_id = {0} and votes > 0' +
-            'order by votes desc;'
-          ).replace(/\{0\}/g, rushee_id);
-          return db.query(query, { type: db.QueryTypes.SELECT});
-        },
+        getTraits: (rushee_id, active_id) => db.query(
+          'SELECT trait_name' +
+            ', count(trait_name) as votes' +
+            ', array_agg(name) as actives' +
+            ', ' + active_id + ' = any(array_agg(active_id)) as voted' +
+          ' FROM rushee_trait_votes' +
+            ' join actives on id = active_id' +
+          ' WHERE rushee_id = ' + rushee_id +
+          ' GROUP BY trait_name' +
+          ' ORDER BY votes desc' +
+          ';'
+        , { type: db.QueryTypes.SELECT }),
 
         /**
          * kill me.
@@ -246,35 +237,16 @@ module.exports = function(db) {
          */
         add_trait: (rushee_id, active_id, trait_name) =>
           retryableTransaction(t =>
-            db.models.trait.upsert({
-              name: trait_name
-            }, { transaction: t }).then(() =>
-              db.models.rushee_trait_vote.upsert({
-                rushee_id: rushee_id,
-                active_id: active_id,
-                trait_name: trait_name
-              }, { transaction: t })
-            ).then(() =>
-              db.models.rushee_trait.findOrCreate({
-                where: {
-                  rushee_id: rushee_id,
-                  trait_name: trait_name
-                },
-                transaction: t
-              })
-            ).then(() => {
-              var query = ('WITH active_votes as (select active_id from rushee_trait_votes where rushee_id = {0} and trait_name = \'{1}\')' +
-              'UPDATE rushee_traits SET votes = (select count(active_id) from active_votes) ' +
-                'where rushee_id = {0} and trait_name = \'{1}\'' +
-              ';')
-                .replace(/\{0\}/g, rushee_id)
-                .replace(/\{1\}/g, trait_name);
-              return db.query(query, { transaction: t });
-            })
+            db.models.trait.upsert({ name: trait_name }, { transaction: t })
+            .then(() => db.models.rushee_trait_vote.upsert({
+              rushee_id: rushee_id,
+              active_id: active_id,
+              trait_name: trait_name
+            }, { transaction: t }))
           , { isolationLevel: 'SERIALIZABLE' }),
 
         /** updates vote for this trait
-         *  TODO: delete trait when at 0 votes.
+         *  TODO: delete trait when at 0 votes. Also this should probably be split into 2 functions
          */
         vote_trait: (rushee_id, active_id, trait_name, vote) =>
           retryableTransaction(t => 
@@ -292,15 +264,7 @@ module.exports = function(db) {
                 },
                 transaction: t
               })
-            ).then(() => {
-              var query = ('WITH active_votes as (select active_id from rushee_trait_votes where rushee_id = {0} and trait_name = \'{1}\')' +
-              'UPDATE rushee_traits SET votes = (select count(active_id) from active_votes) ' +
-                'where rushee_id = {0} and trait_name = \'{1}\'' +
-              ';')
-                .replace(/\{0\}/g, rushee_id)
-                .replace(/\{1\}/g, trait_name);
-              return db.query(query, { transaction: t });
-            })
+            )
           , { isolationLevel: 'SERIALIZABLE' }),
 
         getComments: rushee_id => {
@@ -340,16 +304,6 @@ module.exports = function(db) {
 
     trait: db.define('trait', {
       name: { type: db.Sequelize.STRING, primaryKey: true }
-    }),
-
-    rushee_trait: db.define('rushee_trait', {
-      rushee_id: { type: db.Sequelize.INTEGER, primaryKey: 'rushee_trait_pkey', references: { model: db.models.rushee }, onDelete: 'cascade' },
-      trait_name: { type: db.Sequelize.STRING, primaryKey: 'rushee_trait_pkey', references: { model: db.models.trait, key: 'name' }, onDelete: 'cascade' },
-      votes: { type: db.Sequelize.INTEGER, allowNull: false, defaultValue: 0 }
-    }, {
-      indexes: [
-        { fields: [ 'rushee_id', { attribute: 'votes', order: 'DESC'} ] }
-      ]
     }),
 
     rushee_trait_vote: db.define('rushee_trait_vote', {

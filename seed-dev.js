@@ -49,11 +49,6 @@ const traits = [
   { name: "cs" },
 ];
 
-const rushee_traits = [
-  { rushee_id: 1, trait_name: "chill", votes: 1 },
-  { rushee_id: 2, trait_name: "cs", votes: 1 }
-];
-
 const rushee_trait_votes = [
   { rushee_id: 1, active_id: 1, trait_name: "chill" },
   { rushee_id: 2, active_id: 2, trait_name: "cs" }
@@ -71,7 +66,6 @@ module.exports = async(function*(db) {
   yield Promise.all(events.map(event => db.models.event.create(event)));
   yield Promise.all(ratings.map(rating => db.models.rating.create(rating)));
   yield Promise.all(traits.map(trait => db.models.trait.create(trait)));
-  yield Promise.all(rushee_traits.map(rushee_trait => db.models.rushee_trait.create(rushee_trait)));
   yield Promise.all(rushee_trait_votes.map(rushee_trait_vote => db.models.rushee_trait_vote.create(rushee_trait_vote)));
   yield Promise.all(rushee_comments.map(rushee_comment => db.models.rushee_comment.create(rushee_comment)));
 });
