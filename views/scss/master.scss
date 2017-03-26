@@ -33,6 +33,29 @@ $primary-text-color: #111;
   }
 }
 
+.popup {
+  @extend .card;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: $cardinal-red;
+  color: white;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.2s ease-in;
+  pointer-events: none;
+
+  &.enabled {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  // Center text
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #title {
   width: 100%;
   text-align: center;
@@ -68,7 +91,7 @@ button, input[type=submit] {
 
   &:disabled {
     background-color: $inactive-color;
-    cursor: default;
+    pointer-events: none;
   }
 
   &.card-hover {
@@ -197,6 +220,10 @@ button, input[type=submit] {
 
 .trait-full {
   display: flex;
+
+  .trait {
+    margin-left: 2rem;
+  }
 }
 
 .trait-endorsements {
@@ -206,14 +233,14 @@ button, input[type=submit] {
   flex-direction: row-reverse;
 
   .name-box {
-    display: inline;
     margin: 0 0.1rem;
     z-index: -10;
   }
 }
 
 .trait-vote {
-  display: inline-block;
+  display: block;
+  position: absolute;
 
   > input {
     display: none;
@@ -234,11 +261,11 @@ button, input[type=submit] {
   content: '➕';
 }
 
-.trait-vote:hover > input:checked ~ label:before, {
+.trait-vote > input:checked ~ label:before, {
   content: '➖';
 }
 
-.trait-vote > input:checked ~ label {
+.trait-vote ~ label {
   color: $cardinal-red;
 }
 

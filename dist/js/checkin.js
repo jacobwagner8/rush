@@ -1,5 +1,6 @@
 var updateDelay = 0; // Debouncing time (ms) between filters
 var checkInBtn = $('#checkin-btn');
+let popup = initPopup($('#result-popup'));
 
 // same as in index.js. sue me.
 function anyStartsWith(arr, prefix) {
@@ -50,10 +51,11 @@ search.on('input', function() {
 filterRushees('');
 
 checkInBtn.click(function() {
-  var rusheeId = $('.checkin-radio:checked').val();
+  let rusheeId = $('.checkin-radio:checked').val();
   $.post('/checkin/' + rusheeId, {}, function() {
-    // TODO: success message
+    let rusheeName = $('.checkin-radio:checked').next('label').find('.returner-name').text();
     search.val('');
     filterRushees('');
+    popup("Thanks, " + rusheeName);
   });
 });

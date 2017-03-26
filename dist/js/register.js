@@ -40,11 +40,15 @@ function fileToBlob(fileURI) {
   return blob;
 }
 
+let popup = initPopup($('#result-popup'));
+
 function reset() {
+  let rusheeName = $('#rushee-name').val();
   $('#register-form').trigger('reset');
   captureButton.text('Take Photo');
   frozen = false;
   setSubmitState();
+  popup("Thanks, " + rusheeName);
 }
 
 // override submit
@@ -87,8 +91,7 @@ $('#register-form').on('submit', function(e) {
             year: rusheeYear,
             dorm: rusheeDorm,
             room_number: rusheeRoom,
-            profile_picture: publicPictureUrl,
-            // room: rusheeRoom
+            profile_picture: publicPictureUrl
           }, reset);
         }
       });

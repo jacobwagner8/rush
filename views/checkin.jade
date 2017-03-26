@@ -8,6 +8,7 @@ block header
 
 block content
   script var rusheeInfo = !{JSON.stringify(rusheeInfo)};
+  div#result-popup.popup
   div#returner-search.card-hover
     input#returner-search-input(type="search" autofocus="autofocus" placeholder="Returning? Look your name up here.")
     ol#returner-search-results
@@ -22,4 +23,5 @@ block content
   //- a.card-hover(href="/register") First time? Click here to register
 
 block scripts
+  script(src="/js/popup.js")
   script(src="/js/checkin.js")
