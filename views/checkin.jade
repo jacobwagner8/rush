@@ -1,10 +1,10 @@
 extends layout
 
 block title
-  title Phi Psi Rush Check In
+  title ΦKΨ Rush Portal - Check In
 
 block header
-  h1#title.card-shadow Check In
+  h1#title.card-shadow ΦKΨ Rush Check In
 
 block content
   script var rusheeInfo = !{JSON.stringify(rusheeInfo)};
@@ -17,6 +17,7 @@ block content
           label(for="checkin-button-#{rushee.id}")
             span.returner-name #{rushee.name}
             span.returner-dorm #{rushee.dorm}
+            span.returner-room #{rushee.room_number}
   button#checkin-btn.card-hover(type="button") Check In
   //- a.card-hover(href="/register") First time? Click here to register
 

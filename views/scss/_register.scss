@@ -1,21 +1,49 @@
 .input-item {
+  display: flex;
+
   > label {
     text-align: right;
     width: 8rem;
-    margin-right: 1rem;
+    padding-right: 1rem;
+    margin: auto 0;
+  }
+
+  > input {
+    flex-grow: 1;
   }
 }
 
 #webcam {
-  margin-left: 9rem;
-  // Size needs to be 4:3 to appear square...
-  // just accept it for what it is
-  width: 32rem;
-  height: 24rem;
+  margin: 0 0 0 auto;
+  max-width: 40rem;
+
+  @media (max-width: 48em) {
+    margin: 0 auto;
+  }
+
+  &:before {
+    content: "";
+    float: left;
+    // Aspect ratio (height as a percent of width). 
+    // Size needs to be 4:3 to appear square... this makes no sense so just accept it for what it is
+    padding-bottom: 75%;
+  }
 }
 
-#submit-btn {
-  font-size: 150%;
-  margin-left: 9rem;
-  margin-top: 1rem;
+#input-fields {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  // height: 100%; // TODO: responsify
+}
+
+#submit-box {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+  
+  #submit-btn {
+    font-size: 150%;
+    width: 62%;
+  }
 }

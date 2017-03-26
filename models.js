@@ -1,5 +1,24 @@
 const rushees_per_page = 25; // for rushee list view
 
+/**
+ * 
+ * @param {*Array of int} ratings 
+ */
+function ratings_to_counts(ratings) {
+  const counts = [0,0,0,0,0,0];
+  ratings.forEach(rating => {
+    ++counts[rating];
+  });
+  return counts;
+}
+
+function truncated_mean_with_prior(values) {
+  let x = _.concat(values, 3);
+  let n = _.floor(x.length/8);
+  let truncated = _.slice(_.sortBy(x), n, x.length - n);
+  return _.mean(truncated);
+}
+
 module.exports = function(db) {
   const retryableTransaction = require('./retryTransaction')(db);
 
@@ -53,18 +72,14 @@ module.exports = function(db) {
       dorm: string_column(),
       room_number: string_column(),
       name: name_column(),
+      // nickname: name_column(), // TODO
       profile_picture: string_column(),
       summary: text_column(),
-      avg_rating: { type: db.Sequelize.FLOAT, allowNull: true },
-      num_ratings: { type: db.Sequelize.INTEGER, allowNull: true },
       year: { type: db.Sequelize.ENUM('Fr', 'So', 'Jr', 'Sr'), allowNull: false },
       hide_for_checkin: { type: db.Sequelize.BOOLEAN },
       invited_to: { type: db.Sequelize.ENUM('NONE', 'FIRESIDE_SMOKES', 'RETREAT', 'BID'), allowNull: false, defaultValue: 'NONE' }
     }, {
-      indexes: [
-        name_index(),
-        { fields: [ { attribute: 'avg_rating', order: 'DESC' } ] }
-      ],
+      indexes: [ name_index() ],
       classMethods: {
 
         getOne: rushee_id => db.models.rushee.findById(rushee_id),
@@ -77,22 +92,15 @@ module.exports = function(db) {
                                                   db.models.rushee.getRating(rushee_id, active_id),
                                                   db.models.rushee.getAttendance(rushee_id),
                                                   db.models.rushee.getRatings(rushee_id));
-          // TODO for Tyler: compute rushee score from ratings in queryresults[5] 
-          // and return as an extra field below
 
           const rushee = queryResults[0].dataValues;
+          rushee.traits = queryResults[1];
+          rushee.ratings = ratings_to_counts(queryResults[5]);
+          rushee.score = truncated_mean_with_prior(queryResults[5]);
           rushee.own_rating = queryResults[3];
+          rushee.attendance = queryResults[4].map(x => x.event_id);
 
-          const attendance = queryResults[4].map(x => x.event_id);
-
-          return {
-            rushee: rushee,
-            traits: queryResults[1],
-            comments: queryResults[2],
-            attendance: attendance,
-            ratings: queryResults[5],
-            // score: TODO
-          };
+          return { rushee: rushee, comments: queryResults[2] };
         }),
 
         getAllHydrated: (active_id, invite_level) => db.query(
@@ -117,34 +125,19 @@ module.exports = function(db) {
           ';'
         , { type: db.QueryTypes.SELECT })
           .then(rushees => {
-            console.log(rushees); // Get rid of this when finished
-            // TODO for Tyler: For each rushee, compute their score and store it in a field called score.
-            // Use the data in ratings (Ignore avg_rating and num_ratings)
-            // To calculate score, add a 3 to the set of ratings and then compute the mean of 
-            // the middle 80% of the data
-            // Finally, sort the list of rushees by descending score
-            return rushees;
+            // add score (25% truncated mean with prior) to each rushee
+            _.forEach(rushees, rushee => {
+              rushee.score = truncated_mean_with_prior(rushee.ratings);
+              rushee.ratings = ratings_to_counts(rushee.ratings);
+            });
+            // Return rushees ordered by descending score
+            return _.sortBy(rushees, r => -r.score);
           }),
 
         getAllIdentifyingInfo: () => db.models.rushee.findAll({
           where: { hide_for_checkin: null },
-          attributes: ['id', 'name', 'dorm'],
+          attributes: ['id', 'name', 'dorm', 'room_number'],
           order: 'name'
-        }),
-
-        /**
-         * @Deprecated. Use getAllHydrated.
-         * Get info for rushees on this page
-         * @param  {int} pageNumber     0-indexed page number
-         * @return {Promise<[Rushee]>}  rushees
-         */ 
-        getPage: async(function*(pageNumber) {
-          const first = pageNumber * rushees_per_page;
-          const last = (pageNumber + 1) * rushees_per_page - 1;
-
-          return yield this.findAll({
-            order: 'avg_rating DESC'
-          });
         }),
 
         getTopTraits: rushee_id => 
@@ -161,16 +154,10 @@ module.exports = function(db) {
             attributes: ['value']
           }).then(result => result === null ? null : result.value),
 
-        getRatings: rushee_id => 
-          db.query('select value, count(value) from ratings where rushee_id = ' + rushee_id + ' group by value;'
-          , { type: db.QueryTypes.SELECT })
-            .then(results => {
-              const ratings = [0,0,0,0,0,0];
-              results.forEach(entry => {
-                ratings[entry.value] = parseInt(entry.count);
-              });
-              return ratings;
-            }),
+        getRatings: (rushee_id, transaction) => 
+          db.query("select coalesce(array_agg(value), '{}') as ratings from ratings where rushee_id = " + rushee_id + ";"
+          , { type: db.QueryTypes.SELECT, transaction: transaction })
+            .then(results => results[0].ratings),
 
         getTraits: (rushee_id, active_id) => db.query(
           'SELECT trait_name' +
@@ -185,50 +172,31 @@ module.exports = function(db) {
           ';'
         , { type: db.QueryTypes.SELECT }),
 
-        /**
-         * kill me.
-         * @param  {[type]} rushee_id [description]
-         * @param  {[type]} active_id [description]
-         * @param  {[type]} rating    [description]
-         * @return {[type]}           [description]
-         */
+        /** upsert appears to have a bug */
         rate: (rushee_id, active_id, rating) =>
-          retryableTransaction(t => 
+          retryableTransaction(t =>
             db.models.rating.destroy({
               where: { rushee_id: rushee_id, active_id: active_id },
               transaction: t
-            }).then(() =>
-              db.models.rating.create({
-                rushee_id: rushee_id,
-                active_id: active_id,
-                value: rating
-              }, { transaction: t })
-            ).then(() => {
-              var query = ('WITH rushee_ratings as (select value from ratings where rushee_id = {0} union all select 3) ' +
-              'UPDATE rushees SET avg_rating = (select avg(value) from rushee_ratings) ' +
-                ', num_ratings = (select count(value) from rushee_ratings) ' +
-                'where id = {0} ' +
-              'RETURNING avg_rating, num_ratings ' +
-              ';').replace(/\{0\}/g, rushee_id);
-              return db.query(query, { transaction: t });
             })
-          , { isolationLevel: 'SERIALIZABLE' }),
+            .then(() => db.models.rating.create({
+              rushee_id: rushee_id,
+              active_id: active_id,
+              value: rating
+            }, { transaction: t }))
+            .then(() => db.models.rushee.getRatings(rushee_id, t))
+            .then(ratings => ({ score: truncated_mean_with_prior(ratings), count: ratings.length }))
+          ),
 
         unrate: (rushee_id, active_id) =>
-          retryableTransaction(t => 
+          retryableTransaction(t =>
             db.models.rating.destroy({
               where: { rushee_id: rushee_id, active_id: active_id },
               transaction: t
-            }).then(() => {
-              var query = ('WITH rushee_ratings as (select value from ratings where rushee_id = {0} union all select 3) ' +
-              'UPDATE rushees SET avg_rating = (select avg(value) from rushee_ratings) ' +
-                ', num_ratings = (select count(value) from rushee_ratings) ' +
-                'where id = {0} ' +
-              'RETURNING avg_rating, num_ratings ' +
-              ';').replace(/\{0\}/g, rushee_id);
-              return db.query(query, { transaction: t });
             })
-          , { isolationLevel: 'SERIALIZABLE' }),
+            .then(() => db.models.rushee.getRatings(rushee_id, t))
+            .then(ratings => ({ score: truncated_mean_with_prior(ratings), count: ratings.length }))
+          ),
 
         summarize: (rushee_id, summary) =>
           db.models.rushee.update({ summary: summary }, { where: { id: rushee_id } }),

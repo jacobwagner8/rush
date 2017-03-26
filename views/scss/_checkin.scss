@@ -8,6 +8,7 @@
   border-bottom: 0.1rem solid $inactive-color;
   font-size: 150%;
   margin-bottom: .5rem;
+  outline: none;
 
   &:active, &:focus {
     border-bottom-color: $cardinal-red;
@@ -35,10 +36,17 @@
   label {
     display: block;
     padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: flex-end;
   }
 
-  .returner-dorm {
-    float: right;
+  .returner-name {
+    flex-grow: 1;
+  }
+
+  .returner-room {
+    margin-left: 0.5rem;
+    min-width: 2rem;
   }
 }
 

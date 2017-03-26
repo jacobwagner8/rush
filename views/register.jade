@@ -1,31 +1,38 @@
 extends layout
 
+block title
+  title ΦKΨ Rush Portal - Registration
+
 block header
-  h1#title.card-shadow Register
+  h1#title.card-shadow ΦKΨ Rush Registration
 
 block content
   form#register-form
-    div.input-item
-      label Full name:
-      input#rushee-name.required(type="text", name="name" autocorrect="off" spellcheck="false")
-    div.input-item
-      label Year:
-      select#rushee-year.required(name="year")
-        option(value="Fr") Freshman
-        option(value="So") Sophomore
-        //- option(value="Jr") Junior
-        //- option(value="Sr") Senior - seriously?
-    div.input-item
-      label Dorm:
-      input#rushee-dorm.required(type="text" name="dorm")
-    div.input-item
-      label Room number:
-      input#rushee-room.required(type="text" name="room")
-    div.input-item
-      label Photo:
-      button#capture-btn.card-hover(type="button" onclick="capture()") Take Photo
-    div#webcam
-    input#submit-btn.card-hover(type="submit" value="Register")
+    div.row
+      div.col-sm-6
+        div#webcam.clearfix
+      div#input-fields.col-sm-6
+        div.input-item
+          label Full name:
+          input#rushee-name.required(type="text", name="name" autocorrect="off" spellcheck="false")
+        div.input-item
+          label Year:
+          select#rushee-year.required(name="year")
+            option(value="Fr") Freshman
+            option(value="So") Sophomore
+            option(value="Jr") Junior
+            //- option(value="Sr") Senior - seriously?
+        div.input-item
+          label Dorm:
+          input#rushee-dorm.required(type="text" name="dorm")
+        div.input-item
+          label Room number:
+          input#rushee-room.required(type="text" name="room")
+        div.input-item
+          label Photo:
+          button#capture-btn.card-hover(type="button" onclick="capture()") Take Photo
+    div.row#submit-box
+      input#submit-btn.card-hover(type="submit" value="Register")
 
 block scripts
   script(src="/js/webcam.min.js")

@@ -30,13 +30,6 @@
     width: 100%;
     position: relative;
 
-    > a {
-      color: $primary-text-color;
-      width: 100%;
-      display: block;
-      margin: 0;
-    }
-
     // custom li number
     &:before {
       content: counter(li); /* Use the counter as content */
@@ -48,17 +41,40 @@
       font-size: 300%;
       color: rgba(0,0,0,0.225);
     }
+    
+
+    > a {
+      color: $primary-text-color;
+
+      > .row {
+        width: 100%;
+        margin: 0;
+      }
+    }
 
     .rushee-picture {
       padding: 0;
-      max-width: 12rem;
-      max-height: 12rem;
-      border-radius: 0.2rem 0 0 0.2rem;
+
+      img {
+        border-radius: 0.2rem 0 0 0.2rem;
+
+        @media (max-width: 36em) {
+          border-radius: 0;
+          margin: 0 auto;
+        }
+      }
     }
 
     .rushee-info {
-      padding: 1rem;
-      margin: 0;
+      border-right: 0.1rem solid #ddd;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      @media (max-width: 36em) {
+        border-right: 0;
+        border-bottom: 0.1rem solid #ddd;
+      }
 
       .rushee-name {
         text-align: center;
@@ -84,40 +100,21 @@
         }
       }
 
-      .rushee-year {
-        float: left;
+      .rushee-year-dorm {
+        margin-bottom: 0.5rem;
+        display: flex;
+        justify-content: space-around;
       }
 
-      .rushee-dorm {
-        float: right;
+      .rating {
+        font-size: 125%;
       }
+    }
 
-      .rushee-stats {
-        margin-right: -0.05rem;
-        padding-left: 0;
-        border-right: 0.1rem solid #ddd;
-        @media (max-width: 48em) {
-          padding-right: 0;
-          border-right: 0;
-          border-bottom: 0.1rem solid #ddd;
-          padding-bottom: 0.5rem;
-          margin-bottom: 0.5rem;
-        }
-
-        .rating {
-          font-size: 125%;
-        }
-
-        >.row {
-          margin-bottom: 0.5rem;
-        }
-      }
-
-      .rushee-summary > p {
-        max-height: 10rem;
-        overflow: hidden;
-        margin: 0;
-      }
+    .rushee-summary > p {
+      max-height: 100%;
+      overflow: hidden;
+      margin: 0.5rem 0;
     }
   }
 }

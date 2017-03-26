@@ -1,12 +1,16 @@
+/**
+ * Initializes the 5-star rating widget
+ * checked star = user's rating
+ * active star = rushee score indicator
+ * @param {*Rushee object as returned by getAllHydrated} rushee 
+ * @param {*Boolean, whether to reload the page on user interaction} reloadOnChange 
+ */
 function initRating(rushee, reloadOnChange) {
   var rating = $('#rating-' + rushee.id);
-  rating.avg_rating = rushee.avg_rating;
-  rating.rushee_id = rushee.id;
-  rating.own_rating = rushee.own_rating;
-  rating.checkedStar = null; // star that the user checked
-  rating.activeStar = null; // star representing this rushee's avg rating
+  rating.checkedStar = null;
+  rating.activeStar = null;
   rating.stars = [];
-  rating.avg = $('#avg-rating-' + rushee.id);
+  rating.score = $('#score-' + rushee.id);
 
   function checkStar(star) {
     if (rating.checkedStar)
@@ -17,57 +21,47 @@ function initRating(rushee, reloadOnChange) {
   }
 
   function activateStar(starIdx) {
-    if (rating.activeStar)
-      rating.activeStar.removeAttr('active');
-    if (starIdx) {
-      rating.stars[starIdx].attr('active', '');
-      rating.activeStar = rating.stars[starIdx];
-    }
-  }
-
-  function setActiveStar(response) {
-    var avg_rounded = Math.round(response.avg_rating);
-    activateStar(avg_rounded);
-    var avg_truncated = Math.round(response.avg_rating * 100) / 100;
-    rating.avg.text('' + avg_truncated + ' (' + (response.num_ratings-1) + ')'); // round to 2 decimal places
+    if (rating.activeStar) rating.activeStar.removeAttr('active');
+    rating.stars[starIdx].attr('active', '');
+    rating.activeStar = rating.stars[starIdx];
   }
 
   function handleChange(response) {
     if (reloadOnChange) {
       location.reload();
-      return;
     }
-    else
-      setActiveStar(response);
+    else {
+      var score_rounded = Math.round(response.score);
+      activateStar(score_rounded);
+      var score_truncated = Math.round(response.score * 100) / 100;
+      rating.score.text('' + score_truncated + ' (' + (response.count) + ')'); // round to 2 decimal places
+    }
   }
 
   // make stars rate rushees on click
   // also check the star corresponding to own_rating, if any
-  $('[id^="rating-input-' + rating.rushee_id +'-"]')
+  $('[id^="rating-input-' + rushee.id +'-"]')
     .each(function(idx, elem) {
       var self = $(this);
       var number = elem.id.slice(-1) - '0';
       rating.stars[number] = self;
 
-      if (number == rating.own_rating)
+      if (number == rushee.own_rating)
         checkStar(self);
 
       $(this).click(function(e) {
         e.preventDefault();
         if (rating.checkedStar == self) {
           checkStar(null);
-          $.post('/unrate/' + rating.rushee_id, {}, handleChange, 'json');
+          $.post('/unrate/' + rushee.id, {}, handleChange, 'json');
         }
         else {
           checkStar(self);
-          $.post('/rate/' + rating.rushee_id, { rating: number }, handleChange, 'json');
+          $.post('/rate/' + rushee.id, { rating: number }, handleChange, 'json');
         }
       });
     });
 
-  // set active star to reflect avg rating
-  if (rating.avg_rating != null) {
-    var rating_rounded = Math.round(rating.avg_rating);
-    activateStar(rating_rounded);
-  }
+  // set active star to reflect score
+  activateStar(Math.round(rushee.score));
 }

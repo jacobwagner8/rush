@@ -43,7 +43,7 @@ var yearAliases = {
 function matchRushee(rushee, filter) {
   var filterItems = filter.toLowerCase().split(' ');
   var rusheeNames = rushee.name.toLowerCase().split(' ');
-  var rusheeTraits = rushee.top_traits.map(function(x) { return x.trait_name.toLowerCase() });
+  var rusheeTraits = rushee.traits.map(function(x) { return x.trait_name.toLowerCase() });
 
   // each filter item must match the rushee
   var match = filterItems.every(function(filterItem) {

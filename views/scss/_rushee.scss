@@ -6,21 +6,24 @@
 
   .row {
     margin: 0;
+    position: relative;
   }
 
    #profile-picture {
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-    max-width: 15rem;
-    max-height: 15rem;
+    // display: inline-block;
+    // padding: 0;
+    // margin: 0;
+    // // max-width: 15rem;
+    // // max-height: 15rem;
   }
 
    #title-info {
-    padding: 2rem;
-    padding-bottom: 0;
+    // padding: 2rem;
+    // padding-bottom: 0;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
+    
     @media (max-width: 48em) {
       padding-left: 0;
       padding-right: 0;
@@ -49,10 +52,9 @@
       }
     }
 
-    > .rushee-year-dorm > span {
-      float: left;
-      width: 8rem;
-      padding-left: 1rem;
+    > .rushee-year-dorm {
+      display: flex;
+      justify-content: space-around;
     }
     
     .rushee-attendance {
@@ -74,14 +76,19 @@
   color: $primary-text-color;
 }
 
-#back-button {
+#back-button-anchor {
   position: relative;
-  left: -1rem;
-  text-align: middle;
-  padding-top: 3rem;
+}
+
+#back-button {
+  display: table-cell;
+  position: absolute;
+  left: -3rem;
+  top: calc(50% - 2.5rem);
   color: #fff;
   font-size: 300%;
   transition: text-shadow 0.2s ease-in-out;
+  z-index: 10;
 
   &:hover {
     text-decoration: none;

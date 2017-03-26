@@ -4,7 +4,7 @@ var summary = $('#detail-summary');
 autosize(summary);
 
 var hist_elem = $('#histogram');
-var histogram = new Histogram(hist_elem, ratings);
+var histogram = new Histogram(hist_elem, rushee.ratings);
 
 summary.keydown(function(e) {
   if (e.keyCode == 13 && !e.shiftKey) {
@@ -15,7 +15,7 @@ summary.keydown(function(e) {
   }
 });
 
-traits.forEach(function(trait) {
+rushee.traits.forEach(function(trait) {
   var checkbox = $('input[id^="trait-vote-' + encodeURI(trait.trait_name) +'"]');
   checkbox.attr('checked', trait.voted);
   // make trait vote when the plus sign is clicked

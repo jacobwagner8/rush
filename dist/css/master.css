@@ -9,8 +9,12 @@
 .card-hover {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: box-shadow 0.2s ease-in-out; }
+  .card-hover:hover {
+    cursor: pointer; }
   .card-hover:hover, .card-hover:focus, .card-hover:active {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
+  .card-hover:disabled {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }
 
 #title, #title-detail {
   width: 100%;
@@ -35,10 +39,14 @@ textarea, input[type=text], input[type=password] {
 
 button, input[type=submit] {
   background-color: #d01131;
+  transition: background-color 0.2s ease-in-out;
   color: #fff;
   padding: 0.25rem 0.5rem; }
   button:disabled, input[type=submit]:disabled {
-    background-color: #ddd; }
+    background-color: #ddd;
+    cursor: default; }
+  button.card-hover, input[type=submit].card-hover {
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; }
 
 .histogram {
   font-size: 125%; }
@@ -107,7 +115,8 @@ button, input[type=submit] {
 
 .trait {
   margin: 0;
-  float: left; }
+  padding: 0;
+  display: inline-block; }
   .trait > .num-endorsements {
     background-color: #d01131;
     border-radius: 0.2rem 0 0 0.2rem;
@@ -115,11 +124,11 @@ button, input[type=submit] {
     min-width: 2.5rem;
     padding: 0.5rem;
     text-align: center;
-    float: left; }
+    display: inline-block; }
   .trait > p {
-    float: left;
     margin: 0;
-    padding: 0.5rem; }
+    padding: 0.5rem;
+    display: inline; }
 
 .name-box {
   background-color: #d01131;
@@ -127,8 +136,13 @@ button, input[type=submit] {
   display: inline-block;
   padding: 0.5rem; }
 
+.trait-full {
+  display: flex; }
+
 .trait-endorsements {
   display: flex;
+  flex-grow: 1;
+  align-self: flex-end;
   flex-direction: row-reverse; }
   .trait-endorsements .name-box {
     display: inline;
@@ -136,7 +150,6 @@ button, input[type=submit] {
     z-index: -10; }
 
 .trait-vote {
-  float: left;
   display: inline-block; }
   .trait-vote > input {
     display: none; }
@@ -171,6 +184,16 @@ button, input[type=submit] {
   .rushee-attendance .attended-false {
     background-color: #ddd; }
 
+@media (max-width: 36em) {
+  .xs-max-width-12 {
+    max-width: 12em;
+    margin: 0 auto; } }
+
+@media (max-width: 48em) {
+  .sm-max-width-12 {
+    max-width: 12em;
+    margin: 0 auto; } }
+
 #title, #title-detail {
   margin-bottom: 2rem; }
 
@@ -197,11 +220,6 @@ button, input[type=submit] {
     margin: 0.5rem 0;
     width: 100%;
     position: relative; }
-    #rushee-list .rushee-entry > a {
-      color: #111;
-      width: 100%;
-      display: block;
-      margin: 0; }
     #rushee-list .rushee-entry:before {
       content: counter(li);
       /* Use the counter as content */
@@ -214,14 +232,28 @@ button, input[type=submit] {
       z-index: -1;
       font-size: 300%;
       color: rgba(0, 0, 0, 0.225); }
+    #rushee-list .rushee-entry > a {
+      color: #111; }
+      #rushee-list .rushee-entry > a > .row {
+        width: 100%;
+        margin: 0; }
     #rushee-list .rushee-entry .rushee-picture {
-      padding: 0;
-      max-width: 12rem;
-      max-height: 12rem;
-      border-radius: 0.2rem 0 0 0.2rem; }
+      padding: 0; }
+      #rushee-list .rushee-entry .rushee-picture img {
+        border-radius: 0.2rem 0 0 0.2rem; }
+        @media (max-width: 36em) {
+          #rushee-list .rushee-entry .rushee-picture img {
+            border-radius: 0;
+            margin: 0 auto; } }
     #rushee-list .rushee-entry .rushee-info {
-      padding: 1rem;
-      margin: 0; }
+      border-right: 0.1rem solid #ddd;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; }
+      @media (max-width: 36em) {
+        #rushee-list .rushee-entry .rushee-info {
+          border-right: 0;
+          border-bottom: 0.1rem solid #ddd; } }
       #rushee-list .rushee-entry .rushee-info .rushee-name {
         text-align: center; }
       #rushee-list .rushee-entry .rushee-info .top-traits-container {
@@ -236,47 +268,28 @@ button, input[type=submit] {
           min-width: 2rem; }
         #rushee-list .rushee-entry .rushee-info .trait > p {
           padding: 0.25rem 0.5rem; }
-      #rushee-list .rushee-entry .rushee-info .rushee-year {
-        float: left; }
-      #rushee-list .rushee-entry .rushee-info .rushee-dorm {
-        float: right; }
-      #rushee-list .rushee-entry .rushee-info .rushee-stats {
-        margin-right: -0.05rem;
-        padding-left: 0;
-        border-right: 0.1rem solid #ddd; }
-        @media (max-width: 48em) {
-          #rushee-list .rushee-entry .rushee-info .rushee-stats {
-            padding-right: 0;
-            border-right: 0;
-            border-bottom: 0.1rem solid #ddd;
-            padding-bottom: 0.5rem;
-            margin-bottom: 0.5rem; } }
-        #rushee-list .rushee-entry .rushee-info .rushee-stats .rating {
-          font-size: 125%; }
-        #rushee-list .rushee-entry .rushee-info .rushee-stats > .row {
-          margin-bottom: 0.5rem; }
-      #rushee-list .rushee-entry .rushee-info .rushee-summary > p {
-        max-height: 10rem;
-        overflow: hidden;
-        margin: 0; }
+      #rushee-list .rushee-entry .rushee-info .rushee-year-dorm {
+        margin-bottom: 0.5rem;
+        display: flex;
+        justify-content: space-around; }
+      #rushee-list .rushee-entry .rushee-info .rating {
+        font-size: 125%; }
+    #rushee-list .rushee-entry .rushee-summary > p {
+      max-height: 100%;
+      overflow: hidden;
+      margin: 0.5rem 0; }
 
 #title-detail {
   text-align: left;
   margin-bottom: 4rem;
   padding: 2rem 0; }
   #title-detail .row {
-    margin: 0; }
-  #title-detail #profile-picture {
-    display: inline-block;
-    padding: 0;
     margin: 0;
-    max-width: 15rem;
-    max-height: 15rem; }
+    position: relative; }
   #title-detail #title-info {
-    padding: 2rem;
-    padding-bottom: 0;
     display: flex;
-    flex-direction: column; }
+    flex-direction: column;
+    justify-content: space-around; }
     @media (max-width: 48em) {
       #title-detail #title-info {
         padding-left: 0;
@@ -294,10 +307,9 @@ button, input[type=submit] {
           color: #fff; }
       #title-detail #title-info > .rating > div {
         color: #fff; }
-    #title-detail #title-info > .rushee-year-dorm > span {
-      float: left;
-      width: 8rem;
-      padding-left: 1rem; }
+    #title-detail #title-info > .rushee-year-dorm {
+      display: flex;
+      justify-content: space-around; }
     #title-detail #title-info .rushee-attendance .attended-true {
       background-color: #fff; }
     #title-detail #title-info .rushee-attendance .attended-false {
@@ -309,14 +321,18 @@ button, input[type=submit] {
 .content {
   color: #111; }
 
+#back-button-anchor {
+  position: relative; }
+
 #back-button {
-  position: relative;
-  left: -1rem;
-  text-align: middle;
-  padding-top: 3rem;
+  display: table-cell;
+  position: absolute;
+  left: -3rem;
+  top: calc(50% - 2.5rem);
   color: #fff;
   font-size: 300%;
-  transition: text-shadow 0.2s ease-in-out; }
+  transition: text-shadow 0.2s ease-in-out;
+  z-index: 10; }
   #back-button:hover {
     text-decoration: none;
     text-shadow: 0 0 0.5rem; }
@@ -367,7 +383,8 @@ button, input[type=submit] {
   border: none;
   border-bottom: 0.1rem solid #ddd;
   font-size: 150%;
-  margin-bottom: .5rem; }
+  margin-bottom: .5rem;
+  outline: none; }
   #returner-search-input:active, #returner-search-input:focus {
     border-bottom-color: #d01131; }
 
@@ -385,9 +402,14 @@ button, input[type=submit] {
       background-color: #ddd; }
   #returner-search-results label {
     display: block;
-    padding: 0.5rem 1rem; }
-  #returner-search-results .returner-dorm {
-    float: right; }
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: flex-end; }
+  #returner-search-results .returner-name {
+    flex-grow: 1; }
+  #returner-search-results .returner-room {
+    margin-left: 0.5rem;
+    min-width: 2rem; }
 
 #checkin-btn:disabled {
   cursor: default;
@@ -395,19 +417,36 @@ button, input[type=submit] {
   #checkin-btn:disabled:hover, #checkin-btn:disabled:focus, #checkin-btn:disabled:active {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }
 
-.input-item > label {
-  text-align: right;
-  width: 8rem;
-  margin-right: 1rem; }
+.input-item {
+  display: flex; }
+  .input-item > label {
+    text-align: right;
+    width: 8rem;
+    padding-right: 1rem;
+    margin: auto 0; }
+  .input-item > input {
+    flex-grow: 1; }
 
 #webcam {
-  margin-left: 9rem;
-  width: 32rem;
-  height: 24rem; }
+  margin: 0 0 0 auto;
+  max-width: 40rem; }
+  @media (max-width: 48em) {
+    #webcam {
+      margin: 0 auto; } }
+  #webcam:before {
+    content: "";
+    float: left;
+    padding-bottom: 75%; }
 
-#submit-btn {
-  font-size: 150%;
-  margin-left: 9rem;
-  margin-top: 1rem; }
+#input-fields {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around; }
 
-/*# sourceMappingURL=master.css.map */
+#submit-box {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center; }
+  #submit-box #submit-btn {
+    font-size: 150%;
+    width: 62%; }

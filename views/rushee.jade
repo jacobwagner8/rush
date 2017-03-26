@@ -1,18 +1,20 @@
 extends layout
 
 block title
-  title Rushee - #{rushee.name}
+  title ΦKΨ Rush Portal - #{rushee.name}
 
 block header
   div#title-detail.card-shadow
     div.container
-      di.row
-        a#back-button.col-md-1(href="/" title="Back to list") ❰
-        img#profile-picture.col-md-3.col-xl-2.card(src=rushee.profile_picture)
-        div#title-info.col-md-8.col-xl-9
+      div.row
+        div.col-12.col-md-3.col-xl-2
+          div#back-button-anchor.sm-max-width-12
+            a#back-button(href="/" title="Back to list") ❰
+            img#profile-picture.img-fluid.card(src=rushee.profile_picture)
+        div#title-info.col-12.col-md-9.col-xl-10
           h1 #{rushee.name}
-          +rating(rushee.id, rushee.avg_rating, rushee.num_ratings)
-          +rush-attendance(attendance)
+          +rating(rushee.id, rushee.score, _.sum(rushee.ratings))
+          +rush-attendance(rushee.attendance)
           div.rushee-year-dorm
             span.rushee-year #{rushee.year}.
             span.rushee-dorm #{rushee.dorm} #{rushee.room_number}
@@ -26,14 +28,14 @@ mixin trait-full(trait_full)
   li.trait-full.clearfix
     +trait-vote(trait_full)
     +trait(trait_full)
-    div.trait-endorsements
+    span.trait-endorsements
       each active_name, idx in trait_full.actives
         - if (idx < 8)
           +initials-box(active_name)
 
 block content
   script.
-    var rushee = !{JSON.stringify(rushee)}; var traits = !{JSON.stringify(traits)}; var ratings = !{JSON.stringify(ratings)};
+    var rushee = !{JSON.stringify(rushee)};
   h2.detail-header Distribution of Ratings
   //- Heights set via js
   div.histogram.detail-item#histogram
@@ -54,7 +56,7 @@ block content
   //- TODO: dirty / clean indicator for #detail-summary
   h2.detail-header Character Traits
   ol#trait-list.detail-item
-    each trait in traits
+    each trait in rushee.traits
       +trait-full(trait)
   input#trait-input.detail-item(type="text" placeholder="Know #{rushee.name.split(' ')[0]}? Add a trait")
   h2.detail-header Comments

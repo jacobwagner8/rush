@@ -76,8 +76,6 @@ module.exports = function defineRouter(models) {
 
   router.post('/register', async(function*(ctx) {
     const vals = ctx.request.body;
-    vals.avg_rating = 3;
-    vals.num_ratings = 1;
     const rushee = yield models.rushee.create(vals);
 
     // Check in automatically
@@ -100,18 +98,16 @@ module.exports = function defineRouter(models) {
   }));
 
   router.post('/rate/:rushee_id', async(function*(ctx) {
-    const active = ctx.req.user;
-    const rushee_id = parseInt(ctx.params.rushee_id);
-    const rating = ctx.request.body.rating;
-    const result = yield models.rushee.rate(rushee_id, active.id, rating);
-    ctx.body = result[0][0];
+    let active = ctx.req.user;
+    let rushee_id = parseInt(ctx.params.rushee_id);
+    let rating = ctx.request.body.rating;
+    ctx.body = yield models.rushee.rate(rushee_id, active.id, rating);
   }));
 
   router.post('/unrate/:rushee_id', async(function*(ctx) {
-    const active = ctx.req.user;
-    const rushee_id = parseInt(ctx.params.rushee_id);
-    const result = yield models.rushee.unrate(rushee_id, active.id);
-    ctx.body = result[0][0];
+    let active = ctx.req.user;
+    let rushee_id = parseInt(ctx.params.rushee_id);
+    ctx.body = yield models.rushee.unrate(rushee_id, active.id);
   }));
 
   // Rushee detail view

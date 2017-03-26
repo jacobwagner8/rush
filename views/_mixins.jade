@@ -1,7 +1,7 @@
 //- 5-star rating
-mixin rating(rushee_id, rating, count)
+mixin rating(rushee_id, score, count)
   div.rating(id="rating-#{rushee_id}")
-    div(id="avg-rating-#{rushee_id}") #{Math.round(rating * 100) / 100} (#{count-1})
+    div(id="score-#{rushee_id}") #{Math.round(score * 100) / 100} (#{count})
     span(id="rating-input-#{rushee_id}-5") ★
     span(id="rating-input-#{rushee_id}-4") ★
     span(id="rating-input-#{rushee_id}-3") ★

@@ -8,8 +8,7 @@ const rushees = [
     name: "John Doe",
     profile_picture: "http://placehold.it/450x450",
     summary: "John fucking pulls!! Bid for sure. 5-5 chill to pull. Blah blah blah.",
-    year: 'Fr',
-    avg_rating: 5
+    year: 'Fr'
   },
   {
     dorm: "Serra",

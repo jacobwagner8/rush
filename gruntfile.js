@@ -36,7 +36,7 @@ module.exports = grunt => {
   });
 
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-sass');
 
   grunt.registerTask('default', ['sass', 'copy']);
 };

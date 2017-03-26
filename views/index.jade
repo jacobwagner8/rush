@@ -1,27 +1,30 @@
 extends layout
 
 block title
-  title Rushee List
+  title ΦKΨ Rush Portal
 
 mixin character-trait()
 
-mixin rushee(data)
-  li.rushee-entry.card-hover(id="rushee-card-#{data.id}")
-    a.row(href="/rushee/#{data.id}")
-      img.rushee-picture.col-xl-2.col-lg-3.col-md-4(src=data.profile_picture)
-      div.rushee-info.col-xl-10.col-lg-9.col-md-8.row
-        div.rushee-stats.col-xl-4.col-lg-5.col-md-6.clearfix
-          h2.rushee-name #{data.name}
-          +rating(data.id, data.avg_rating, data.num_ratings)
-          +rush-attendance(data.attendance)
+mixin rushee(rushee)
+  li.rushee-entry.card-hover(id="rushee-card-#{rushee.id}")
+    a(href="/rushee/#{rushee.id}")
+      div.row
+        div.rushee-picture.col-12.col-sm-3.col-xl-2
+          div.xs-max-width-12
+            img.img-fluid(src=rushee.profile_picture)
+        div.rushee-info.col-12.col-sm-5.col-xl-6
+          h2.rushee-name #{rushee.name}
+          +rating(rushee.id, rushee.score, _.sum(rushee.ratings))
+          +rush-attendance(rushee.attendance)
           div.top-traits-container.clearfix
-            each trait, idx in data.traits
+            each trait, idx in rushee.traits
               - if (idx < 2)
                 +trait(trait)
-          span.rushee-year #{data.year}.
-          span.rushee-dorm #{data.dorm}
-        div.rushee-summary.col-xl-8.col-lg-7.col-md-6
-          p #{data.summary == "" ? "No description yet" : data.summary}
+          div.rushee-year-dorm
+            span.rushee-year #{rushee.year}.
+            span.rushee-dorm #{rushee.dorm} #{rushee.room_number}
+        div.rushee-summary.col-12.col-sm-4
+          p #{rushee.summary == "" ? "No description yet" : rushee.summary}
 
 block header
   h1#title.card-shadow Rushee List
