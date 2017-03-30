@@ -300,7 +300,7 @@ button, input[type=submit] {
 
 #title-detail {
   text-align: left;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
   padding: 2rem 0; }
   #title-detail .row {
     margin: 0;
@@ -308,7 +308,7 @@ button, input[type=submit] {
   #title-detail #title-info {
     display: flex;
     flex-direction: column;
-    justify-content: space-around; }
+    justify-content: space-between; }
     @media (max-width: 48em) {
       #title-detail #title-info {
         padding-left: 0;
@@ -316,7 +316,8 @@ button, input[type=submit] {
         text-align: center; } }
     #title-detail #title-info > h1 {
       display: inline-block;
-      font-size: 400%; }
+      font-size: 400%;
+      margin-bottom: 1rem; }
     #title-detail #title-info > .rating {
       width: 100%;
       font-size: 150%; }
@@ -329,9 +330,11 @@ button, input[type=submit] {
     #title-detail #title-info > .rushee-year-dorm {
       display: flex;
       justify-content: space-around; }
-    #title-detail #title-info .rushee-attendance .attended-true {
+    #title-detail #title-info .rushee-attendance {
+      margin: 0; }
+    #title-detail #title-info .attended-true {
       background-color: #fff; }
-    #title-detail #title-info .rushee-attendance .attended-false {
+    #title-detail #title-info .attended-false {
       background-color: #539e53; }
 
 #histogram > .hist-bars {

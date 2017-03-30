@@ -1,7 +1,7 @@
 #title-detail {
   @extend #title;
   text-align: left;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
   padding: 2rem 0;
 
   .row {
@@ -12,7 +12,7 @@
    #title-info {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     
     @media (max-width: 48em) {
       padding-left: 0;
@@ -23,6 +23,7 @@
     > h1 {
       display: inline-block;
       font-size: 400%;
+      margin-bottom: 1rem;
     }
 
     > .rating {
@@ -48,12 +49,13 @@
     }
     
     .rushee-attendance {
-      .attended-true {
-        background-color: #fff;
-      }
-      .attended-false {
-        background-color: #539e53;
-      }
+      margin: 0;
+    }
+    .attended-true {
+      background-color: #fff;
+    }
+    .attended-false {
+      background-color: #539e53;
     }
   }
 }

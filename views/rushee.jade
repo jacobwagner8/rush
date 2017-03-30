@@ -7,11 +7,11 @@ block header
   div#title-detail.card-shadow
     div.container
       div.row
-        div.col-12.col-md-3.col-xl-2
+        div.col-12.col-md-3
           div#back-button-anchor.sm-max-width-12
             a#back-button(href="/" title="Back to list") ❰
             img#profile-picture.img-fluid.card(src=rushee.profile_picture)
-        div#title-info.col-12.col-md-9.col-xl-10
+        div#title-info.col-12.col-md-9
           h1 #{rushee.name}
           +rating(rushee.id, rushee.score, _.sum(rushee.ratings))
           +rush-attendance(rushee.attendance)
