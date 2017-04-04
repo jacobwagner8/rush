@@ -58,6 +58,7 @@ $('#register-form').on('submit', function(e) {
   var rusheeYear = $('#rushee-year').val();
   var rusheeDorm = $('#rushee-dorm').val();
   var rusheeRoom = $('#rushee-room').val();
+  var rusheePhone = $('#rushee-phone').val();
   // Upload picture to s3, viewable at publicPictureUrl
   var pictureFileName = rusheeName.replace(/\s+/g, '-') + '.jpg';
   Webcam.snap(function(dataURI) {
@@ -91,6 +92,7 @@ $('#register-form').on('submit', function(e) {
             year: rusheeYear,
             dorm: rusheeDorm,
             room_number: rusheeRoom,
+            phone_number: rusheePhoneNumber,
             profile_picture: publicPictureUrl
           }, reset);
         }

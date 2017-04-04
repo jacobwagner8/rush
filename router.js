@@ -9,16 +9,14 @@ function getTodaysEventId() {
   const date = new Date();
   const month = date.getMonth(); // month is 0-indexed
   const day = date.getDate(); // day is 1-indexed. Why, I have no idea
-  if (month === 2 && day === 29)
-    return 1;
-  if (month === 2 && day === 31)
-    return 2;
   if (month === 3 && day === 5)
-    return 3;
+    return 1;
   if (month === 3 && day === 7)
-    return 4;
+    return 2;
   if (month === 3 && day === 9)
-    return 5;
+    return 3;
+  if (month === 3 && day === 11)
+    return 4;
   return 0;
 }
 

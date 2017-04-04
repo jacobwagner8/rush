@@ -72,6 +72,7 @@ module.exports = function(db) {
       dorm: string_column(),
       room_number: string_column(),
       name: name_column(),
+      phone_number: string_column(),
       // nickname: name_column(), // TODO
       profile_picture: string_column(),
       summary: text_column(),

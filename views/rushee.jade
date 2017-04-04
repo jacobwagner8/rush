@@ -16,8 +16,9 @@ block header
           +rating(rushee.id, rushee.score, _.sum(rushee.ratings))
           +rush-attendance(rushee.attendance)
           div.rushee-year-dorm
-            span.rushee-year #{rushee.year}.
-            span.rushee-dorm #{rushee.dorm} #{rushee.room_number}
+            span #{rushee.year}.
+            span #{rushee.dorm} #{rushee.room_number}
+            span #{rushee.phone_number}
 
 mixin comment(comment)
   li.comment.clearfix
