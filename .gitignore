@@ -12,3 +12,5 @@ config.js
 seed-prod.js
 # VS Code
 .vscode/
+# Key Files
+*.pem

@@ -43,7 +43,7 @@ const define_authentication = require('./auth');
 
 // Connect to DB
 const initDB = async(function*() {
-  const db = new Sequelize('rush', 
+  const db = new Sequelize('rushdb', 
       process.env.DB_USER || 'rushadmin', 
       process.env.DB_PWD || secrets.rushadmin_db_pwd, {
     host: process.env.DB_HOST || 'localhost',
