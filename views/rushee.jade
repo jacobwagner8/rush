@@ -55,7 +55,7 @@ block content
   h2.detail-header Brother-written summary
   textarea#detail-summary.detail-item(placeholder="Write a summary for #{rushee.name}") #{rushee.summary}
   //- TODO: dirty / clean indicator for #detail-summary
-  h2.detail-header Character Traits
+  h2.detail-header Bullet Points
   ol#trait-list.detail-item
     each trait in rushee.traits
       +trait-full(trait)

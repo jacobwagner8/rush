@@ -1,6 +1,6 @@
 const secrets = require('./secrets');
 
-const events = [{},{},{},{},{}];
+const events = [{},{},{},{}];
 
 const rushees = [
   {
