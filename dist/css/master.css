@@ -133,9 +133,10 @@ button, input[type=submit] {
 .trait {
   margin: 0;
   padding: 0;
-  display: inline-block;
+  display: block;
   white-space: nowrap;
-  overflow: hidden; }
+  overflow: hidden;
+  flex-shrink: 0; }
   .trait > .num-endorsements {
     background-color: #d01131;
     border-radius: 0.2rem 0 0 0.2rem;
@@ -157,16 +158,13 @@ button, input[type=submit] {
 
 .trait-full {
   width: 100%;
-  position: relative; }
+  display: flex; }
   .trait-full .trait {
-    position: absolute;
-    top: 0;
-    left: 2rem;
+    margin-left: 2rem;
     z-index: 10; }
-  .trait-full .trait-endorsements {
-    float: right; }
 
 .trait-endorsements {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: row-reverse; }
   .trait-endorsements .name-box {
@@ -383,10 +381,6 @@ button, input[type=submit] {
   padding: 0; }
   #trait-list > .trait-full {
     margin-bottom: 0.5rem; }
-    #trait-list > .trait-full .trait {
-      max-width: 70%; }
-      #trait-list > .trait-full .trait > p {
-        padding: 0.5rem 1rem; }
 
 #comment-list {
   list-style-type: none;

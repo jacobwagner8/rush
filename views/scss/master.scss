@@ -192,9 +192,10 @@ button, input[type=submit] {
 .trait {
   margin: 0;
   padding: 0;
-  display: inline-block;
+  display: block;
   white-space: nowrap;
   overflow: hidden;
+  flex-shrink: 0;
 
   > .num-endorsements {
     background-color: $cardinal-red;
@@ -222,21 +223,16 @@ button, input[type=submit] {
 
 .trait-full {
   width: 100%;
-  position: relative;
+  display: flex;
 
   .trait {
-    position: absolute;
-    top: 0;
-    left: 2rem;
+    margin-left: 2rem;
     z-index: 10;
-  }
-
-  .trait-endorsements {
-    float: right;
   }
 }
 
 .trait-endorsements {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: row-reverse;
 
