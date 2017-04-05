@@ -1,13 +1,14 @@
 const bodyParser  = require('koa-bodyparser');
 const convert     = require('koa-convert');
 const favicon     = require('koa-favicon');
+const https       = require('https');
 const jade        = require('koa-jade-render');
 const Koa         = require('koa');
 const logger      = require('koa-logger');
 const mount       = require('koa-mount');
 const Sequelize   = require('sequelize')
 const serve       = require('koa-static');
-const session     = require('koa-session');
+const session     = require('koa-generic-session');
 const winston     = require('winston');
 
 // Environment Detection
@@ -82,7 +83,7 @@ initDB()
     // sessions
     const sessionKey = process.env.SESSION_KEY || 'test123abc geed city 4 lyfe';
     app.keys = [sessionKey];
-    app.use(session(app));
+    app.use(convert(session()));
 
     // auth
     const passport = define_authentication(models);
@@ -98,5 +99,7 @@ initDB()
     app.use(router.routes());
 
     app.listen(process.env.PORT || 3000);
+    if (!dev)
+      https.createServer(app.callback()).listen(443);
     Log.info('Listening');
   });
