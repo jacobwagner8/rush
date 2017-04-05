@@ -50,6 +50,7 @@
     "grunt": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-sass": "^2.0.0",
-    "node-sass": "^4.5.2"
+    "node-sass": "^4.5.2",
+    "pm2": "^2.4.4"
   }
 }

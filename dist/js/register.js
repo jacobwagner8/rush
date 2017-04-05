@@ -92,7 +92,7 @@ $('#register-form').on('submit', function(e) {
             year: rusheeYear,
             dorm: rusheeDorm,
             room_number: rusheeRoom,
-            phone_number: rusheePhoneNumber,
+            phone_number: rusheePhone,
             profile_picture: publicPictureUrl
           }, reset);
         }

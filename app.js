@@ -1,3 +1,4 @@
+#!/bin/node
 const bodyParser  = require('koa-bodyparser');
 const convert     = require('koa-convert');
 const favicon     = require('koa-favicon');
