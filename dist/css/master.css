@@ -161,6 +161,7 @@ button, input[type=submit] {
   display: flex; }
   .trait-full .trait {
     margin-left: 2rem;
+    margin-right: 0.1rem;
     z-index: 10; }
 
 .trait-endorsements {
