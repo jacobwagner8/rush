@@ -90,7 +90,7 @@ initDB()
     app.use(serve('dist'));
     app.use(jade('views'));
 
-    const router = define_router(models, config);
+    const router = define_router(models);
     app.use(router.routes());
 
     app.listen(config.http_port || 8000);
