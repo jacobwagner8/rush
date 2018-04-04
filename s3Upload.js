@@ -22,7 +22,7 @@ Promise.promisifyAll(s3Client);
 function getUploadOptions(key) {
   return {
     key: key,
-    bucket: s3_bucket
+    bucket: config.s3_bucket
   };
 }
 
