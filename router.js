@@ -10,7 +10,9 @@ function getTodaysEventId() {
   // const month = date.getMonth(); // month is 0-indexed
   const date = new Date();
   const day = date.getDate(); // day is 1-indexed. Why, I have no idea
-  return _.findIndex(config.event_dates, day) + 1
+  const x = config.event_dates.indexOf(day) + 1
+  console.log(x);
+  return x;
 }
 
 module.exports = function defineRouter(models) {
