@@ -60,7 +60,7 @@ $('#register-form').on('submit', function(e) {
   var rusheeRoom = $('#rushee-room').val();
   var rusheePhone = $('#rushee-phone').val();
   // Upload picture to s3, viewable at publicPictureUrl
-  var pictureFileName = rusheeName.replace(/\s+/g, '-') + '.jpg';
+  var pictureFileName = rusheeName.replace(/\s+/g, '-') + (new Date()).toISOString() + '.jpg';
   Webcam.snap(function(dataURI) {
     $.get('/rushee-picture-upload/' + pictureFileName, {}, function(uploadParams) {
       var publicPictureUrl = uploadParams.public_url;
