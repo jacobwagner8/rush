@@ -1,18 +1,19 @@
 const getUploadParams = require('./s3Upload');
 const passport = require('koa-passport');
 const Router = require('koa-router');
+const config = require('./config')
 
 process.env.TZ = 'America/Los_Angeles';
 
 // Returns 1-indexed event number. 0 if invalid.
-function getTodaysEventId(config) {
+function getTodaysEventId() {
   // const month = date.getMonth(); // month is 0-indexed
   const date = new Date();
   const day = date.getDate(); // day is 1-indexed. Why, I have no idea
   return _.findIndex(config.event_dates, day) + 1
 }
 
-module.exports = function defineRouter(models, config) {
+module.exports = function defineRouter(models) {
   const router = new Router();
 
   router.get('/login', function(ctx) {
