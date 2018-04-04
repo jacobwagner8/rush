@@ -12,14 +12,8 @@ const serve       = require('koa-static');
 const session     = require('koa-generic-session');
 const winston     = require('winston');
 
-// Environment Detection
-const dev = process.env.ENV !== 'prod';
-
-
-if (dev) {
-  var config  = require('./config');
-  var secrets = require('./secrets');
-}
+var config  = require('./config');
+var secrets  = require('./secrets');
 
 // Logger
 const consoleLogger = new (winston.Logger)({
@@ -46,16 +40,16 @@ const define_authentication = require('./auth');
 // Connect to DB
 const initDB = async(function*() {
   const db = new Sequelize('rush', 
-      process.env.DB_USER || 'rushadmin', 
-      process.env.DB_PWD || secrets.rushadmin_db_pwd, {
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 5432,
+      config.db_user || 'rushadmin', 
+      secrets.db_pwd || 'password', {
+    host: config.db_host || 'localhost',
+    port: config.db_port || 5432,
     dialect: 'postgres',
     logging: Log.info
   });
 
   const models = define_models(db);
-  if (dev && config.do_db_reset) {
+  if (config.do_db_reset) {
     yield db.drop();
     yield db.sync();
     Log.info('Seeding data');
@@ -82,7 +76,7 @@ initDB()
     app.use(bodyParser());
 
     // sessions
-    const sessionKey = process.env.SESSION_KEY || 'test123abc geed city 4 lyfe';
+    const sessionKey = secrets.session_key || 'test123abc geed city 4 lyfe';
     app.keys = [sessionKey];
     app.use(convert(session()));
 
@@ -96,11 +90,10 @@ initDB()
     app.use(serve('dist'));
     app.use(jade('views'));
 
-    const router = define_router(models);
+    const router = define_router(models, config);
     app.use(router.routes());
 
-    app.listen(process.env.PORT || 3000);
-    if (!dev)
-      https.createServer(app.callback()).listen(443);
+    app.listen(config.http_port || 8000);
+    https.createServer(app.callback()).listen(config.https_port || 8443);
     Log.info('Listening');
   });

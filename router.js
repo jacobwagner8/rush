@@ -4,23 +4,15 @@ const Router = require('koa-router');
 
 process.env.TZ = 'America/Los_Angeles';
 
-// TODO: replace these dates with 2017's event dates
-function getTodaysEventId() {
+// Returns 1-indexed event number. 0 if invalid.
+function getTodaysEventId(config) {
+  // const month = date.getMonth(); // month is 0-indexed
   const date = new Date();
-  const month = date.getMonth(); // month is 0-indexed
   const day = date.getDate(); // day is 1-indexed. Why, I have no idea
-  if (month === 3 && day === 5)
-    return 1;
-  if (month === 3 && day === 7)
-    return 2;
-  if (month === 3 && day === 9)
-    return 3;
-  if (month === 3 && day === 11)
-    return 4;
-  return 0;
+  return _.findIndex(config.event_dates, day) + 1
 }
 
-module.exports = function defineRouter(models) {
+module.exports = function defineRouter(models, config) {
   const router = new Router();
 
   router.get('/login', function(ctx) {

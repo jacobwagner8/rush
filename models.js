@@ -1,5 +1,3 @@
-const rushees_per_page = 25; // for rushee list view
-
 /**
  * 
  * @param {*Array of int} ratings 
