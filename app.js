@@ -48,7 +48,7 @@ const initDB = async(function*() {
     logging: Log.info
   });
 
-  const models = define_models(db);
+  const models = define_models(db);  
   if (config.do_db_reset) {
     yield db.drop();
     yield db.sync();

@@ -5,8 +5,6 @@
 
 const S3Client = require('s3-browser-direct-upload');
 
-const dev = process.env.ENV !== 'prod';
-
 var config = require('./config');
 var secrets = require('./secrets');
 
