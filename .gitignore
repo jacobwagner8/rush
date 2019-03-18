@@ -13,3 +13,6 @@ seed-prod.js
 .vscode/
 # Key Files
 *.pem
+
+**/.DS_Store 
+.DS_Store
