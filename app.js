@@ -10,7 +10,9 @@ const mount       = require('koa-mount');
 const Sequelize   = require('sequelize')
 const serve       = require('koa-static');
 const session     = require('koa-generic-session');
+const cors = require('@koa/cors');
 const winston     = require('winston');
+
 
 var config  = require('./config');
 var secrets  = require('./secrets');
@@ -63,6 +65,7 @@ const initDB = async(function*() {
 initDB()
   .then(models => {
     const app = new Koa();
+    app.use(cors());
 
     // convert legacy express middleware
     // to fancy promise-based middleware
