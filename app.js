@@ -65,7 +65,6 @@ const initDB = async(function*() {
 initDB()
   .then(models => {
     const app = new Koa();
-    app.use(cors());
 
     // convert legacy express middleware
     // to fancy promise-based middleware
@@ -95,6 +94,8 @@ initDB()
 
     const router = define_router(models);
     app.use(router.routes());
+
+    app.use(cors({origin: '*'}))
 
     app.listen(config.http_port || 8000);
     https.createServer(app.callback()).listen(config.https_port || 8443);

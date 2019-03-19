@@ -85,6 +85,14 @@ $('#register-form').on('submit', function(e) {
         data: formData,
         error: function(jqXHR, textStatus, errorThrown) {
           console.log(textStatus + ':' + errorThrown);
+          $.post('/register', {
+            name: rusheeName,
+            year: rusheeYear,
+            dorm: rusheeDorm,
+            room_number: rusheeRoom,
+            phone_number: rusheePhone,
+            profile_picture: publicPictureUrl
+          }, reset);
         },
         success: function() {
           $.post('/register', {
