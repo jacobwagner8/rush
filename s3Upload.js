@@ -14,8 +14,6 @@ const s3ClientOptions = {
   region: config.s3_region,
 };
 
-console.log(s3ClientOptions);
-
 const s3Client = new S3Client(s3ClientOptions, ['jpg', 'png']);
 Promise.promisifyAll(s3Client);
 
@@ -28,10 +26,7 @@ function getUploadOptions(key) {
 
 module.exports = function getUploadParams(key) {
   const options = getUploadOptions(key);
-  console.log(options);
   return s3Client.uploadPostForm(options, function(err, params){
-    console.log("----");
-    console.log(err, params); // params contain all the data required to build browser-based form for direct upload (check API Documentation)
     return (params);
   });
 };
