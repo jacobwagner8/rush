@@ -1,0 +1,13 @@
+*.swp
+*.zip
+*-cache
+node_modules/
+*.log
+seed-prod.js
+# VS Code
+.vscode/
+# Key Files
+*.pem
+
+**/.DS_Store
+.DS_Store
