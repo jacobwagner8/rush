@@ -81,7 +81,7 @@ initDB().then(models => {
   // sessions
   const sessionKey = secrets.session_key || 'test123abc geed city 4 lyfe';
   app.keys = [sessionKey];
-  const config = {
+  const sessionConfig = {
     cookie: {
       path: '/',
       httpOnly: true,
@@ -90,7 +90,7 @@ initDB().then(models => {
       signed: true,
     },
   };
-  app.use(convert(session()));
+  app.use(convert(session(sessionConfig)));
 
   // auth
   const passport = define_authentication(models);

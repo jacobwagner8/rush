@@ -9,5 +9,5 @@ module.exports = {
   db_host: process.env.DB_HOST,
   db_user: process.env.DB_USERNAME,
   db_port: process.env.DB_PORT,
-  http_port: production ? 80 : 8000,
+  http_port: 8081,
 };
