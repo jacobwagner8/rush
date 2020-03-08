@@ -196,11 +196,20 @@ module.exports = function(db) {
           rushee.add_trait =(rushee_id, active_id, trait_name) =>
       retryableTransaction(t =>
               db.models.trait.upsert({ name: trait_name }, { transaction: t })
-                  .then(() => db.models.rushee_trait_vote.upsert({
-                    rushee_id: rushee_id,
-                    active_id: active_id,
-                    trait_name: trait_name
-                  }, { transaction: t }))
+                  .then(() => {
+                      const pk = {
+                          rushee_id,
+                          active_id,
+                          trait_name
+                      };
+
+                      return db.models.rushee_trait_vote.destroy({
+                          where: pk,
+                          transaction: t
+                      })
+                          .then(() => db.models.rushee_trait_vote.create(pk, { transaction: t }));
+
+                  })
           , { isolationLevel: 'SERIALIZABLE' });
 
       /** updates vote for this trait
@@ -240,11 +249,20 @@ module.exports = function(db) {
         text: comment
       });
 
-      rushee.checkin = (rushee_id, event_id) =>
-      db.models.event_attendance.upsert({
-        rushee_id: rushee_id,
-        event_id: event_id
-      });
+      rushee.checkin = (rushee_id, event_id) => {
+          const value = {
+              rushee_id,
+              event_id,
+          };
+
+          return retryableTransaction(t =>
+              db.models.event_attendance.destroy({
+                  where: value,
+                  transaction: t
+              })
+                  .then(() => db.models.event_attendance.create(value, { transaction: t }))
+          );
+      };
 
           rushee.getAttendance = rushee_id =>
       db.models.event_attendance.findAll({
@@ -254,14 +272,14 @@ module.exports = function(db) {
 
   return {
 
-    active: db.define('active', {
+    rushee,
+
+  active: db.define('active', {
       name: name_column(),
       pwd: { type: db.Sequelize.STRING(32), allowNull: false }
-    }, {
+  }, {
       indexes: [name_index()]
-    }),
-
-    rushee,
+  }),
 
     rating: db.define('rating', {
       rushee_id: { type: db.Sequelize.INTEGER, primaryKey: 'vote_pkey', references: { model: db.models.rushee }, onDelete: 'cascade' },
@@ -269,14 +287,17 @@ module.exports = function(db) {
       value: { type: db.Sequelize.INTEGER, allowNull: false, min: 1, max: 5 }
     }),
 
-    trait: db.define('trait', {
-      name: { type: db.Sequelize.STRING, primaryKey: true }
-    }),
+      trait: db.define('trait', {
+          name: { type: db.Sequelize.STRING, primaryKey: true }
+      }),
 
-    rushee_trait_vote: db.define('rushee_trait_vote', {
-      rushee_id: { type: db.Sequelize.INTEGER, primaryKey: 'rushee_trait_vote_pkey', references: { model: db.models.rushee }, onDelete: 'cascade' },
-      trait_name: { type: db.Sequelize.STRING, primaryKey: 'rushee_trait_vote_pkey', references: { model: db.models.trait, key: 'name' }, onDelete: 'cascade' },
-      active_id: { type: db.Sequelize.INTEGER, primaryKey: 'rushee_trait_vote_pkey', references: { model: db.models.active }, onDelete: 'cascade' }
+      event: db.define('event', {}),
+
+
+      rushee_trait_vote: db.define('rushee_trait_vote', {
+        rushee_id: { type: db.Sequelize.INTEGER, primaryKey: 'rushee_trait_vote_pkey', references: { model: db.models.rushee }, onDelete: 'cascade' },
+        trait_name: { type: db.Sequelize.STRING, primaryKey: 'rushee_trait_vote_pkey', references: { model: db.models.trait, key: 'name' }, onDelete: 'cascade' },
+        active_id: { type: db.Sequelize.INTEGER, primaryKey: 'rushee_trait_vote_pkey', references: { model: db.models.active }, onDelete: 'cascade' }
     }),
 
     rushee_comment: db.define('rushee_comment', {
@@ -284,8 +305,6 @@ module.exports = function(db) {
       active_id: { type: db.Sequelize.INTEGER, references: { model: db.models.active }, onDelete: 'cascade', allowNull: false },
       text: text_column()
     }),
-
-    event: db.define('event', {}),
 
     event_attendance: db.define('event_attendance', {
       rushee_id: { type: db.Sequelize.INTEGER, primaryKey: 'event_attendance_pkey', references: { model: db.models.rushee }, onDelete: 'cascade', allowNull: false },

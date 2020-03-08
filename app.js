@@ -14,8 +14,8 @@ const cors = require('@koa/cors');
 const winston = require('winston');
 require('dotenv').config();
 
-const config = require('./config');
-const secrets = require('./secrets');
+const config = require('./src/config');
+const secrets = require('./src/secrets');
 
 // Logger
 const consoleLogger = winston.createLogger({
@@ -35,9 +35,9 @@ global.async = Promise.coroutine;
 
 Promise.longStackTraces();
 
-const define_models = require('./models');
-const define_router = require('./router');
-const define_authentication = require('./auth');
+const define_models = require('./src/models');
+const define_router = require('./src/router');
+const define_authentication = require('./src/auth');
 
 // Connect to DB
 const initDB = async(function*() {
@@ -58,7 +58,7 @@ const initDB = async(function*() {
     yield db.drop();
     yield db.sync();
     Log.info('Seeding data');
-    yield require('./seed-dev')(db);
+    yield require('./src/seed-dev')(db);
   } else yield db.sync();
   Log.info('Finished Model Setup');
   return models;
