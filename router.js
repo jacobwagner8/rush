@@ -70,7 +70,7 @@ module.exports = function defineRouter(models) {
     '/rushee-picture-upload/:file_name',
     async(function*(ctx) {
       const rusheeName = ctx.params.file_name;
-      ctx.body = yield getUploadParams(rusheeName);
+      ctx.body = getUploadParams(rusheeName);
     }),
   );
 
