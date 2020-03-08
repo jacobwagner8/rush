@@ -22,18 +22,25 @@ function defineRetryTransaction(sequelize) {
     options.maxTries = options.maxTries || 3;
     options.isolationLevel = options.isolationLevel || 'REPEATABLE READ';
 
-    for (var currentTry = 0; currentTry < options.maxTries; currentTry++ ) {
+    for (var currentTry = 0; currentTry < options.maxTries; currentTry++) {
       try {
-        return yield sequelize.transaction({ isolationLevel: options.isolationLevel }, callback);
-      }
-      catch (e) {
+        return yield sequelize.transaction(
+          { isolationLevel: options.isolationLevel },
+          callback,
+        );
+      } catch (e) {
         // only retry if transaction failed due to concurrent access
-        if (!(e instanceof Sequelize.DatabaseError) ||
-            (e.original.code !== '40001' &&
-             e.original.code !== '40P01'))
+        if (
+          !(e instanceof Sequelize.DatabaseError) ||
+          (e.original.code !== '40001' && e.original.code !== '40P01')
+        )
           throw e;
 
-        Log.warn('Transaction failed due to concurrent access. (' + e.message + ') Retrying...');
+        Log.warn(
+          'Transaction failed due to concurrent access. (' +
+            e.message +
+            ') Retrying...',
+        );
       }
     }
     throw new CustomError.TransactionRetryLimit(options.maxTries);

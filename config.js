@@ -10,4 +10,4 @@ module.exports = {
   db_user: process.env.DB_USERNAME,
   db_port: process.env.DB_PORT,
   http_port: production ? 80 : 8000,
-}
+};

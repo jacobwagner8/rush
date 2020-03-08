@@ -11,7 +11,7 @@ var secrets = require('./secrets');
 const s3ClientOptions = {
   accessKeyId: process.env.AWS_ACCESS_KEY_ID || secrets.aws_id,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || secrets.aws_secret,
-  region: config.s3_region
+  region: config.s3_region,
 };
 
 const s3Client = new S3Client(s3ClientOptions, ['jpg', 'png']);
@@ -20,7 +20,7 @@ Promise.promisifyAll(s3Client);
 function getUploadOptions(key) {
   return {
     key: key,
-    bucket: config.s3_bucket
+    bucket: config.s3_bucket,
   };
 }
 
