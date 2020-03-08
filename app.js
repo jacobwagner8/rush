@@ -18,7 +18,7 @@ var config  = require('./config');
 var secrets  = require('./secrets');
 
 // Logger
-const consoleLogger = new (winston.Logger)({
+const consoleLogger = winston.createLogger({
   transports: [
     new (winston.transports.Console)({
       colorize: true,
@@ -41,16 +41,16 @@ const define_authentication = require('./auth');
 
 // Connect to DB
 const initDB = async(function*() {
-  const db = new Sequelize('rush', 
-      config.db_user || 'rushadmin', 
+  const db = new Sequelize('rush',
+      config.db_user || 'rushadmin',
       secrets.db_pwd || 'password', {
     host: config.db_host || 'localhost',
     port: config.db_port || 5432,
     dialect: 'postgres',
-    logging: Log.info
+    logging: (msg) => global.Log.info(msg)
   });
 
-  const models = define_models(db);  
+  const models = define_models(db);
   if (config.do_db_reset) {
     yield db.drop();
     yield db.sync();
@@ -95,7 +95,7 @@ initDB()
     const router = define_router(models);
     app.use(router.routes());
 
-    app.use(cors({origin: '*'}))
+    app.use(cors({origin: '*'}));
 
     app.listen(config.http_port || 8000);
     https.createServer(app.callback()).listen(config.https_port || 8443);

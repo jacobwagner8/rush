@@ -1,6 +1,7 @@
 const crypto        = require('crypto');
 const LocalStrategy = require('passport-local').Strategy;
 const passport      = require('koa-passport');
+const Sequelize = require('sequelize');
 
 module.exports = function defineLocalStrategy(models) {
 
@@ -19,7 +20,7 @@ module.exports = function defineLocalStrategy(models) {
     // const pwd_hash = sha256.digest('hex');
 
     models.active.findOne({
-      where: { name: { $iLike: username }, pwd: password }
+      where: { name: { [Sequelize.Op.iLike]: username }, pwd: password }
     })
       .then(user => {
         if (user === null) {
