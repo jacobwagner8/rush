@@ -127,14 +127,14 @@ module.exports = function(db) {
           rushee.getAllIdentifyingInfo = () => db.models.rushee.findAll({
     where: { hide_for_checkin: null },
     attributes: ['id', 'name', 'dorm', 'room_number'],
-    order: 'name'
+    order: [['name', 'ASC']],
   });
 
       rushee.getTopTraits = rushee_id =>
       db.models.rushee_trait.findAll({
         attributes: ['trait_name', 'votes'],
         where: { rushee_id: rushee_id, votes: { $gt: 0 } },
-        order: 'votes DESC',
+        order: [['votes', 'DESC']],
         limit: 3
       });
 
