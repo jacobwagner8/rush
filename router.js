@@ -155,7 +155,6 @@ module.exports = function defineRouter(models) {
       const rushee_id = parseInt(ctx.params.rushee_id);
       const trait_name = ctx.params.trait_name;
 
-      console.log(rushee_id, active_id, trait_name);
       const success = yield models.rushee.add_trait(
         rushee_id,
         active_id,
