@@ -14,5 +14,9 @@ seed-prod.js
 # Key Files
 *.pem
 
-**/.DS_Store 
+**/.DS_Store
 .DS_Store
+
+.env
+.prod.env
+.dev.env

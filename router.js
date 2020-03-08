@@ -19,7 +19,7 @@ module.exports = function defineRouter(models) {
   router.get('/login', function(ctx) {
     if (ctx.isAuthenticated())
       ctx.redirect('/');
-    else  
+    else
       ctx.render('login');
   });
 

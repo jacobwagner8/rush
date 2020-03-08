@@ -18,7 +18,7 @@ function truncated_mean_with_prior(values) {
 }
 
 module.exports = function(db) {
-  const retryableTransaction = require('./retryTransaction')(db);
+  const retryableTransaction = require('../retryTransaction')(db);
 
   function name_column() {
     return {

@@ -13,7 +13,7 @@ function defineRetryTransaction(sequelize) {
    * Will create a transaction and try it until success, up to a specified max tries.
    * Retries only if a concurrency issue occurs (postgres error codes 40001 and 40P01).
    * Defaults to 3 total tries, transaction isolation level REPEATABLE READ.
-   * 
+   *
    * @param  {Function} callback [Function that returns a promise]
    * @return {Promise}           [encapsulates callback with transaction]
    */

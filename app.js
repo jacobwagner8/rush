@@ -12,10 +12,11 @@ const serve       = require('koa-static');
 const session     = require('koa-generic-session');
 const cors = require('@koa/cors');
 const winston     = require('winston');
+require('dotenv').config()
 
 
-var config  = require('./config');
-var secrets  = require('./secrets');
+const config  = require('./config');
+const secrets  = require('./secrets');
 
 // Logger
 const consoleLogger = winston.createLogger({
@@ -80,6 +81,15 @@ initDB()
     // sessions
     const sessionKey = secrets.session_key || 'test123abc geed city 4 lyfe';
     app.keys = [sessionKey];
+    const config = {
+        cookie: {
+            path: '/',
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000, // seven days in ms,
+            overwrite: true,
+            signed: true
+        }
+    };
     app.use(convert(session()));
 
     // auth

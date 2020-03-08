@@ -37,7 +37,7 @@ const actives = [
     pwd: 'test pwd'
   }
 ];
-  
+
 const ratings = [
   { rushee_id: 1, active_id: 1, value: 5 }
 ];
